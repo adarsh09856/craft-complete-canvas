@@ -10,7 +10,7 @@ export const Route = createFileRoute("/experiences")({
   component: ExperiencesPage,
   head: () => ({
     meta: [
-      { title: "Experiences — Royal Takin Tours" },
+      { title: "Experiences — Golden Takin Holidays" },
       { name: "description", content: "Signature Bhutanese experiences: monastic mornings, masked dances, hot stone baths and Himalayan treks." },
       { property: "og:title", content: "Bhutan Experiences" },
       { property: "og:description", content: "Signature moments crafted by local experts." },

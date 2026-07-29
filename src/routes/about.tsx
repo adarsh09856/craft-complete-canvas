@@ -8,7 +8,7 @@ export const Route = createFileRoute("/about")({
   component: AboutPage,
   head: () => ({
     meta: [
-      { title: "About Bhutan — Royal Takin Tours" },
+      { title: "About Bhutan — Golden Takin Holidays" },
       { name: "description", content: "Discover the kingdom that measures success by Gross National Happiness." },
       { property: "og:title", content: "About Bhutan" },
       { property: "og:description", content: "Geography, history and culture of the Land of the Thunder Dragon." },

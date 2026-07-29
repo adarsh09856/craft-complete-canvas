@@ -10,10 +10,10 @@ export const Route = createFileRoute("/plan")({
   component: PlanPage,
   head: () => ({
     meta: [
-      { title: "Plan with AI — Royal Takin Tours" },
+      { title: "Plan with AI — Golden Takin Holidays" },
       { name: "description", content: "Let our AI travel assistant draft a Bhutan itinerary based on your interests, time and budget." },
       { property: "og:title", content: "Plan your Bhutan trip with AI" },
-      { property: "og:description", content: "AI-assisted itinerary planning by Royal Takin Tours." },
+      { property: "og:description", content: "AI-assisted itinerary planning by Golden Takin Holidays." },
     ],
   }),
 });
@@ -95,7 +95,7 @@ function PlanPage() {
 
         <aside className="grid h-fit gap-3 lg:sticky lg:top-24">
           {[
-            ["Routing", "Paro, Thimphu, Punakha and Bumthang pacing"],
+            ["Routing", "Paro, Thimphu, Punakha and Phobjikha pacing"],
             ["Permits", "Visa, entry fees and regional access planning"],
             ["Review", "A Bhutanese specialist checks every draft"],
           ].map(([title, text]) => (

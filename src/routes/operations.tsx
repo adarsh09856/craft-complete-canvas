@@ -56,9 +56,9 @@ export const Route = createFileRoute("/operations")({
   component: OperationsPage,
   head: () => ({
     meta: [
-      { title: "Admin Dashboard — Royal Takin Tours" },
+      { title: "Admin Dashboard — Golden Takin Holidays" },
       { name: "description", content: "Functional admin dashboard with tours, destinations, experiences, inquiries and settings panels." },
-      { property: "og:title", content: "Royal Takin Tours Admin Dashboard" },
+      { property: "og:title", content: "Golden Takin Holidays Admin Dashboard" },
       { property: "og:description", content: "Manage premium Bhutan tours end-to-end." },
     ],
   }),
@@ -127,7 +127,7 @@ function OperationsPage() {
         <aside className="border-r border-border bg-card px-4 py-5 lg:sticky lg:top-20 lg:h-[calc(100vh-5rem)]">
           <div className="mb-5 rounded-xl bg-primary p-4 text-primary-foreground">
             <div className="text-xs uppercase tracking-[0.22em] text-primary-foreground/68">Admin</div>
-            <div className="mt-1 text-xl font-bold">Royal Takin Panel</div>
+            <div className="mt-1 text-xl font-bold">Golden Takin Panel</div>
           </div>
           <nav className="grid gap-1">
             {nav.map(({ id, label, icon: Icon }) => (
@@ -176,7 +176,7 @@ function LoginPanel({ onLogin }: { onLogin: () => void }) {
       <form onSubmit={login} className="w-full max-w-md rounded-2xl border border-hero-foreground/12 bg-hero-foreground/10 p-6 shadow-deep backdrop-blur-xl sm:p-8">
         <div className="mb-6 text-center">
           <div className="text-xs uppercase tracking-[0.28em] text-gold">Protected admin</div>
-          <h1 className="mt-2 text-3xl font-bold">Royal Takin Login</h1>
+          <h1 className="mt-2 text-3xl font-bold">Golden Takin Login</h1>
           <p className="mt-2 text-sm text-hero-foreground/70">Demo: admin@example.com / admin123</p>
         </div>
         <div className="grid gap-3">

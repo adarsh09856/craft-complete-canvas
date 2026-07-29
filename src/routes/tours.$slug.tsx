@@ -1,5 +1,6 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { tours } from "@/lib/data";
+import type { ItineraryDay, Tour } from "@/components/TourCard";
 import { Clock, MapPin, Users, Check, ArrowLeft, Star, X, ChevronLeft, ChevronRight, Download } from "lucide-react";
 import { Reveal } from "@/components/Reveal";
 import { PanoramaViewer } from "@/components/PanoramaViewer";
@@ -16,7 +17,7 @@ export const Route = createFileRoute("/tours/$slug")({
   },
   head: ({ loaderData }) => ({
     meta: [
-      { title: loaderData ? `${loaderData.tour.title} — Royal Takin Tours` : "Tour" },
+      { title: loaderData ? `${loaderData.tour.title} — Golden Takin Holidays` : "Tour" },
       { name: "description", content: loaderData?.tour.desc ?? "" },
       { property: "og:title", content: loaderData?.tour.title ?? "" },
       { property: "og:description", content: loaderData?.tour.desc ?? "" },
@@ -28,22 +29,13 @@ export const Route = createFileRoute("/tours/$slug")({
   errorComponent: ({ reset }) => <div className="pt-40 text-center"><button onClick={reset}>Retry</button></div>,
 });
 
-const itinerary = [
-  { day: 1, title: "Arrival in Paro", desc: "Land amid the Himalayas. Drive to your boutique hotel for tea and orientation." },
-  { day: 2, title: "Thimphu transfer", desc: "Visit the National Memorial Chorten and Buddha Dordenma overlooking the capital." },
-  { day: 3, title: "Punakha Valley", desc: "Cross the Dochula Pass with 360° Himalayan views and the magnificent Punakha Dzong." },
-  { day: 4, title: "Tiger's Nest hike", desc: "The pilgrimage of a lifetime — a 900m climb to the cliff-clinging Taktsang monastery." },
-  { day: 5, title: "Cultural immersion", desc: "Weaving workshop, archery with locals, and a traditional farmhouse dinner." },
-  { day: 6, title: "Bumthang journey", desc: "Fly or drive to the spiritual heartland with its ancient temples and rolling hills." },
-  { day: 7, title: "Departure", desc: "Last prayers, last momos, and a farewell ceremony before flying home." },
-];
-
-const includes = ["Government tour visa & permits", "Boutique heritage hotels", "Daily breakfast, lunch & dinner", "Private vehicle and driver", "Expert licensed guide", "Entrance fees", "Water and oxygen support", "24/7 in-country support"];
-const excludes = ["International flights", "Travel insurance", "Premium alcohol", "Personal shopping"];
 const galleryTitles = ["Valley arrival", "Dzong courtyard", "High pass view"];
 
 function TourDetail() {
-  const { tour } = Route.useLoaderData();
+  const { tour } = Route.useLoaderData() as { tour: Tour };
+  const itinerary: ItineraryDay[] = tour.itinerary ?? [];
+  const includes = tour.includes ?? [];
+  const excludes = tour.excludes ?? [];
   const [photo, setPhoto] = useState(0);
   const [adminPanos, setAdminPanos] = useState<{ title: string; image: string; note?: string }[]>([]);
   useEffect(() => { setAdminPanos(getPanoramas(tour.slug)); }, [tour.slug]);
@@ -65,7 +57,7 @@ function TourDetail() {
           <div className="mt-8 flex flex-wrap gap-3 text-sm">
             <span className="flex items-center gap-2 rounded-md bg-hero-foreground/10 px-3 py-2"><Clock className="w-4 h-4 text-gold" />{tour.duration}</span>
             <span className="flex items-center gap-2 rounded-md bg-hero-foreground/10 px-3 py-2"><MapPin className="w-4 h-4 text-gold" />{tour.location}</span>
-            <span className="flex items-center gap-2 rounded-md bg-hero-foreground/10 px-3 py-2"><Users className="w-4 h-4 text-gold" />2-12 guests</span>
+            <span className="flex items-center gap-2 rounded-md bg-hero-foreground/10 px-3 py-2"><Users className="w-4 h-4 text-gold" />{tour.groupSize ?? "Private group"}</span>
             <span className="flex items-center gap-2 rounded-md bg-hero-foreground/10 px-3 py-2"><Star className="w-4 h-4 fill-gold text-gold" />{tour.rating ?? 4.9}</span>
           </div>
         </div>
@@ -74,13 +66,33 @@ function TourDetail() {
       <div className="mx-auto grid max-w-[1500px] gap-8 px-4 py-14 sm:px-6 sm:py-20 lg:grid-cols-[minmax(0,1fr)_380px] lg:gap-12">
         <div className="min-w-0">
           <Reveal>
-            <div className="mb-12 grid gap-4 sm:grid-cols-3">
-              {[{ label: "Best time", value: tour.bestTime ?? "Mar–May" }, { label: "Difficulty", value: tour.difficulty ?? "Moderate" }, { label: "From", value: formatPrice(tour.price) }].map((item) => (
+            <div className="mb-12 grid gap-4 sm:grid-cols-4">
+              {[{ label: "Duration", value: tour.nights ?? tour.duration }, { label: "Best time", value: tour.bestTime ?? "Mar–May" }, { label: "Ideal for", value: tour.groupSize ?? "Private group" }, { label: "From", value: formatPrice(tour.price) }].map((item) => (
                 <div key={item.label} className="rounded-xl border border-border bg-card p-5 shadow-card">
                   <div className="text-[10px] uppercase tracking-[0.22em] text-cypress">{item.label}</div>
-                  <div className="mt-2 text-xl font-bold">{item.value}</div>
+                  <div className="mt-2 text-base font-bold leading-snug">{item.value}</div>
                 </div>
               ))}
+            </div>
+          </Reveal>
+
+          <Reveal>
+            <div className="mb-16 grid gap-5 md:grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)]">
+              <div className="rounded-xl border border-border bg-card p-6 shadow-card">
+                <div className="text-[10px] uppercase tracking-[0.28em] text-cypress">Overview</div>
+                <p className="mt-4 leading-relaxed text-muted-foreground">{tour.overview ?? tour.desc}</p>
+                {tour.idealFor && (
+                  <p className="mt-5 rounded-lg bg-muted p-4 text-sm"><span className="font-semibold">Ideal for: </span>{tour.idealFor}</p>
+                )}
+              </div>
+              <div className="rounded-xl border border-border bg-card p-6 shadow-card">
+                <div className="text-[10px] uppercase tracking-[0.28em] text-cypress">Package highlights</div>
+                <ul className="mt-4 grid gap-3 text-sm">
+                  {(tour.highlights ?? []).map((item) => (
+                    <li key={item} className="flex items-start gap-3"><Check className="mt-0.5 h-4 w-4 shrink-0 text-gold" /><span>{item}</span></li>
+                  ))}
+                </ul>
+              </div>
             </div>
           </Reveal>
 
@@ -112,7 +124,7 @@ function TourDetail() {
           <Reveal>
             <div className="text-[10px] uppercase tracking-[0.28em] text-cypress">Day-by-day</div>
             <h2 className="mb-3 mt-2 font-display text-5xl leading-none">The journey</h2>
-            <p className="mb-10 max-w-3xl leading-relaxed text-muted-foreground">A carefully paced expedition through Bhutan's most sacred sites. We move at the speed of contemplation — slow enough to feel the prayer wheels turn, fast enough to see everything.</p>
+            <p className="mb-10 max-w-3xl leading-relaxed text-muted-foreground">{tour.tagline ? tour.tagline + " — " : ""}a day-by-day plan operated by our licensed guides, with overnight stops, drive times and highlights confirmed before you travel.</p>
           </Reveal>
 
           <div className="mb-16 space-y-3">

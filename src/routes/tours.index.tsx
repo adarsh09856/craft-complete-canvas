@@ -13,9 +13,9 @@ export const Route = createFileRoute("/tours/")({
   component: ToursPage,
   head: () => ({
     meta: [
-      { title: "All Bhutan Tours — Royal Takin Tours" },
+      { title: "All Bhutan Tours — Golden Takin Holidays" },
       { name: "description", content: "Search and filter premium Bhutan tours by category, destination, duration and price." },
-      { property: "og:title", content: "All Bhutan Tours — Royal Takin Tours" },
+      { property: "og:title", content: "All Bhutan Tours — Golden Takin Holidays" },
       { property: "og:description", content: "Find culture, pilgrimage, trekking, family and luxury Bhutan itineraries." },
     ],
   }),
@@ -29,7 +29,7 @@ function ToursPage() {
   const [cat, setCat] = useState("All Tours");
   const [duration, setDuration] = useState("Any duration");
   const [destination, setDestination] = useState("All destinations");
-  const [maxPrice, setMaxPrice] = useState(5000);
+  const [maxPrice, setMaxPrice] = useState(3000);
   const [q, setQ] = useState("");
 
   const filtered = useMemo(() => tours.filter((tour) => {
@@ -44,7 +44,7 @@ function ToursPage() {
     setCat("All Tours");
     setDuration("Any duration");
     setDestination("All destinations");
-    setMaxPrice(5000);
+    setMaxPrice(3000);
     setQ("");
   };
 
@@ -87,7 +87,7 @@ function ToursPage() {
 
               <label className="block rounded-lg bg-muted p-3">
                 <span className="mb-3 flex justify-between text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground"><span>Max price</span><span>${maxPrice}</span></span>
-                <input type="range" min="1400" max="5000" step="100" value={maxPrice} onChange={(event) => setMaxPrice(Number(event.target.value))} className="w-full accent-primary" />
+                <input type="range" min="1000" max="3000" step="100" value={maxPrice} onChange={(event) => setMaxPrice(Number(event.target.value))} className="w-full accent-primary" />
               </label>
 
               <div className="grid grid-cols-2 gap-2">

@@ -10,9 +10,9 @@ export const Route = createFileRoute("/contact")({
   component: ContactPage,
   head: () => ({
     meta: [
-      { title: "Contact — Royal Takin Tours" },
+      { title: "Contact — Golden Takin Holidays" },
       { name: "description", content: "Speak with a Bhutan specialist. Plan your bespoke journey today." },
-      { property: "og:title", content: "Contact Royal Takin Tours" },
+      { property: "og:title", content: "Contact Golden Takin Holidays" },
       { property: "og:description", content: "Talk to a Bhutan specialist." },
     ],
   }),
@@ -62,7 +62,7 @@ function ContactPage() {
             {[
               { icon: MapPin, t: "Visit our office", v: "Norzin Lam, Thimphu 11001, Bhutan" },
               { icon: Phone, t: "Call us", v: "+975 17 11 22 33" },
-              { icon: Mail, t: "Email", v: "hello@royaltakintours.bt" },
+              { icon: Mail, t: "Email", v: "hello@goldentakinholidays.bt" },
               { icon: MessageCircle, t: "WhatsApp", v: "+975 17 11 22 33" },
             ].map(({ icon: I, t, v }) => (
               <div key={t} className="flex items-start gap-4 rounded-lg border border-border bg-card p-5 shadow-card">

@@ -35,7 +35,7 @@ export function PanoramaViewer({ panoramas }: { panoramas: Panorama[] }) {
   const fullscreen = async () => { await viewerRef.current?.requestFullscreen?.(); };
   const reset = () => { setAngle(50); setTilt(0); setZoom(135); };
   const share = async () => {
-    const text = `${pano.title} — Royal Takin Tours · 360° view`;
+    const text = `${pano.title} — Golden Takin Holidays · 360° view`;
     if (navigator.share) await navigator.share({ title: text, text, url: window.location.href }).catch(() => {});
     else await navigator.clipboard.writeText(window.location.href);
     toast.success("360° link copied to share");
