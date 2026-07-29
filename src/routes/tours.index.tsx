@@ -5,7 +5,7 @@ import { PageHero } from "@/components/PageHero";
 import { Reveal } from "@/components/Reveal";
 import { TourCard } from "@/components/TourCard";
 import hero from "@/assets/tigers-nest.jpg";
-import { Filter, RotateCcw, Search, SlidersHorizontal } from "lucide-react";
+import { RotateCcw, Search, SlidersHorizontal, X } from "lucide-react";
 
 const durationGroups = ["Any duration", "3-7 days", "7-14 days", "14+ days"];
 
