@@ -41,7 +41,7 @@ const stats = [
 ];
 
 const testimonials = [
-  { quote: "The most thoughtful trip we've ever taken. Every detail felt curated.", author: "Amara W.", trip: "Tiger's Nest Pilgrimage" },
+  { quote: "The most thoughtful trip we've ever taken. Every detail felt curated.", author: "Amara W.", trip: "Classic Bhutan Circuit" },
   { quote: "Beyond luxury — this was access. Monks, weavers, monastery breakfasts.", author: "Chen Family", trip: "Cultural Immersion" },
   { quote: "The 360° previews helped us plan. The trip itself exceeded every one.", author: "James & Liu", trip: "Punakha Cherry Blossoms" },
 ];

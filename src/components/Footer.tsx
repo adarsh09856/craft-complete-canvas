@@ -12,10 +12,10 @@ export function Footer() {
             <img src={logo} alt="" className="w-12 h-12" />
             <div>
               <div className="font-display text-xl text-gradient-gold">Golden Takin Holidays</div>
-              <div className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground">Journey with Happiness</div>
+              <div className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground">Discover Bhutan, Experience Nature's Embrace</div>
             </div>
           </div>
-          <p className="text-sm text-muted-foreground leading-relaxed">Crafting authentic Bhutanese journeys since 2009. Custom itineraries, expert local guides, sustainable tourism.</p>
+          <p className="text-sm text-muted-foreground leading-relaxed">TCB-licensed Bhutanese tour operator crafting group, family, wellness, academic and celebration journeys. Custom itineraries, expert local guides, sustainable tourism.</p>
           <div className="mt-6 flex gap-3">
             {[Facebook, Instagram, Youtube].map((I, i) => (
               <a key={i} href="#" className="grid h-9 w-9 place-items-center rounded-md border border-border text-cypress transition hover:border-gold hover:text-gold">

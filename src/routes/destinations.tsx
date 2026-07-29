@@ -13,7 +13,7 @@ export const Route = createFileRoute("/destinations")({
   head: () => ({
     meta: [
       { title: "Destinations — Golden Takin Holidays" },
-      { name: "description", content: "Explore Bhutan's sacred valleys: Paro, Thimphu, Punakha, Bumthang and beyond." },
+      { name: "description", content: "Explore Bhutan's sacred valleys: Paro, Thimphu, Punakha, Phobjikha and beyond." },
       { property: "og:title", content: "Bhutan Destinations" },
       { property: "og:description", content: "From mountain capitals to spiritual valleys." },
     ],
@@ -24,7 +24,7 @@ const highlights: Record<string, string[]> = {
   paro: ["Taktsang (Tiger's Nest)", "Rinpung Dzong", "National Museum", "Chele La Pass"],
   thimphu: ["Buddha Dordenma", "Tashichho Dzong", "Weekend Market", "Motithang Takin Preserve"],
   punakha: ["Punakha Dzong", "Chimi Lhakhang", "Suspension Bridge", "Cherry blossoms"],
-  bumthang: ["Kurjey Lhakhang", "Jambay Lhakhang", "Tang Valley", "Burning Lake"],
+  phobjikha: ["Black-Necked Crane Centre", "Gangtey Goenpa", "Gangtey Nature Trail", "Glacial wetlands"],
 };
 
 function DestinationsPage() {
