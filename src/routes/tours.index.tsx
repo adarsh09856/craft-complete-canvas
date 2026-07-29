@@ -146,10 +146,29 @@ function ToursPage() {
               <div className="rounded-lg border border-border bg-card px-3 py-2 text-xs text-muted-foreground">{filtered.length} results</div>
             </div>
 
+            {chips.length > 0 && (
+              <div className="mb-5 flex flex-wrap items-center gap-2">
+                <span className="text-[10px] uppercase tracking-[0.18em] text-muted-foreground">Active filters</span>
+                {chips.map((chip) => (
+                  <button key={chip.label} type="button" onClick={chip.reset} className="inline-flex items-center gap-1.5 rounded-full border border-gold/50 bg-gold/10 px-3 py-1.5 text-xs font-semibold text-gold transition hover:bg-gold hover:text-primary-foreground">
+                    {chip.label} <X className="h-3 w-3" />
+                  </button>
+                ))}
+                <button type="button" onClick={clear} className="text-xs font-semibold text-muted-foreground underline underline-offset-4 hover:text-foreground">Clear all</button>
+              </div>
+            )}
+
             <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
               {filtered.map((tour, index) => <Reveal key={tour.slug} delay={index * 0.04}><TourCard tour={tour} idx={index} /></Reveal>)}
             </div>
-            {filtered.length === 0 && <div className="rounded-xl border border-border bg-card py-20 text-center text-muted-foreground shadow-card">No tours match your filters.</div>}
+            {filtered.length === 0 && (
+              <div className="rounded-xl border border-border bg-card px-6 py-16 text-center shadow-card">
+                <p className="font-display text-2xl">No tours match all your filters</p>
+                <p className="mt-2 text-sm text-muted-foreground">Try removing one of the active filters above — search text and category are applied together.</p>
+                <button type="button" onClick={clear} className="mt-6 inline-flex items-center gap-2 rounded-xl bg-gradient-gold px-6 py-3 text-sm font-semibold text-primary-foreground shadow-gold"><RotateCcw className="h-4 w-4" /> Reset filters</button>
+              </div>
+            )}
+
           </div>
         </div>
       </section>
