@@ -28,7 +28,7 @@ export function Navbar() {
     <header className={`fixed top-0 inset-x-0 z-50 transition-all duration-300 ${scrolled || open ? "bg-background/94 py-2 shadow-card backdrop-blur-2xl" : "bg-background/78 py-3 backdrop-blur-xl"}`}>
       <div className="mx-auto grid max-w-[1500px] grid-cols-[minmax(0,1fr)_auto] items-center gap-4 px-4 sm:px-6 lg:flex lg:justify-between">
         <Link to="/" className="group flex min-w-0 items-center gap-3">
-          <img src={logo} alt="Golden Takin Holidays" className="h-10 w-10 shrink-0 transition-transform duration-500 group-hover:rotate-12 sm:h-11 sm:w-11" />
+          <img src={logo.url} alt="Golden Takin Holidays" className="h-10 w-10 shrink-0 transition-transform duration-500 group-hover:rotate-12 sm:h-11 sm:w-11" />
           <div className="min-w-0 leading-tight">
             <div className="truncate text-base font-bold text-primary sm:text-lg">Golden Takin Holidays</div>
             <div className="truncate text-[9px] uppercase tracking-[0.22em] text-muted-foreground sm:text-[10px]">Discover Bhutan, Experience Nature's Embrace</div>
