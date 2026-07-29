@@ -92,9 +92,9 @@
     font-feature-settings: "ss01", "cv11";
     letter-spacing: -0.005em;
     background-image:
-      radial-gradient(1200px 600px at 110% -10%, oklch(0.78 0.135 78 / 0.18), transparent 60%),
-      radial-gradient(900px 500px at -10% 10%, oklch(0.36 0.13 24 / 0.10), transparent 60%),
-      linear-gradient(180deg, oklch(1 0.004 80), transparent 28rem);
+      radial-gradient(1200px 600px at 110% -10%, oklch(0.78 0.125 88 / 0.20), transparent 60%),
+      radial-gradient(900px 500px at -10% 10%, oklch(0.34 0.105 262 / 0.10), transparent 60%),
+      linear-gradient(180deg, oklch(1 0.002 95), transparent 28rem);
   }
   h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 700; letter-spacing: -0.02em; line-height: 1; }
   input, textarea, select, button { font: inherit; }
@@ -125,26 +125,26 @@
 @utility glass {
   background: var(--gradient-panel);
   backdrop-filter: blur(24px) saturate(150%);
-  border: 1px solid oklch(1 0.01 80 / 0.72);
+  border: 1px solid oklch(1 0.004 95 / 0.72);
   box-shadow: var(--shadow-card);
 }
 
 @utility glass-soft {
-  background: oklch(1 0.01 80 / 0.72);
+  background: oklch(1 0.004 95 / 0.72);
   backdrop-filter: blur(16px) saturate(130%);
-  border: 1px solid oklch(0.82 0.036 86 / 0.72);
+  border: 1px solid oklch(0.86 0.03 90 / 0.72);
   box-shadow: var(--shadow-card);
 }
 
 @utility glass-dark {
-  background: linear-gradient(140deg, oklch(0.14 0.035 28 / 0.78), oklch(0.22 0.06 30 / 0.62));
+  background: linear-gradient(140deg, oklch(0.15 0.05 264 / 0.8), oklch(0.24 0.07 264 / 0.64));
   backdrop-filter: blur(22px) saturate(140%);
-  border: 1px solid oklch(0.78 0.135 78 / 0.22);
+  border: 1px solid oklch(0.78 0.125 88 / 0.24);
 }
 
 @utility dark-panel {
-  background: linear-gradient(135deg, oklch(0.16 0.04 28 / 0.94), oklch(0.22 0.07 28 / 0.86));
-  border: 1px solid oklch(0.78 0.135 78 / 0.28);
+  background: linear-gradient(135deg, oklch(0.17 0.055 264 / 0.94), oklch(0.25 0.075 264 / 0.86));
+  border: 1px solid oklch(0.78 0.125 88 / 0.3);
   box-shadow: var(--shadow-deep);
 }
 
@@ -155,8 +155,8 @@
 
 @utility mandala-bg {
   background-image:
-    radial-gradient(circle at 50% 50%, oklch(0.78 0.135 78 / 0.10) 0 1px, transparent 1.5px),
-    radial-gradient(circle at 0 0, oklch(0.72 0.16 62 / 0.07) 0 1px, transparent 1.5px);
+    radial-gradient(circle at 50% 50%, oklch(0.78 0.125 88 / 0.12) 0 1px, transparent 1.5px),
+    radial-gradient(circle at 0 0, oklch(0.34 0.105 262 / 0.08) 0 1px, transparent 1.5px);
   background-size: 28px 28px, 56px 56px;
 }
 
@@ -179,7 +179,7 @@
   gap: 0.4rem;
   padding: 0.4rem 0.85rem;
   border-radius: 999px;
-  background: oklch(1 0.01 80 / 0.7);
+  background: oklch(1 0.004 95 / 0.7);
   border: 1px solid var(--border);
   font-size: 0.72rem;
   font-weight: 600;
@@ -196,8 +196,8 @@
   100% { background-position: 200% 0; }
 }
 @keyframes pulse-gold {
-  0%,100% { box-shadow: 0 0 0 0 oklch(0.78 0.135 78 / 0.55); }
-  50% { box-shadow: 0 0 0 14px oklch(0.78 0.135 78 / 0); }
+  0%,100% { box-shadow: 0 0 0 0 oklch(0.78 0.125 88 / 0.55); }
+  50% { box-shadow: 0 0 0 14px oklch(0.78 0.125 88 / 0); }
 }
 @keyframes rise-in {
   0% { opacity: 0; transform: translateY(22px); }
@@ -219,7 +219,7 @@
 .premium-card { border: 1px solid var(--border); background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow-card); }
 .touch-target { min-height: 44px; min-width: 44px; }
 .shimmer {
-  background: linear-gradient(90deg, transparent, oklch(0.78 0.135 78 / 0.5), transparent);
+  background: linear-gradient(90deg, transparent, oklch(0.82 0.115 90 / 0.55), transparent);
   background-size: 200% 100%;
   animation: shimmer 3s linear infinite;
 }
