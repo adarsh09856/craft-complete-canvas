@@ -30,7 +30,7 @@ export function Navbar() {
         <Link to="/" className="group flex min-w-0 items-center gap-3">
           <img src={logo} alt="Royal Takin" className="h-10 w-10 shrink-0 transition-transform duration-500 group-hover:rotate-12 sm:h-11 sm:w-11" />
           <div className="min-w-0 leading-tight">
-            <div className="truncate text-base font-bold text-primary sm:text-lg">Royal Takin Tours</div>
+            <div className="truncate text-base font-bold text-primary sm:text-lg">Golden Takin Holidays</div>
             <div className="truncate text-[9px] uppercase tracking-[0.22em] text-muted-foreground sm:text-[10px]">Journey with Happiness</div>
           </div>
         </Link>

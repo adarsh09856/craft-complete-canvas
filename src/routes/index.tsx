@@ -16,9 +16,9 @@ export const Route = createFileRoute("/")({
   component: Home,
   head: () => ({
     meta: [
-      { title: "Royal Takin Tours — Premium Bhutan Journeys" },
+      { title: "Golden Takin Holidays — Premium Bhutan Journeys" },
       { name: "description", content: "Premium Bhutan journeys, pilgrimages, treks and cultural itineraries crafted end-to-end by expert local guides." },
-      { property: "og:title", content: "Royal Takin Tours — Premium Bhutan Journeys" },
+      { property: "og:title", content: "Golden Takin Holidays — Premium Bhutan Journeys" },
       { property: "og:description", content: "Bespoke Bhutan journeys with a modern travel desk and local specialists." },
     ],
   }),

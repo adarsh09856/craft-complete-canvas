@@ -11,7 +11,7 @@ export function Footer() {
           <div className="flex items-center gap-3 mb-4">
             <img src={logo} alt="" className="w-12 h-12" />
             <div>
-              <div className="font-display text-xl text-gradient-gold">Royal Takin Tours</div>
+              <div className="font-display text-xl text-gradient-gold">Golden Takin Holidays</div>
               <div className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground">Journey with Happiness</div>
             </div>
           </div>
@@ -50,12 +50,12 @@ export function Footer() {
           <ul className="space-y-3 text-sm text-muted-foreground">
             <li className="flex gap-2"><MapPin className="mt-0.5 h-4 w-4 shrink-0 text-cypress" /><span>Norzin Lam, Thimphu, Bhutan</span></li>
             <li className="flex gap-2"><Phone className="mt-0.5 h-4 w-4 shrink-0 text-cypress" /><span>+975 17 11 22 33</span></li>
-            <li className="flex gap-2"><Mail className="mt-0.5 h-4 w-4 shrink-0 text-cypress" /><span>hello@royaltakintours.bt</span></li>
+            <li className="flex gap-2"><Mail className="mt-0.5 h-4 w-4 shrink-0 text-cypress" /><span>hello@goldentakinholidays.bt</span></li>
           </ul>
         </div>
       </div>
       <div className="border-t border-border py-6 text-center text-xs text-muted-foreground">
-        © 2026 Royal Takin Tours · Crafted in the Last Shangri-La
+        © 2026 Golden Takin Holidays · Crafted in the Last Shangri-La
       </div>
     </footer>
   );

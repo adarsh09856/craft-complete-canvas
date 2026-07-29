@@ -10,10 +10,10 @@ export const Route = createFileRoute("/plan")({
   component: PlanPage,
   head: () => ({
     meta: [
-      { title: "Plan with AI — Royal Takin Tours" },
+      { title: "Plan with AI — Golden Takin Holidays" },
       { name: "description", content: "Let our AI travel assistant draft a Bhutan itinerary based on your interests, time and budget." },
       { property: "og:title", content: "Plan your Bhutan trip with AI" },
-      { property: "og:description", content: "AI-assisted itinerary planning by Royal Takin Tours." },
+      { property: "og:description", content: "AI-assisted itinerary planning by Golden Takin Holidays." },
     ],
   }),
 });

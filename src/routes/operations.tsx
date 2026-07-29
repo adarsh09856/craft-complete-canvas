@@ -56,9 +56,9 @@ export const Route = createFileRoute("/operations")({
   component: OperationsPage,
   head: () => ({
     meta: [
-      { title: "Admin Dashboard — Royal Takin Tours" },
+      { title: "Admin Dashboard — Golden Takin Holidays" },
       { name: "description", content: "Functional admin dashboard with tours, destinations, experiences, inquiries and settings panels." },
-      { property: "og:title", content: "Royal Takin Tours Admin Dashboard" },
+      { property: "og:title", content: "Golden Takin Holidays Admin Dashboard" },
       { property: "og:description", content: "Manage premium Bhutan tours end-to-end." },
     ],
   }),

@@ -12,7 +12,7 @@ export const Route = createFileRoute("/destinations")({
   component: DestinationsPage,
   head: () => ({
     meta: [
-      { title: "Destinations — Royal Takin Tours" },
+      { title: "Destinations — Golden Takin Holidays" },
       { name: "description", content: "Explore Bhutan's sacred valleys: Paro, Thimphu, Punakha, Bumthang and beyond." },
       { property: "og:title", content: "Bhutan Destinations" },
       { property: "og:description", content: "From mountain capitals to spiritual valleys." },

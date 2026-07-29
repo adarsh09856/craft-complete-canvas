@@ -19,14 +19,14 @@ export type SiteSettings = {
 const KEY = "rtt.site.v1";
 
 export const DEFAULT_SETTINGS: SiteSettings = {
-  companyName: "Royal Takin Tours",
+  companyName: "Golden Takin Holidays",
   whatsappNumber: "97517123456",
   bookingMode: "whatsapp",
   heroTitle: "The Last Shangri-La, lived slowly.",
   heroSubtitle:
     "Bespoke Bhutan journeys — culture, pilgrimage and high mountain trails, planned end-to-end with a modern travel desk, AI assist and a 360° preview of every destination.",
   announcement: "Spring 2026 dates open · Free cancellation up to 30 days",
-  supportEmail: "hello@royaltakintours.com",
+  supportEmail: "hello@goldentakinholidays.com",
   supportPhone: "+975 17 123 456",
 };
 
