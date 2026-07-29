@@ -41,8 +41,9 @@ function TourDetail() {
   const [photo, setPhoto] = useState(0);
   const [adminPanos, setAdminPanos] = useState<{ title: string; image: string; note?: string }[]>([]);
   useEffect(() => { setAdminPanos(getPanoramas(tour.slug)); }, [tour.slug]);
-  const gallery = [brochure, tour.image, ...tours.filter((item) => item.slug !== tour.slug).slice(0, 2).map((item) => item.image)].filter(Boolean) as string[];
-  const defaultPanoramas = gallery.map((image, index) => ({ title: galleryTitles[index] ?? `Panorama ${index + 1}`, image, views: 1200 + index * 246, note: "Interactive destination preview with drag rotation, zoom, fullscreen, download and share controls." }));
+  const photos = [tour.image, ...tours.filter((item) => item.slug !== tour.slug).slice(0, 2).map((item) => item.image)];
+  const gallery = [brochure, ...photos].filter(Boolean) as string[];
+  const defaultPanoramas = photos.map((image, index) => ({ title: galleryTitles[index] ?? `Panorama ${index + 1}`, image, views: 1200 + index * 246, note: "Interactive destination preview with drag rotation, zoom, fullscreen, download and share controls." }));
   const panoramas = [...adminPanos.map((p, i) => ({ ...p, views: 1820 + i * 134 })), ...defaultPanoramas];
 
   return (
