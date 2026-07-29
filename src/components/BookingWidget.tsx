@@ -52,7 +52,7 @@ export function BookingWidget({ tour }: { tour: Tour }) {
   };
 
   const openWhatsApp = () => {
-    const msg = `Hi ${settings.companyName},%0A%0AI'd like to book *${tour.title}* (${tier.name}).%0A· Date: ${date || "flexible"}%0A· Guests: ${adults} adults, ${children} children%0A· Estimate: ${formatPrice(total)}%0A· Name: ${name || "—"}%0A· Email: ${email || "—"}%0A· Phone: ${phone || "—"}%0A%0ANotes: ${notes || "—"}`;
+    const msg = `Hi ${settings.companyName},%0A%0AI'd like to book *${tour.title}* (${tier.name}).%0A· Date: ${date || "flexible"}%0A· Guests: ${adults} adults, ${children} children%0A· Estimate: ${formatPrice(total)}${applied ? ` (coupon ${applied.code})` : ""}%0A· Name: ${name || "—"}%0A· Email: ${email || "—"}%0A· Phone: ${phone || "—"}%0A%0ANotes: ${notes || "—"}`;
     const url = buildWhatsAppUrl(settings.whatsappNumber, decodeURIComponent(msg));
     window.open(url, "_blank", "noopener");
   };
