@@ -49,7 +49,7 @@ export function Footer() {
           <h4 className="mb-5 text-sm uppercase tracking-[0.2em] text-cypress">Contact</h4>
           <ul className="space-y-3 text-sm text-muted-foreground">
             <li className="flex gap-2"><MapPin className="mt-0.5 h-4 w-4 shrink-0 text-cypress" /><span>Norzin Lam, Thimphu, Bhutan</span></li>
-            <li className="flex gap-2"><Phone className="mt-0.5 h-4 w-4 shrink-0 text-cypress" /><span>+975 17 11 22 33</span></li>
+            <li className="flex gap-2"><Phone className="mt-0.5 h-4 w-4 shrink-0 text-cypress" /><span>+975 77679983 · 17970050</span></li>
             <li className="flex gap-2"><Mail className="mt-0.5 h-4 w-4 shrink-0 text-cypress" /><span>goldentakinholidays@gmail.com</span></li>
           </ul>
         </div>
