@@ -165,17 +165,20 @@ function Home() {
             </div>
             <p className="mt-4 text-sm leading-relaxed text-hero-foreground/72">Start with instant routing; finish with a human-reviewed itinerary, permits, hotels and guide assignment.</p>
             <div className="mt-5 grid gap-2">
-              {["Suggest culture tours", "Best time to visit", "Plan 7-day Buddhist tour", "Build college group trip"].map((s) => (
-                <Link key={s} to="/plan" className="group grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3 rounded-xl border border-hero-foreground/12 bg-hero-foreground/8 px-3 py-2.5 text-left text-xs transition hover:border-saffron/60 hover:bg-hero-foreground/14">
+              {["Suggest culture tours", "Best time to visit", "Plan a 7-day Buddhist tour", "Build a college group trip"].map((s) => (
+                <button key={s} type="button" onClick={() => askAssistant(s)} className="group grid w-full grid-cols-[minmax(0,1fr)_auto] items-center gap-3 rounded-xl border border-hero-foreground/12 bg-hero-foreground/8 px-3 py-2.5 text-left text-xs transition hover:border-saffron/60 hover:bg-hero-foreground/14">
                   <span className="min-w-0 truncate">{s}</span>
                   <ArrowRight className="h-3.5 w-3.5 text-saffron transition group-hover:translate-x-0.5" />
-                </Link>
+                </button>
               ))}
             </div>
-            <div className="mt-4 grid grid-cols-[minmax(0,1fr)_auto] gap-2 rounded-xl border border-hero-foreground/12 bg-hero-foreground/8 p-2">
-              <input placeholder="Ask anything..." className="min-w-0 bg-transparent px-2 text-xs outline-none placeholder:text-hero-foreground/45" />
-              <Link to="/plan" className="grid h-9 w-9 place-items-center rounded-lg bg-gradient-gold text-primary-foreground"><Send className="h-4 w-4" /></Link>
-            </div>
+            <form
+              onSubmit={(e) => { e.preventDefault(); if (!ask.trim()) return; askAssistant(ask.trim()); setAsk(""); }}
+              className="mt-4 grid grid-cols-[minmax(0,1fr)_auto] gap-2 rounded-xl border border-hero-foreground/12 bg-hero-foreground/8 p-2"
+            >
+              <input value={ask} onChange={(e) => setAsk(e.target.value)} aria-label="Ask the travel assistant" placeholder="Ask anything..." className="min-w-0 bg-transparent px-2 text-xs outline-none placeholder:text-hero-foreground/45" />
+              <button type="submit" aria-label="Ask" className="grid h-9 w-9 place-items-center rounded-lg bg-gradient-gold text-primary-foreground"><Send className="h-4 w-4" /></button>
+            </form>
           </aside>
         </div>
 
