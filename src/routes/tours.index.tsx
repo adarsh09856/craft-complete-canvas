@@ -56,17 +56,17 @@ function ToursPage() {
     const destinationMatch = destination === "All destinations" || tour.location.toLowerCase().includes(destination.toLowerCase());
     const text = `${tour.title} ${tour.category} ${tour.location} ${tour.desc} ${(tour.highlights ?? []).join(" ")}`.toLowerCase();
     const tokens = q.toLowerCase().split(/\s+/).filter(Boolean);
-    const textMatch = tokens.every((token) => text.includes(token));
+    const textMatch = tokens.every((token: string) => text.includes(token));
     return (cat === "All Tours" || tour.category === cat) && durationMatch && destinationMatch && tour.price <= maxPrice && textMatch;
   }), [cat, destination, duration, maxPrice, q]);
 
   const setSearchText = (value: string) => {
     setQ(value);
-    navigate({ search: (prev) => ({ ...prev, q: value || undefined }), replace: true });
+    navigate({ search: (prev: ToursSearch) => ({ ...prev, q: value || undefined }), replace: true });
   };
   const setCategory = (value: string) => {
     setCat(value);
-    navigate({ search: (prev) => ({ ...prev, category: value === "All Tours" ? undefined : value }), replace: true });
+    navigate({ search: (prev: ToursSearch) => ({ ...prev, category: value === "All Tours" ? undefined : value }), replace: true });
   };
 
   const clear = () => {
