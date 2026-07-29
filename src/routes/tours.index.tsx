@@ -9,15 +9,15 @@ import { Filter, RotateCcw, Search, SlidersHorizontal } from "lucide-react";
 
 const durationGroups = ["Any duration", "3-7 days", "7-14 days", "14+ days"];
 
-type ToursSearch = { q: string; category: string; dates: string; guests: string };
+type ToursSearch = { q?: string; category?: string; dates?: string; guests?: string };
 
 export const Route = createFileRoute("/tours/")({
   component: ToursPage,
   validateSearch: (search: Record<string, unknown>): ToursSearch => ({
-    q: typeof search.q === "string" ? search.q : "",
-    category: typeof search.category === "string" ? search.category : "All Tours",
-    dates: typeof search.dates === "string" ? search.dates : "",
-    guests: typeof search.guests === "string" ? search.guests : "",
+    q: typeof search.q === "string" ? search.q : undefined,
+    category: typeof search.category === "string" ? search.category : undefined,
+    dates: typeof search.dates === "string" ? search.dates : undefined,
+    guests: typeof search.guests === "string" ? search.guests : undefined,
   }),
   head: () => ({
     meta: [
