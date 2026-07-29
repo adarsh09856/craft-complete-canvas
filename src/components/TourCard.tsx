@@ -2,6 +2,8 @@ import { Link } from "@tanstack/react-router";
 import { Clock, MapPin, ArrowUpRight } from "lucide-react";
 import { formatPrice } from "@/lib/utils";
 
+export type ItineraryDay = { day: number; title: string; desc: string };
+
 export type Tour = {
   slug: string;
   title: string;
@@ -14,6 +16,15 @@ export type Tour = {
   rating?: number;
   difficulty?: string;
   bestTime?: string;
+  nights?: string;
+  tagline?: string;
+  groupSize?: string;
+  idealFor?: string;
+  overview?: string;
+  highlights?: string[];
+  includes?: string[];
+  excludes?: string[];
+  itinerary?: ItineraryDay[];
 };
 
 export function TourCard({ tour, idx = 0 }: { tour: Tour; idx?: number }) {
