@@ -20,14 +20,14 @@ const KEY = "gth.site.v1";
 
 export const DEFAULT_SETTINGS: SiteSettings = {
   companyName: "Golden Takin Holidays",
-  whatsappNumber: "97517123456",
+  whatsappNumber: "97577679983",
   bookingMode: "whatsapp",
   heroTitle: "Discover Bhutan, Experience Nature's Embrace.",
   heroSubtitle:
     "Ten curated Bhutan packages — group circuits, family journeys, nature and birding trails, academic expeditions, wellness retreats, corporate off-sites, honeymoons and Himalayan weddings.",
   announcement: "2026 departures open · TCB-licensed operator · SDF & visa processing assistance",
-  supportEmail: "hello@goldentakinholidays.com",
-  supportPhone: "+975 17 123 456",
+  supportEmail: "goldentakinholidays@gmail.com",
+  supportPhone: "+975 77679983 · +975 17970050",
 };
 
 function read(): SiteSettings {
