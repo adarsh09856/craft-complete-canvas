@@ -36,6 +36,7 @@ function days(duration: string) {
 
 function ToursPage() {
   const search = Route.useSearch();
+  const navigate = Route.useNavigate();
   const [cat, setCat] = useState(search.category && categories.includes(search.category) ? search.category : "All Tours");
   const [duration, setDuration] = useState("Any duration");
   const [destination, setDestination] = useState("All destinations");
@@ -43,13 +44,30 @@ function ToursPage() {
   const [maxPrice, setMaxPrice] = useState(3000);
   const [q, setQ] = useState(search.q ?? "");
 
+  // Keep the panel in sync when arriving from the home-page search or a category link.
+  useEffect(() => {
+    setQ(search.q ?? "");
+    setCat(search.category && categories.includes(search.category) ? search.category : "All Tours");
+  }, [search.q, search.category]);
+
   const filtered = useMemo(() => tours.filter((tour) => {
     const tourDays = days(tour.duration);
     const durationMatch = duration === "Any duration" || (duration === "3-7 days" && tourDays <= 7) || (duration === "7-14 days" && tourDays >= 7 && tourDays <= 14) || (duration === "14+ days" && tourDays >= 14);
     const destinationMatch = destination === "All destinations" || tour.location.toLowerCase().includes(destination.toLowerCase());
-    const text = `${tour.title} ${tour.category} ${tour.location} ${tour.desc}`.toLowerCase();
-    return (cat === "All Tours" || tour.category === cat) && durationMatch && destinationMatch && tour.price <= maxPrice && text.includes(q.toLowerCase());
+    const text = `${tour.title} ${tour.category} ${tour.location} ${tour.desc} ${(tour.highlights ?? []).join(" ")}`.toLowerCase();
+    const tokens = q.toLowerCase().split(/\s+/).filter(Boolean);
+    const textMatch = tokens.every((token) => text.includes(token));
+    return (cat === "All Tours" || tour.category === cat) && durationMatch && destinationMatch && tour.price <= maxPrice && textMatch;
   }), [cat, destination, duration, maxPrice, q]);
+
+  const setSearchText = (value: string) => {
+    setQ(value);
+    navigate({ search: (prev) => ({ ...prev, q: value || undefined }), replace: true });
+  };
+  const setCategory = (value: string) => {
+    setCat(value);
+    navigate({ search: (prev) => ({ ...prev, category: value === "All Tours" ? undefined : value }), replace: true });
+  };
 
   const clear = () => {
     setCat("All Tours");
@@ -57,7 +75,17 @@ function ToursPage() {
     setDestination("All destinations");
     setMaxPrice(3000);
     setQ("");
+    navigate({ search: {}, replace: true });
   };
+
+  const chips = [
+    q ? { label: `“${q}”`, reset: () => setSearchText("") } : null,
+    cat !== "All Tours" ? { label: cat, reset: () => setCategory("All Tours") } : null,
+    duration !== "Any duration" ? { label: duration, reset: () => setDuration("Any duration") } : null,
+    destination !== "All destinations" ? { label: destination, reset: () => setDestination("All destinations") } : null,
+    maxPrice < 3000 ? { label: `Under $${maxPrice}`, reset: () => setMaxPrice(3000) } : null,
+  ].filter(Boolean) as { label: string; reset: () => void }[];
+
 
   return (
     <>
