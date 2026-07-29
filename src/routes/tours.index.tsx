@@ -117,11 +117,11 @@ function ToursPage() {
                 <span className="mb-2 block text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground">Search</span>
                 <span className="grid grid-cols-[auto_minmax(0,1fr)] items-center gap-2 rounded-lg border border-border bg-input px-3 py-2.5">
                   <Search className="h-4 w-4 text-cypress" />
-                  <input value={q} onChange={(event) => setQ(event.target.value)} placeholder="Tiger's Nest, trek..." className="min-w-0 bg-transparent text-sm outline-none" />
+                  <input value={q} onChange={(event) => setSearchText(event.target.value)} placeholder="Tiger's Nest, trek..." className="min-w-0 bg-transparent text-sm outline-none" />
                 </span>
               </label>
 
-              <FilterGroup title="Category" options={categories} value={cat} onChange={setCat} />
+              <FilterGroup title="Category" options={categories} value={cat} onChange={setCategory} />
               <FilterGroup title="Duration" options={durationGroups} value={duration} onChange={setDuration} />
               <FilterGroup title="Destination" options={["All destinations", ...destinations.map((d) => d.name)]} value={destination} onChange={setDestination} />
 
