@@ -1,5 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Bot, Loader2, Send, X, Sparkles } from "lucide-react";
+import ReactMarkdown from "react-markdown";
+import type { ReactNode } from "react";
 
 type Msg = { role: "user" | "assistant"; content: string };
 
@@ -111,11 +113,11 @@ export function AiAssistant() {
                 ) : (
                   <ReactMarkdown
                     components={{
-                      p: ({ children }) => <p className="mb-2 last:mb-0">{children}</p>,
-                      ul: ({ children }) => <ul className="mb-2 ml-4 list-disc space-y-1 last:mb-0">{children}</ul>,
-                      ol: ({ children }) => <ol className="mb-2 ml-4 list-decimal space-y-1 last:mb-0">{children}</ol>,
-                      strong: ({ children }) => <span className="font-semibold text-foreground">{children}</span>,
-                      a: ({ href, children }) => (
+                      p: ({ children }: { children?: ReactNode }) => <p className="mb-2 last:mb-0">{children}</p>,
+                      ul: ({ children }: { children?: ReactNode }) => <ul className="mb-2 ml-4 list-disc space-y-1 last:mb-0">{children}</ul>,
+                      ol: ({ children }: { children?: ReactNode }) => <ol className="mb-2 ml-4 list-decimal space-y-1 last:mb-0">{children}</ol>,
+                      strong: ({ children }: { children?: ReactNode }) => <span className="font-semibold text-foreground">{children}</span>,
+                      a: ({ href, children }: { href?: string; children?: ReactNode }) => (
                         <a href={href} className="font-semibold text-saffron underline underline-offset-2">{children}</a>
                       ),
                     }}
