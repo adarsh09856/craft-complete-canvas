@@ -19,6 +19,17 @@ export function AiAssistant() {
   const [busy, setBusy] = useState(false);
   const [messages, setMessages] = useState<Msg[]>([{ role: "assistant", content: GREETING }]);
   const scroller = useRef<HTMLDivElement>(null);
+  const sendRef = useRef<((text: string) => void) | null>(null);
+
+  useEffect(() => {
+    const handler = (event: Event) => {
+      const text = (event as CustomEvent<string>).detail;
+      setOpen(true);
+      if (typeof text === "string" && text.trim()) void sendRef.current?.(text);
+    };
+    window.addEventListener("gth:ask-assistant", handler);
+    return () => window.removeEventListener("gth:ask-assistant", handler);
+  }, []);
 
   useEffect(() => {
     scroller.current?.scrollTo({ top: scroller.current.scrollHeight, behavior: "smooth" });
@@ -59,6 +70,8 @@ export function AiAssistant() {
       setBusy(false);
     }
   }
+
+  sendRef.current = send;
 
   return (
     <>

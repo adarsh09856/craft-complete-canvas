@@ -55,6 +55,11 @@ function Home() {
   const [q, setQ] = useState("");
   const [dates, setDates] = useState("");
   const [guests, setGuests] = useState("");
+  const [ask, setAsk] = useState("");
+
+  const askAssistant = (text: string) => {
+    window.dispatchEvent(new CustomEvent("gth:ask-assistant", { detail: text }));
+  };
 
   const runSearch = () => {
     navigate({
