@@ -55,6 +55,11 @@ function Home() {
   const [q, setQ] = useState("");
   const [dates, setDates] = useState("");
   const [guests, setGuests] = useState("");
+  const [ask, setAsk] = useState("");
+
+  const askAssistant = (text: string) => {
+    window.dispatchEvent(new CustomEvent("gth:ask-assistant", { detail: text }));
+  };
 
   const runSearch = () => {
     navigate({
@@ -116,16 +121,29 @@ function Home() {
                 </label>
                 <label className="flex min-w-0 items-center gap-3 rounded-lg bg-input px-3 py-3 transition focus-within:ring-2 focus-within:ring-ring">
                   <Calendar className="h-4 w-4 shrink-0 text-saffron" />
-                  <input value={dates} onChange={(e) => setDates(e.target.value)} placeholder="Travel dates" aria-label="Travel dates" className="min-w-0 flex-1 bg-transparent text-sm outline-none placeholder:text-muted-foreground" />
+                  <input type="date" value={dates} min={new Date().toISOString().slice(0, 10)} onChange={(e) => setDates(e.target.value)} aria-label="Travel date" className="min-w-0 flex-1 bg-transparent text-sm outline-none placeholder:text-muted-foreground" />
                 </label>
                 <label className="flex min-w-0 items-center gap-3 rounded-lg bg-input px-3 py-3 transition focus-within:ring-2 focus-within:ring-ring">
                   <Users className="h-4 w-4 shrink-0 text-saffron" />
-                  <input value={guests} onChange={(e) => setGuests(e.target.value)} placeholder="Guests" aria-label="Guests" inputMode="numeric" className="min-w-0 flex-1 bg-transparent text-sm outline-none placeholder:text-muted-foreground" />
+                  <select value={guests} onChange={(e) => setGuests(e.target.value)} aria-label="Guests" className="min-w-0 flex-1 bg-transparent text-sm outline-none">
+                    <option value="">Guests</option>
+                    {["1", "2", "3", "4", "5", "6", "8", "10", "15+"].map((g) => (
+                      <option key={g} value={g}>{g} {g === "1" ? "traveller" : "travellers"}</option>
+                    ))}
+                  </select>
                 </label>
                 <button type="submit" className="sheen-on-hover inline-flex items-center justify-center gap-2 rounded-lg bg-gradient-gold px-5 py-3 text-sm font-semibold text-primary-foreground transition hover:shadow-gold">
                   Search <Sparkles className="h-4 w-4" />
                 </button>
               </form>
+              <div className="flex flex-wrap items-center gap-2 px-2 pb-1 pt-2 text-xs text-muted-foreground">
+                <span className="font-semibold uppercase tracking-wide">Popular</span>
+                {["Tiger's Nest", "Honeymoon", "Trekking", "Birdwatching", "Family", "Punakha"].map((s) => (
+                  <button key={s} type="button" onClick={() => { setQ(s); navigate({ to: "/tours", search: { q: s, category: "All Tours", dates: dates.trim(), guests: guests.trim() } }); }} className="rounded-full border border-border px-3 py-1 font-medium transition hover:border-saffron hover:text-saffron">
+                    {s}
+                  </button>
+                ))}
+              </div>
             </div>
 
             <div className="mt-5 flex flex-wrap gap-3">
@@ -152,17 +170,20 @@ function Home() {
             </div>
             <p className="mt-4 text-sm leading-relaxed text-hero-foreground/72">Start with instant routing; finish with a human-reviewed itinerary, permits, hotels and guide assignment.</p>
             <div className="mt-5 grid gap-2">
-              {["Suggest culture tours", "Best time to visit", "Plan 7-day Buddhist tour", "Build college group trip"].map((s) => (
-                <Link key={s} to="/plan" className="group grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3 rounded-xl border border-hero-foreground/12 bg-hero-foreground/8 px-3 py-2.5 text-left text-xs transition hover:border-saffron/60 hover:bg-hero-foreground/14">
+              {["Suggest culture tours", "Best time to visit", "Plan a 7-day Buddhist tour", "Build a college group trip"].map((s) => (
+                <button key={s} type="button" onClick={() => askAssistant(s)} className="group grid w-full grid-cols-[minmax(0,1fr)_auto] items-center gap-3 rounded-xl border border-hero-foreground/12 bg-hero-foreground/8 px-3 py-2.5 text-left text-xs transition hover:border-saffron/60 hover:bg-hero-foreground/14">
                   <span className="min-w-0 truncate">{s}</span>
                   <ArrowRight className="h-3.5 w-3.5 text-saffron transition group-hover:translate-x-0.5" />
-                </Link>
+                </button>
               ))}
             </div>
-            <div className="mt-4 grid grid-cols-[minmax(0,1fr)_auto] gap-2 rounded-xl border border-hero-foreground/12 bg-hero-foreground/8 p-2">
-              <input placeholder="Ask anything..." className="min-w-0 bg-transparent px-2 text-xs outline-none placeholder:text-hero-foreground/45" />
-              <Link to="/plan" className="grid h-9 w-9 place-items-center rounded-lg bg-gradient-gold text-primary-foreground"><Send className="h-4 w-4" /></Link>
-            </div>
+            <form
+              onSubmit={(e) => { e.preventDefault(); if (!ask.trim()) return; askAssistant(ask.trim()); setAsk(""); }}
+              className="mt-4 grid grid-cols-[minmax(0,1fr)_auto] gap-2 rounded-xl border border-hero-foreground/12 bg-hero-foreground/8 p-2"
+            >
+              <input value={ask} onChange={(e) => setAsk(e.target.value)} aria-label="Ask the travel assistant" placeholder="Ask anything..." className="min-w-0 bg-transparent px-2 text-xs outline-none placeholder:text-hero-foreground/45" />
+              <button type="submit" aria-label="Ask" className="grid h-9 w-9 place-items-center rounded-lg bg-gradient-gold text-primary-foreground"><Send className="h-4 w-4" /></button>
+            </form>
           </aside>
         </div>
 

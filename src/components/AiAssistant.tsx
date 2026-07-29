@@ -1,5 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Bot, Loader2, Send, X, Sparkles } from "lucide-react";
+import ReactMarkdown from "react-markdown";
+import type { ReactNode } from "react";
 
 type Msg = { role: "user" | "assistant"; content: string };
 
@@ -19,6 +21,17 @@ export function AiAssistant() {
   const [busy, setBusy] = useState(false);
   const [messages, setMessages] = useState<Msg[]>([{ role: "assistant", content: GREETING }]);
   const scroller = useRef<HTMLDivElement>(null);
+  const sendRef = useRef<((text: string) => void) | null>(null);
+
+  useEffect(() => {
+    const handler = (event: Event) => {
+      const text = (event as CustomEvent<string>).detail;
+      setOpen(true);
+      if (typeof text === "string" && text.trim()) void sendRef.current?.(text);
+    };
+    window.addEventListener("gth:ask-assistant", handler);
+    return () => window.removeEventListener("gth:ask-assistant", handler);
+  }, []);
 
   useEffect(() => {
     scroller.current?.scrollTo({ top: scroller.current.scrollHeight, behavior: "smooth" });
@@ -60,6 +73,8 @@ export function AiAssistant() {
     }
   }
 
+  sendRef.current = send;
+
   return (
     <>
       <button
@@ -87,13 +102,29 @@ export function AiAssistant() {
             {messages.map((m, i) => (
               <div
                 key={i}
-                className={`max-w-[85%] whitespace-pre-wrap rounded-xl px-3 py-2 text-sm leading-relaxed ${
+                className={`max-w-[88%] rounded-xl px-3 py-2 text-sm leading-relaxed ${
                   m.role === "user"
-                    ? "ml-auto bg-gradient-gold text-primary-foreground"
+                    ? "ml-auto whitespace-pre-wrap bg-gradient-gold text-primary-foreground"
                     : "bg-muted text-foreground"
                 }`}
               >
-                {m.content || "…"}
+                {m.role === "user" ? (
+                  m.content || "…"
+                ) : (
+                  <ReactMarkdown
+                    components={{
+                      p: ({ children }: { children?: ReactNode }) => <p className="mb-2 last:mb-0">{children}</p>,
+                      ul: ({ children }: { children?: ReactNode }) => <ul className="mb-2 ml-4 list-disc space-y-1 last:mb-0">{children}</ul>,
+                      ol: ({ children }: { children?: ReactNode }) => <ol className="mb-2 ml-4 list-decimal space-y-1 last:mb-0">{children}</ol>,
+                      strong: ({ children }: { children?: ReactNode }) => <span className="font-semibold text-foreground">{children}</span>,
+                      a: ({ href, children }: { href?: string; children?: ReactNode }) => (
+                        <a href={href} className="font-semibold text-saffron underline underline-offset-2">{children}</a>
+                      ),
+                    }}
+                  >
+                    {m.content || "…"}
+                  </ReactMarkdown>
+                )}
               </div>
             ))}
             {busy && (
