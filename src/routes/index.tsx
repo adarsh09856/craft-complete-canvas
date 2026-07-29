@@ -16,10 +16,11 @@ export const Route = createFileRoute("/")({
   component: Home,
   head: () => ({
     meta: [
-      { title: "Golden Takin Holidays — Premium Bhutan Journeys" },
-      { name: "description", content: "Premium Bhutan journeys, pilgrimages, treks and cultural itineraries crafted end-to-end by expert local guides." },
-      { property: "og:title", content: "Golden Takin Holidays — Premium Bhutan Journeys" },
-      { property: "og:description", content: "Premium Bhutan journeys, pilgrimages, treks and cultural itineraries crafted end-to-end by expert local guides." },
+      { title: "Golden Takin Holidays | Bhutan Tour Packages & Travel Experts" },
+      { name: "description", content: "Golden Takin Holidays is Bhutan's TCB-licensed inbound tour operator offering customised holiday packages, hotel booking, VISA processing, car rental and corporate tours." },
+      { name: "keywords", content: "Bhutan tour package, Bhutan travel agency, Bhutan holiday package, best travel agency in Bhutan, Bhutan inbound tour operator, Golden Takin Holidays" },
+      { property: "og:title", content: "Golden Takin Holidays | Bhutan Tour Packages & Travel Experts" },
+      { property: "og:description", content: "Golden Takin Holidays is Bhutan's TCB-licensed inbound tour operator offering customised holiday packages, hotel booking, VISA processing, car rental and corporate tours." },
     ],
   }),
 });

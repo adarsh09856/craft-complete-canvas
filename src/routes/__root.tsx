@@ -11,6 +11,7 @@ import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { Toaster } from "@/components/ui/sonner";
 import { WhatsAppFab } from "@/components/WhatsAppFab";
+import { AiAssistant } from "@/components/AiAssistant";
 
 import appCss from "../styles.css?url";
 
@@ -87,6 +88,7 @@ function RootComponent() {
       </main>
       <Footer />
       <WhatsAppFab />
+      <AiAssistant />
       <Toaster position="top-right" richColors />
     </QueryClientProvider>
   );

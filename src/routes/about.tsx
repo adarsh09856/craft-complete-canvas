@@ -8,10 +8,11 @@ export const Route = createFileRoute("/about")({
   component: AboutPage,
   head: () => ({
     meta: [
-      { title: "About Bhutan — Golden Takin Holidays" },
-      { name: "description", content: "Discover the kingdom that measures success by Gross National Happiness." },
-      { property: "og:title", content: "About Bhutan" },
-      { property: "og:description", content: "Geography, history and culture of the Land of the Thunder Dragon." },
+      { title: "About Golden Takin Holidays | Licensed Bhutan Tour Operator" },
+      { name: "description", content: "Learn about Golden Takin Holidays, a TCB-licensed inbound tour operator based in Thimphu, Bhutan, committed to sustainable, high-value travel experiences." },
+      { name: "keywords", content: "about Golden Takin Holidays, Bhutan tour operator Thimphu, TCB licensed tour operator, Bhutan travel company" },
+      { property: "og:title", content: "About Golden Takin Holidays | Licensed Bhutan Tour Operator" },
+      { property: "og:description", content: "Learn about Golden Takin Holidays, a TCB-licensed inbound tour operator based in Thimphu, Bhutan, committed to sustainable, high-value travel experiences." },
       { property: "og:image", content: festival },
     ],
   }),

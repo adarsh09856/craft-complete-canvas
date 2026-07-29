@@ -10,10 +10,11 @@ export const Route = createFileRoute("/plan")({
   component: PlanPage,
   head: () => ({
     meta: [
-      { title: "Plan with AI — Golden Takin Holidays" },
-      { name: "description", content: "Let our AI travel assistant draft a Bhutan itinerary based on your interests, time and budget." },
-      { property: "og:title", content: "Plan your Bhutan trip with AI" },
-      { property: "og:description", content: "AI-assisted itinerary planning by Golden Takin Holidays." },
+      { title: "Plan a Bhutan Trip with AI | Golden Takin Holidays" },
+      { name: "description", content: "Draft a Bhutan itinerary in minutes with our AI travel assistant trained on Golden Takin Holidays' official packages, then have a local specialist price it." },
+      { name: "keywords", content: "how to plan a trip to Bhutan, Bhutan itinerary 7 days, Bhutan itinerary 5 days, Bhutan travel guide" },
+      { property: "og:title", content: "Plan a Bhutan Trip with AI | Golden Takin Holidays" },
+      { property: "og:description", content: "Draft a Bhutan itinerary in minutes with our AI travel assistant trained on Golden Takin Holidays' official packages, then have a local specialist price it." },
     ],
   }),
 });
@@ -29,14 +30,45 @@ const presets = [
 
 function PlanPage() {
   const [messages, setMessages] = useState<{ role: "user" | "ai"; text: string }[]>([
-    { role: "ai", text: "Kuzu zangpo! I'm your Bhutan travel assistant. Tell me about your dream trip — duration, interests, group size — and I'll draft an itinerary." },
+    { role: "ai", text: "Kuzu zangpo! I'm your Bhutan travel assistant, trained on Golden Takin Holidays' own package documents. Tell me about your dream trip — duration, interests, group size — and I'll draft an itinerary." },
   ]);
   const [input, setInput] = useState("");
+  const [busy, setBusy] = useState(false);
 
-  const send = (text: string) => {
-    if (!text.trim()) return;
-    setMessages(m => [...m, { role: "user", text }, { role: "ai", text: "Beautiful choice. Based on what you've shared, I'd suggest beginning in Paro with a gentle acclimatization day, then a guided Tiger's Nest hike on day 3. From there, we cross to Thimphu and Punakha for culture and the famed Dochula Pass. Would you like me to expand this into a full day-by-day itinerary?" }]);
+  const send = async (text: string) => {
+    const question = text.trim();
+    if (!question || busy) return;
+    const history = [...messages, { role: "user" as const, text: question }];
+    setMessages(history);
     setInput("");
+    setBusy(true);
+    try {
+      const res = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          messages: history.slice(-16).map((m) => ({ role: m.role === "ai" ? "assistant" : "user", content: m.text })),
+        }),
+      });
+      if (!res.ok || !res.body) {
+        setMessages([...history, { role: "ai", text: res.status === 429 ? "I'm getting a lot of questions right now — please try again in a moment." : "I couldn't reach the planner. Please WhatsApp us on +975 77679983 and we'll help directly." }]);
+        return;
+      }
+      const reader = res.body.getReader();
+      const decoder = new TextDecoder();
+      let acc = "";
+      setMessages([...history, { role: "ai", text: "" }]);
+      for (;;) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        acc += decoder.decode(value, { stream: true });
+        setMessages([...history, { role: "ai", text: acc }]);
+      }
+    } catch {
+      setMessages([...history, { role: "ai", text: "Network hiccup — please try again." }]);
+    } finally {
+      setBusy(false);
+    }
   };
 
   const download = () => {
@@ -45,11 +77,12 @@ function PlanPage() {
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
     link.href = url;
-    link.download = "royal-takin-ai-itinerary.txt";
+    link.download = "golden-takin-itinerary.txt";
     link.click();
     URL.revokeObjectURL(url);
     toast.success("Itinerary downloaded");
   };
+
 
   return (
     <>
