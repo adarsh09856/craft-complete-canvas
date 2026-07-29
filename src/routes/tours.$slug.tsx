@@ -41,7 +41,7 @@ function TourDetail() {
   const [photo, setPhoto] = useState(0);
   const [adminPanos, setAdminPanos] = useState<{ title: string; image: string; note?: string }[]>([]);
   useEffect(() => { setAdminPanos(getPanoramas(tour.slug)); }, [tour.slug]);
-  const gallery = [tour.image, ...tours.filter((item) => item.slug !== tour.slug).slice(0, 2).map((item) => item.image)];
+  const gallery = [brochure, tour.image, ...tours.filter((item) => item.slug !== tour.slug).slice(0, 2).map((item) => item.image)].filter(Boolean) as string[];
   const defaultPanoramas = gallery.map((image, index) => ({ title: galleryTitles[index] ?? `Panorama ${index + 1}`, image, views: 1200 + index * 246, note: "Interactive destination preview with drag rotation, zoom, fullscreen, download and share controls." }));
   const panoramas = [...adminPanos.map((p, i) => ({ ...p, views: 1820 + i * 134 })), ...defaultPanoramas];
 
@@ -51,19 +51,28 @@ function TourDetail() {
         <img src={tour.image} alt={tour.title} className="absolute inset-0 w-full h-full object-cover scale-105 animate-float-slow" style={{ animationDuration: "30s" }} />
         <div className="absolute inset-0" style={{ background: "var(--gradient-hero)" }} />
         <div className="absolute inset-0 mandala-bg opacity-20" />
-        <div className="relative mx-auto flex min-h-[620px] max-w-[1500px] flex-col justify-end px-4 pb-14 pt-32 sm:px-6 sm:pb-20">
-          <Link to="/tours" className="mb-6 flex w-fit items-center gap-2 rounded-md border border-hero-foreground/15 bg-hero-foreground/10 px-3 py-2 text-sm text-gold backdrop-blur transition hover:bg-hero-foreground/15"><ArrowLeft className="w-4 h-4" /> All tours</Link>
-          <div className="mb-4 text-xs uppercase tracking-[0.35em] text-gold">{tour.category}</div>
-          <h1 className="max-w-4xl font-display text-5xl leading-none sm:text-6xl md:text-7xl">{tour.title}</h1>
-          <p className="mt-5 max-w-2xl text-lg leading-relaxed text-hero-foreground/75">{tour.desc}</p>
-          <div className="mt-8 flex flex-wrap gap-3 text-sm">
-            <span className="flex items-center gap-2 rounded-md bg-hero-foreground/10 px-3 py-2"><Clock className="w-4 h-4 text-gold" />{tour.duration}</span>
-            <span className="flex items-center gap-2 rounded-md bg-hero-foreground/10 px-3 py-2"><MapPin className="w-4 h-4 text-gold" />{tour.location}</span>
-            <span className="flex items-center gap-2 rounded-md bg-hero-foreground/10 px-3 py-2"><Users className="w-4 h-4 text-gold" />{tour.groupSize ?? "Private group"}</span>
-            <span className="flex items-center gap-2 rounded-md bg-hero-foreground/10 px-3 py-2"><Star className="w-4 h-4 fill-gold text-gold" />{tour.rating ?? 4.9}</span>
+        <div className="relative mx-auto grid min-h-[620px] max-w-[1500px] items-end gap-10 px-4 pb-14 pt-32 sm:px-6 sm:pb-20 lg:grid-cols-[minmax(0,1fr)_340px]">
+          <div className="min-w-0">
+            <Link to="/tours" className="mb-6 flex w-fit items-center gap-2 rounded-md border border-hero-foreground/15 bg-hero-foreground/10 px-3 py-2 text-sm text-gold backdrop-blur transition hover:bg-hero-foreground/15"><ArrowLeft className="w-4 h-4" /> All tours</Link>
+            <div className="mb-4 text-xs uppercase tracking-[0.35em] text-gold">{tour.category}</div>
+            <h1 className="max-w-4xl font-display text-5xl leading-none sm:text-6xl md:text-7xl">{tour.title}</h1>
+            <p className="mt-5 max-w-2xl text-lg leading-relaxed text-hero-foreground/75">{tour.desc}</p>
+            <div className="mt-8 flex flex-wrap gap-3 text-sm">
+              <span className="flex items-center gap-2 rounded-md bg-hero-foreground/10 px-3 py-2"><Clock className="w-4 h-4 text-gold" />{tour.duration}</span>
+              <span className="flex items-center gap-2 rounded-md bg-hero-foreground/10 px-3 py-2"><MapPin className="w-4 h-4 text-gold" />{tour.location}</span>
+              <span className="flex items-center gap-2 rounded-md bg-hero-foreground/10 px-3 py-2"><Users className="w-4 h-4 text-gold" />{tour.groupSize ?? "Private group"}</span>
+              <span className="flex items-center gap-2 rounded-md bg-hero-foreground/10 px-3 py-2"><Star className="w-4 h-4 fill-gold text-gold" />{tour.rating ?? 4.9}</span>
+            </div>
           </div>
+          {brochure && (
+            <a href={brochure} target="_blank" rel="noreferrer" className="group hidden overflow-hidden rounded-2xl border border-hero-foreground/15 bg-hero-foreground/10 p-3 backdrop-blur transition hover:border-gold/60 lg:block">
+              <img src={brochure} alt={`${tour.title} official brochure`} className="w-full rounded-xl object-contain shadow-card transition-transform duration-700 group-hover:scale-[1.02]" />
+              <div className="px-1 pb-1 pt-3 text-center text-[10px] uppercase tracking-[0.28em] text-gold">Official brochure</div>
+            </a>
+          )}
         </div>
       </div>
+
 
       <div className="mx-auto grid max-w-[1500px] gap-8 px-4 py-14 sm:px-6 sm:py-20 lg:grid-cols-[minmax(0,1fr)_380px] lg:gap-12">
         <div className="min-w-0">
