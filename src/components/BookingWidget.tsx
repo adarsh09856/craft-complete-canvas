@@ -25,9 +25,24 @@ export function BookingWidget({ tour }: { tour: Tour }) {
   const [phone, setPhone] = useState("");
   const [notes, setNotes] = useState("");
   const [submitting, setSubmitting] = useState(false);
+  const [couponInput, setCouponInput] = useState("");
+  const [couponChecking, setCouponChecking] = useState(false);
+  const [applied, setApplied] = useState<{ code: string; label: string; discount: number } | null>(null);
 
   const guests = adults + children;
-  const total = useMemo(() => Math.round(tour.price * tier.mult * (adults + children * 0.6)), [tour.price, tier, adults, children]);
+  const subtotal = useMemo(() => Math.round(tour.price * tier.mult * (adults + children * 0.6)), [tour.price, tier, adults, children]);
+  const discount = applied ? Math.min(applied.discount, subtotal) : 0;
+  const total = subtotal - discount;
+
+  const applyCoupon = async () => {
+    setCouponChecking(true);
+    const result = await validateCoupon(couponInput, subtotal, guests);
+    setCouponChecking(false);
+    if (!result.ok) { setApplied(null); toast.error(result.reason); return; }
+    setApplied({ code: result.coupon.code, label: result.coupon.label, discount: result.discount });
+    toast.success(`Coupon ${result.coupon.code} applied`, { description: `You saved ${formatPrice(result.discount)}.` });
+  };
+
 
   const next = () => {
     if (step === 1 && !date) { toast.error("Pick a travel date"); return; }
