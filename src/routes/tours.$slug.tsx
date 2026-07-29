@@ -124,7 +124,7 @@ function TourDetail() {
           <Reveal>
             <div className="text-[10px] uppercase tracking-[0.28em] text-cypress">Day-by-day</div>
             <h2 className="mb-3 mt-2 font-display text-5xl leading-none">The journey</h2>
-            <p className="mb-10 max-w-3xl leading-relaxed text-muted-foreground">A carefully paced expedition through Bhutan's most sacred sites. We move at the speed of contemplation — slow enough to feel the prayer wheels turn, fast enough to see everything.</p>
+            <p className="mb-10 max-w-3xl leading-relaxed text-muted-foreground">{tour.tagline ? tour.tagline + " — " : ""}a day-by-day plan operated by our licensed guides, with overnight stops, drive times and highlights confirmed before you travel.</p>
           </Reveal>
 
           <div className="mb-16 space-y-3">
