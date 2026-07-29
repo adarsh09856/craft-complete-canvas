@@ -41,44 +41,44 @@
 }
 
 :root {
-  /* Bhutan premium palette: deep maroon, saffron, gold, ivory, ink */
+  /* Brand palette taken from the Golden Takin crest: royal navy, burnished gold, ivory */
   --radius: 0.85rem;
-  --background: oklch(0.975 0.012 78);           /* warm ivory */
-  --foreground: oklch(0.21 0.045 30);            /* deep mahogany ink */
-  --card: oklch(1 0.004 80);
-  --card-foreground: oklch(0.21 0.045 30);
-  --popover: oklch(1 0.004 80);
-  --popover-foreground: oklch(0.21 0.045 30);
-  --primary: oklch(0.36 0.13 24);                /* Bhutanese maroon */
-  --primary-foreground: oklch(0.975 0.018 80);
-  --secondary: oklch(0.72 0.16 62);              /* saffron orange */
-  --secondary-foreground: oklch(0.22 0.05 30);
-  --muted: oklch(0.94 0.014 78);
-  --muted-foreground: oklch(0.46 0.03 40);
-  --accent: oklch(0.78 0.135 78);                /* warm gold */
-  --accent-foreground: oklch(0.22 0.05 30);
-  --destructive: oklch(0.56 0.21 27);
+  --background: oklch(0.981 0.006 95);           /* logo ivory */
+  --foreground: oklch(0.22 0.05 262);            /* navy ink */
+  --card: oklch(1 0.002 95);
+  --card-foreground: oklch(0.22 0.05 262);
+  --popover: oklch(1 0.002 95);
+  --popover-foreground: oklch(0.22 0.05 262);
+  --primary: oklch(0.34 0.105 262);              /* crest navy */
+  --primary-foreground: oklch(0.985 0.008 95);
+  --secondary: oklch(0.75 0.128 86);             /* burnished gold */
+  --secondary-foreground: oklch(0.22 0.05 262);
+  --muted: oklch(0.945 0.008 92);
+  --muted-foreground: oklch(0.48 0.028 262);
+  --accent: oklch(0.78 0.125 88);                /* light gold */
+  --accent-foreground: oklch(0.22 0.05 262);
+  --destructive: oklch(0.56 0.19 27);
   --destructive-foreground: oklch(0.985 0.006 95);
-  --border: oklch(0.88 0.018 70);
-  --input: oklch(0.96 0.012 78);
-  --ring: oklch(0.72 0.16 62);
-  --gold: oklch(0.78 0.135 78);
-  --gold-soft: oklch(0.88 0.092 82);
-  --crimson: oklch(0.45 0.18 22);
-  --ink: oklch(0.16 0.035 28);                   /* near-black mahogany */
-  --cypress: oklch(0.42 0.09 165);               /* forest cypress */
-  --clay: oklch(0.66 0.13 48);
-  --saffron: oklch(0.72 0.16 62);
-  --cream: oklch(0.97 0.022 85);
-  --hero-foreground: oklch(0.985 0.018 80);
+  --border: oklch(0.895 0.012 90);
+  --input: oklch(0.965 0.008 92);
+  --ring: oklch(0.75 0.128 86);
+  --gold: oklch(0.78 0.125 88);
+  --gold-soft: oklch(0.885 0.085 92);
+  --crimson: oklch(0.45 0.16 25);
+  --ink: oklch(0.175 0.055 264);                 /* deep navy */
+  --cypress: oklch(0.44 0.075 250);              /* slate navy */
+  --clay: oklch(0.68 0.115 78);
+  --saffron: oklch(0.76 0.13 84);                /* gold accent */
+  --cream: oklch(0.972 0.014 92);
+  --hero-foreground: oklch(0.985 0.01 95);
 
-  --gradient-gold: linear-gradient(135deg, var(--gold) 0%, var(--saffron) 60%, var(--primary) 130%);
-  --gradient-saffron: linear-gradient(135deg, var(--saffron), var(--primary));
-  --gradient-hero: linear-gradient(110deg, oklch(0.14 0.04 28 / 0.92) 0%, oklch(0.14 0.04 28 / 0.74) 40%, oklch(0.14 0.04 28 / 0.32) 72%, oklch(0.14 0.04 28 / 0.68) 100%);
-  --gradient-panel: linear-gradient(135deg, oklch(1 0.004 80 / 0.96), oklch(0.96 0.014 78 / 0.84));
-  --shadow-gold: 0 22px 50px -22px oklch(0.72 0.16 62 / 0.55);
-  --shadow-deep: 0 36px 100px -50px oklch(0.16 0.05 28 / 0.55);
-  --shadow-card: 0 22px 60px -42px oklch(0.16 0.05 28 / 0.4);
+  --gradient-gold: linear-gradient(135deg, oklch(0.86 0.1 94) 0%, var(--gold) 42%, oklch(0.66 0.115 78) 100%);
+  --gradient-saffron: linear-gradient(135deg, var(--gold), var(--primary));
+  --gradient-hero: linear-gradient(110deg, oklch(0.15 0.055 264 / 0.93) 0%, oklch(0.15 0.055 264 / 0.76) 40%, oklch(0.15 0.055 264 / 0.34) 72%, oklch(0.15 0.055 264 / 0.7) 100%);
+  --gradient-panel: linear-gradient(135deg, oklch(1 0.002 95 / 0.96), oklch(0.96 0.008 92 / 0.84));
+  --shadow-gold: 0 22px 50px -22px oklch(0.76 0.13 84 / 0.55);
+  --shadow-deep: 0 36px 100px -50px oklch(0.17 0.055 264 / 0.55);
+  --shadow-card: 0 22px 60px -42px oklch(0.17 0.055 264 / 0.34);
 }
 
 @layer base {
