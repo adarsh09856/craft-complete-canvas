@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { Clock, MapPin, ArrowUpRight } from "lucide-react";
 import { formatPrice } from "@/lib/utils";
+import { brochures } from "@/lib/brochures";
 
 export type ItineraryDay = { day: number; title: string; desc: string };
 
