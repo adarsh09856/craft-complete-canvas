@@ -49,6 +49,7 @@ export const Route = createFileRoute("/api/chat")({
         const system = [
           COMPANY_KNOWLEDGE,
           "\n## LIVE PACKAGE CATALOGUE (15 packages currently on the website)\n" + tourIndex(),
+          "\n## PROMOTIONS\nGolden Takin Holidays runs promo/coupon codes that guests enter in the booking panel on any tour page (field: 'Coupon code'). If a guest asks about discounts, tell them to enter their code at booking or to ask our team on WhatsApp for the current offer. Never invent a coupon code or a discount amount.",
           "\n## PACKAGE DOCUMENTS (verbatim source material)\n" + PACKAGE_DOCS,
         ].join("\n");
 

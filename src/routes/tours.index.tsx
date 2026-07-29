@@ -1,11 +1,11 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { categories, destinations, tours } from "@/lib/data";
 import { PageHero } from "@/components/PageHero";
 import { Reveal } from "@/components/Reveal";
 import { TourCard } from "@/components/TourCard";
 import hero from "@/assets/tigers-nest.jpg";
-import { Filter, RotateCcw, Search, SlidersHorizontal } from "lucide-react";
+import { RotateCcw, Search, SlidersHorizontal, X } from "lucide-react";
 
 const durationGroups = ["Any duration", "3-7 days", "7-14 days", "14+ days"];
 
@@ -36,6 +36,7 @@ function days(duration: string) {
 
 function ToursPage() {
   const search = Route.useSearch();
+  const navigate = Route.useNavigate();
   const [cat, setCat] = useState(search.category && categories.includes(search.category) ? search.category : "All Tours");
   const [duration, setDuration] = useState("Any duration");
   const [destination, setDestination] = useState("All destinations");
@@ -43,13 +44,30 @@ function ToursPage() {
   const [maxPrice, setMaxPrice] = useState(3000);
   const [q, setQ] = useState(search.q ?? "");
 
+  // Keep the panel in sync when arriving from the home-page search or a category link.
+  useEffect(() => {
+    setQ(search.q ?? "");
+    setCat(search.category && categories.includes(search.category) ? search.category : "All Tours");
+  }, [search.q, search.category]);
+
   const filtered = useMemo(() => tours.filter((tour) => {
     const tourDays = days(tour.duration);
     const durationMatch = duration === "Any duration" || (duration === "3-7 days" && tourDays <= 7) || (duration === "7-14 days" && tourDays >= 7 && tourDays <= 14) || (duration === "14+ days" && tourDays >= 14);
     const destinationMatch = destination === "All destinations" || tour.location.toLowerCase().includes(destination.toLowerCase());
-    const text = `${tour.title} ${tour.category} ${tour.location} ${tour.desc}`.toLowerCase();
-    return (cat === "All Tours" || tour.category === cat) && durationMatch && destinationMatch && tour.price <= maxPrice && text.includes(q.toLowerCase());
+    const text = `${tour.title} ${tour.category} ${tour.location} ${tour.desc} ${(tour.highlights ?? []).join(" ")}`.toLowerCase();
+    const tokens = q.toLowerCase().split(/\s+/).filter(Boolean);
+    const textMatch = tokens.every((token: string) => text.includes(token));
+    return (cat === "All Tours" || tour.category === cat) && durationMatch && destinationMatch && tour.price <= maxPrice && textMatch;
   }), [cat, destination, duration, maxPrice, q]);
+
+  const setSearchText = (value: string) => {
+    setQ(value);
+    navigate({ search: (prev: ToursSearch) => ({ ...prev, q: value || undefined }), replace: true });
+  };
+  const setCategory = (value: string) => {
+    setCat(value);
+    navigate({ search: (prev: ToursSearch) => ({ ...prev, category: value === "All Tours" ? undefined : value }), replace: true });
+  };
 
   const clear = () => {
     setCat("All Tours");
@@ -57,7 +75,17 @@ function ToursPage() {
     setDestination("All destinations");
     setMaxPrice(3000);
     setQ("");
+    navigate({ search: {}, replace: true });
   };
+
+  const chips = [
+    q ? { label: `“${q}”`, reset: () => setSearchText("") } : null,
+    cat !== "All Tours" ? { label: cat, reset: () => setCategory("All Tours") } : null,
+    duration !== "Any duration" ? { label: duration, reset: () => setDuration("Any duration") } : null,
+    destination !== "All destinations" ? { label: destination, reset: () => setDestination("All destinations") } : null,
+    maxPrice < 3000 ? { label: `Under $${maxPrice}`, reset: () => setMaxPrice(3000) } : null,
+  ].filter(Boolean) as { label: string; reset: () => void }[];
+
 
   return (
     <>
@@ -89,11 +117,11 @@ function ToursPage() {
                 <span className="mb-2 block text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground">Search</span>
                 <span className="grid grid-cols-[auto_minmax(0,1fr)] items-center gap-2 rounded-lg border border-border bg-input px-3 py-2.5">
                   <Search className="h-4 w-4 text-cypress" />
-                  <input value={q} onChange={(event) => setQ(event.target.value)} placeholder="Tiger's Nest, trek..." className="min-w-0 bg-transparent text-sm outline-none" />
+                  <input value={q} onChange={(event) => setSearchText(event.target.value)} placeholder="Tiger's Nest, trek..." className="min-w-0 bg-transparent text-sm outline-none" />
                 </span>
               </label>
 
-              <FilterGroup title="Category" options={categories} value={cat} onChange={setCat} />
+              <FilterGroup title="Category" options={categories} value={cat} onChange={setCategory} />
               <FilterGroup title="Duration" options={durationGroups} value={duration} onChange={setDuration} />
               <FilterGroup title="Destination" options={["All destinations", ...destinations.map((d) => d.name)]} value={destination} onChange={setDestination} />
 
@@ -118,10 +146,29 @@ function ToursPage() {
               <div className="rounded-lg border border-border bg-card px-3 py-2 text-xs text-muted-foreground">{filtered.length} results</div>
             </div>
 
+            {chips.length > 0 && (
+              <div className="mb-5 flex flex-wrap items-center gap-2">
+                <span className="text-[10px] uppercase tracking-[0.18em] text-muted-foreground">Active filters</span>
+                {chips.map((chip) => (
+                  <button key={chip.label} type="button" onClick={chip.reset} className="inline-flex items-center gap-1.5 rounded-full border border-gold/50 bg-gold/10 px-3 py-1.5 text-xs font-semibold text-gold transition hover:bg-gold hover:text-primary-foreground">
+                    {chip.label} <X className="h-3 w-3" />
+                  </button>
+                ))}
+                <button type="button" onClick={clear} className="text-xs font-semibold text-muted-foreground underline underline-offset-4 hover:text-foreground">Clear all</button>
+              </div>
+            )}
+
             <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
               {filtered.map((tour, index) => <Reveal key={tour.slug} delay={index * 0.04}><TourCard tour={tour} idx={index} /></Reveal>)}
             </div>
-            {filtered.length === 0 && <div className="rounded-xl border border-border bg-card py-20 text-center text-muted-foreground shadow-card">No tours match your filters.</div>}
+            {filtered.length === 0 && (
+              <div className="rounded-xl border border-border bg-card px-6 py-16 text-center shadow-card">
+                <p className="font-display text-2xl">No tours match all your filters</p>
+                <p className="mt-2 text-sm text-muted-foreground">Try removing one of the active filters above — search text and category are applied together.</p>
+                <button type="button" onClick={clear} className="mt-6 inline-flex items-center gap-2 rounded-xl bg-gradient-gold px-6 py-3 text-sm font-semibold text-primary-foreground shadow-gold"><RotateCcw className="h-4 w-4" /> Reset filters</button>
+              </div>
+            )}
+
           </div>
         </div>
       </section>

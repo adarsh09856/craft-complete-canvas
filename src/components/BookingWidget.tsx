@@ -1,9 +1,10 @@
 import { useMemo, useState, type FormEvent } from "react";
-import { Calendar, Check, ChevronRight, Mail, MessageCircle, Minus, Phone, Plus, Shield, Sparkles, User, Users } from "lucide-react";
+import { Calendar, Check, ChevronRight, Mail, MessageCircle, Minus, Phone, Plus, Shield, Sparkles, Tag, User, Users } from "lucide-react";
 import { toast } from "sonner";
 import { formatPrice } from "@/lib/utils";
 import { supabase } from "@/integrations/supabase/client";
 import { buildWhatsAppUrl, useSiteSettings } from "@/lib/site-store";
+import { validateCoupon } from "@/lib/coupons";
 
 type Tour = { slug: string; title: string; price: number; duration: string };
 
@@ -25,9 +26,24 @@ export function BookingWidget({ tour }: { tour: Tour }) {
   const [phone, setPhone] = useState("");
   const [notes, setNotes] = useState("");
   const [submitting, setSubmitting] = useState(false);
+  const [couponInput, setCouponInput] = useState("");
+  const [couponChecking, setCouponChecking] = useState(false);
+  const [applied, setApplied] = useState<{ code: string; label: string; discount: number } | null>(null);
 
   const guests = adults + children;
-  const total = useMemo(() => Math.round(tour.price * tier.mult * (adults + children * 0.6)), [tour.price, tier, adults, children]);
+  const subtotal = useMemo(() => Math.round(tour.price * tier.mult * (adults + children * 0.6)), [tour.price, tier, adults, children]);
+  const discount = applied ? Math.min(applied.discount, subtotal) : 0;
+  const total = subtotal - discount;
+
+  const applyCoupon = async () => {
+    setCouponChecking(true);
+    const result = await validateCoupon(couponInput, subtotal, guests);
+    setCouponChecking(false);
+    if (!result.ok) { setApplied(null); toast.error(result.reason); return; }
+    setApplied({ code: result.coupon.code, label: result.coupon.label, discount: result.discount });
+    toast.success(`Coupon ${result.coupon.code} applied`, { description: `You saved ${formatPrice(result.discount)}.` });
+  };
+
 
   const next = () => {
     if (step === 1 && !date) { toast.error("Pick a travel date"); return; }
@@ -36,7 +52,7 @@ export function BookingWidget({ tour }: { tour: Tour }) {
   };
 
   const openWhatsApp = () => {
-    const msg = `Hi ${settings.companyName},%0A%0AI'd like to book *${tour.title}* (${tier.name}).%0A· Date: ${date || "flexible"}%0A· Guests: ${adults} adults, ${children} children%0A· Estimate: ${formatPrice(total)}%0A· Name: ${name || "—"}%0A· Email: ${email || "—"}%0A· Phone: ${phone || "—"}%0A%0ANotes: ${notes || "—"}`;
+    const msg = `Hi ${settings.companyName},%0A%0AI'd like to book *${tour.title}* (${tier.name}).%0A· Date: ${date || "flexible"}%0A· Guests: ${adults} adults, ${children} children%0A· Estimate: ${formatPrice(total)}${applied ? ` (coupon ${applied.code})` : ""}%0A· Name: ${name || "—"}%0A· Email: ${email || "—"}%0A· Phone: ${phone || "—"}%0A%0ANotes: ${notes || "—"}`;
     const url = buildWhatsAppUrl(settings.whatsappNumber, decodeURIComponent(msg));
     window.open(url, "_blank", "noopener");
   };
@@ -50,6 +66,8 @@ export function BookingWidget({ tour }: { tour: Tour }) {
       travel_date: date,
       travelers: guests,
       status: "New",
+      coupon_code: applied?.code ?? null,
+      quoted_total: total,
     });
     setSubmitting(false);
     if (error) { toast.error("Booking could not be saved", { description: error.message }); return; }
@@ -82,6 +100,11 @@ export function BookingWidget({ tour }: { tour: Tour }) {
           <div className="pb-2 text-xs text-muted-foreground">total · {guests} {guests === 1 ? "guest" : "guests"}</div>
         </div>
         <div className="mt-1 text-xs text-muted-foreground">{formatPrice(Math.round(total / Math.max(1, guests)))} per person · {tier.name}</div>
+        {applied && (
+          <div className="mt-2 inline-flex items-center gap-2 rounded-full border border-cypress/40 bg-cypress/10 px-3 py-1 text-[11px] font-semibold text-cypress">
+            <Tag className="h-3 w-3" /> {applied.code} · −{formatPrice(discount)}
+          </div>
+        )}
       </div>
 
       <div className="p-5 sm:p-6">
@@ -132,13 +155,34 @@ export function BookingWidget({ tour }: { tour: Tour }) {
             <Field icon={<Phone className="h-4 w-4" />} placeholder="Phone (WhatsApp ok)" value={phone} onChange={setPhone} />
             <textarea value={notes} onChange={(e) => setNotes(e.target.value)} placeholder="Dietary, mobility, special requests…" rows={3} className="w-full resize-none rounded-lg border border-border bg-input px-4 py-3 text-sm outline-none transition focus:border-saffron" />
 
+            <div className="rounded-xl border border-dashed border-gold/50 bg-gold/5 p-3">
+              <div className="mb-2 flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.14em] text-gold"><Tag className="h-3.5 w-3.5" /> Coupon code</div>
+              {applied ? (
+                <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-2">
+                  <div className="min-w-0">
+                    <div className="text-sm font-bold">{applied.code}</div>
+                    <div className="truncate text-[11px] text-muted-foreground">{applied.label || "Discount applied"} · −{formatPrice(discount)}</div>
+                  </div>
+                  <button type="button" onClick={() => { setApplied(null); setCouponInput(""); }} className="rounded-lg border border-border px-3 py-2 text-xs font-semibold transition hover:bg-muted">Remove</button>
+                </div>
+              ) : (
+                <div className="grid grid-cols-[minmax(0,1fr)_auto] gap-2">
+                  <input value={couponInput} onChange={(e) => setCouponInput(e.target.value.toUpperCase())} placeholder="e.g. GTH10" className="min-w-0 rounded-lg border border-border bg-input px-3 py-2.5 text-sm uppercase outline-none transition focus:border-gold" />
+                  <button type="button" onClick={applyCoupon} disabled={couponChecking} className="rounded-lg bg-primary px-4 py-2.5 text-xs font-bold text-primary-foreground disabled:opacity-60">{couponChecking ? "Checking…" : "Apply"}</button>
+                </div>
+              )}
+            </div>
+
             <div className="grid gap-2 rounded-xl bg-muted p-4 text-xs">
               <Row k="Package" v={tier.name} />
               <Row k="Travel date" v={date} />
               <Row k="Guests" v={`${adults} adults · ${children} children`} />
+              <Row k="Subtotal" v={formatPrice(subtotal)} />
+              {applied && <Row k={`Coupon ${applied.code}`} v={<span className="text-cypress">−{formatPrice(discount)}</span>} />}
               <div className="my-1 h-px bg-border" />
               <Row k="Total due" v={<span className="font-display text-base text-gradient-gold">{formatPrice(total)}</span>} />
             </div>
+
 
             <div className="grid grid-cols-[auto_minmax(0,1fr)] gap-2">
               <button type="button" onClick={() => setStep(1)} className="rounded-xl border border-border px-4 py-3 text-sm font-semibold transition hover:bg-muted">Back</button>
