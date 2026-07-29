@@ -29,6 +29,7 @@ function ToursPage() {
   const [cat, setCat] = useState("All Tours");
   const [duration, setDuration] = useState("Any duration");
   const [destination, setDestination] = useState("All destinations");
+  const [showFilters, setShowFilters] = useState(false);
   const [maxPrice, setMaxPrice] = useState(3000);
   const [q, setQ] = useState("");
 
@@ -64,15 +65,16 @@ function ToursPage() {
       <section className="section-shell py-12 sm:px-6 sm:py-16">
         <div className="grid gap-6 lg:grid-cols-[320px_minmax(0,1fr)]">
           <aside className="h-fit rounded-xl border border-border bg-card p-4 shadow-card lg:sticky lg:top-24">
-            <div className="mb-4 grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3">
+            <button type="button" onClick={() => setShowFilters((v) => !v)} className="mb-4 grid w-full grid-cols-[minmax(0,1fr)_auto] items-center gap-3 text-left lg:pointer-events-none">
               <div className="min-w-0">
                 <div className="text-[10px] uppercase tracking-[0.24em] text-cypress">Filters</div>
                 <h2 className="text-xl font-bold">Find a tour</h2>
               </div>
-              <SlidersHorizontal className="h-5 w-5 shrink-0 text-gold" />
-            </div>
+              <span className="flex shrink-0 items-center gap-2 text-xs font-semibold uppercase tracking-[0.14em] text-gold lg:hidden">{showFilters ? "Hide" : "Show"}</span>
+              <SlidersHorizontal className="hidden h-5 w-5 shrink-0 text-gold lg:block" />
+            </button>
 
-            <div className="space-y-4">
+            <div className={`${showFilters ? "block" : "hidden"} space-y-4 lg:block`}>
               <label className="block">
                 <span className="mb-2 block text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground">Search</span>
                 <span className="grid grid-cols-[auto_minmax(0,1fr)] items-center gap-2 rounded-lg border border-border bg-input px-3 py-2.5">
