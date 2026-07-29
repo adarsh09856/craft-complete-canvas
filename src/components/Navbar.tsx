@@ -1,7 +1,7 @@
 import { Link, useRouterState } from "@tanstack/react-router";
 import { Menu, Globe, Sparkles, X } from "lucide-react";
 import { useState, useEffect } from "react";
-import logo from "@/assets/logo-takin.png";
+import logo from "@/assets/golden-takin-logo.png.asset.json";
 
 const nav = [
   { to: "/", label: "Home" },

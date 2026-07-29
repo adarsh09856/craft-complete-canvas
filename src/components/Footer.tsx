@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { Facebook, Instagram, Youtube, Mail, Phone, MapPin } from "lucide-react";
-import logo from "@/assets/logo-takin.png";
+import logo from "@/assets/golden-takin-logo.png.asset.json";
 
 export function Footer() {
   return (
