@@ -1,5 +1,6 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { tours } from "@/lib/data";
+import { brochures } from "@/lib/brochures";
 import type { ItineraryDay, Tour } from "@/components/TourCard";
 import { Clock, MapPin, Users, Check, ArrowLeft, Star, X, ChevronLeft, ChevronRight, Download } from "lucide-react";
 import { Reveal } from "@/components/Reveal";
@@ -34,6 +35,7 @@ const galleryTitles = ["Valley arrival", "Dzong courtyard", "High pass view"];
 function TourDetail() {
   const { tour } = Route.useLoaderData() as { tour: Tour };
   const itinerary: ItineraryDay[] = tour.itinerary ?? [];
+  const brochure = brochures[tour.slug];
   const includes = tour.includes ?? [];
   const excludes = tour.excludes ?? [];
   const [photo, setPhoto] = useState(0);
@@ -141,12 +143,32 @@ function TourDetail() {
             ))}
           </div>
 
+          {brochure && (
+            <Reveal>
+              <div className="mb-16 overflow-hidden rounded-xl border border-border bg-card shadow-card">
+                <div className="flex flex-wrap items-end justify-between gap-4 border-b border-border p-6">
+                  <div>
+                    <div className="text-[10px] uppercase tracking-[0.28em] text-cypress">Official brochure</div>
+                    <h2 className="mt-2 font-display text-4xl leading-none">{tour.title}</h2>
+                  </div>
+                  <a href={brochure} download className="inline-flex items-center gap-2 rounded-lg bg-gradient-gold px-5 py-3 text-sm font-semibold text-primary-foreground">
+                    <Download className="h-4 w-4" /> Download brochure
+                  </a>
+                </div>
+                <div className="bg-muted p-4 sm:p-8">
+                  <img src={brochure} alt={`${tour.title} brochure — Golden Takin Holidays`} loading="lazy" className="mx-auto w-full max-w-3xl rounded-lg shadow-card" />
+                </div>
+              </div>
+            </Reveal>
+          )}
+
           <Reveal>
             <div className="mb-16 grid gap-5 md:grid-cols-2">
               <InfoList title="Included" items={includes} type="in" />
               <InfoList title="Excluded" items={excludes} type="out" />
             </div>
           </Reveal>
+
 
           <Reveal>
             <div className="grid gap-5 md:grid-cols-2">
