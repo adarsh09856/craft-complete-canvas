@@ -66,6 +66,8 @@ export function BookingWidget({ tour }: { tour: Tour }) {
       travel_date: date,
       travelers: guests,
       status: "New",
+      coupon_code: applied?.code ?? null,
+      quoted_total: total,
     });
     setSubmitting(false);
     if (error) { toast.error("Booking could not be saved", { description: error.message }); return; }
