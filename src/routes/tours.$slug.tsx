@@ -57,7 +57,7 @@ function TourDetail() {
           <div className="mt-8 flex flex-wrap gap-3 text-sm">
             <span className="flex items-center gap-2 rounded-md bg-hero-foreground/10 px-3 py-2"><Clock className="w-4 h-4 text-gold" />{tour.duration}</span>
             <span className="flex items-center gap-2 rounded-md bg-hero-foreground/10 px-3 py-2"><MapPin className="w-4 h-4 text-gold" />{tour.location}</span>
-            <span className="flex items-center gap-2 rounded-md bg-hero-foreground/10 px-3 py-2"><Users className="w-4 h-4 text-gold" />2-12 guests</span>
+            <span className="flex items-center gap-2 rounded-md bg-hero-foreground/10 px-3 py-2"><Users className="w-4 h-4 text-gold" />{tour.groupSize ?? "Private group"}</span>
             <span className="flex items-center gap-2 rounded-md bg-hero-foreground/10 px-3 py-2"><Star className="w-4 h-4 fill-gold text-gold" />{tour.rating ?? 4.9}</span>
           </div>
         </div>
@@ -66,13 +66,33 @@ function TourDetail() {
       <div className="mx-auto grid max-w-[1500px] gap-8 px-4 py-14 sm:px-6 sm:py-20 lg:grid-cols-[minmax(0,1fr)_380px] lg:gap-12">
         <div className="min-w-0">
           <Reveal>
-            <div className="mb-12 grid gap-4 sm:grid-cols-3">
-              {[{ label: "Best time", value: tour.bestTime ?? "Mar–May" }, { label: "Difficulty", value: tour.difficulty ?? "Moderate" }, { label: "From", value: formatPrice(tour.price) }].map((item) => (
+            <div className="mb-12 grid gap-4 sm:grid-cols-4">
+              {[{ label: "Duration", value: tour.nights ?? tour.duration }, { label: "Best time", value: tour.bestTime ?? "Mar–May" }, { label: "Ideal for", value: tour.groupSize ?? "Private group" }, { label: "From", value: formatPrice(tour.price) }].map((item) => (
                 <div key={item.label} className="rounded-xl border border-border bg-card p-5 shadow-card">
                   <div className="text-[10px] uppercase tracking-[0.22em] text-cypress">{item.label}</div>
-                  <div className="mt-2 text-xl font-bold">{item.value}</div>
+                  <div className="mt-2 text-base font-bold leading-snug">{item.value}</div>
                 </div>
               ))}
+            </div>
+          </Reveal>
+
+          <Reveal>
+            <div className="mb-16 grid gap-5 md:grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)]">
+              <div className="rounded-xl border border-border bg-card p-6 shadow-card">
+                <div className="text-[10px] uppercase tracking-[0.28em] text-cypress">Overview</div>
+                <p className="mt-4 leading-relaxed text-muted-foreground">{tour.overview ?? tour.desc}</p>
+                {tour.idealFor && (
+                  <p className="mt-5 rounded-lg bg-muted p-4 text-sm"><span className="font-semibold">Ideal for: </span>{tour.idealFor}</p>
+                )}
+              </div>
+              <div className="rounded-xl border border-border bg-card p-6 shadow-card">
+                <div className="text-[10px] uppercase tracking-[0.28em] text-cypress">Package highlights</div>
+                <ul className="mt-4 grid gap-3 text-sm">
+                  {(tour.highlights ?? []).map((item) => (
+                    <li key={item} className="flex items-start gap-3"><Check className="mt-0.5 h-4 w-4 shrink-0 text-gold" /><span>{item}</span></li>
+                  ))}
+                </ul>
+              </div>
             </div>
           </Reveal>
 
