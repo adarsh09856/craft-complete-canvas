@@ -61,9 +61,9 @@ function ContactPage() {
           <div className="space-y-4">
             {[
               { icon: MapPin, t: "Visit our office", v: "Norzin Lam, Thimphu 11001, Bhutan" },
-              { icon: Phone, t: "Call us", v: "+975 17 11 22 33" },
-              { icon: Mail, t: "Email", v: "hello@goldentakinholidays.bt" },
-              { icon: MessageCircle, t: "WhatsApp", v: "+975 17 11 22 33" },
+              { icon: Phone, t: "Call us", v: "+975 77679983 · 17970050" },
+              { icon: Mail, t: "Email", v: "goldentakinholidays@gmail.com" },
+              { icon: MessageCircle, t: "WhatsApp", v: "+975 77679983 · 17970050" },
             ].map(({ icon: I, t, v }) => (
               <div key={t} className="flex items-start gap-4 rounded-lg border border-border bg-card p-5 shadow-card">
                 <div className="grid h-11 w-11 shrink-0 place-items-center rounded-md bg-muted text-cypress"><I className="w-5 h-5" /></div>
