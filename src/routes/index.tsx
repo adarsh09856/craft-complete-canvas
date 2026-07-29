@@ -50,11 +50,22 @@ const process = [
 
 function Home() {
   const settings = useSiteSettings();
+  const navigate = useNavigate();
   const [activeCat, setActiveCat] = useState(0);
+  const [q, setQ] = useState("");
+  const [dates, setDates] = useState("");
+  const [guests, setGuests] = useState("");
+
+  const runSearch = () => {
+    navigate({
+      to: "/tours",
+      search: { q: q.trim(), category: categories[activeCat] ?? "All Tours", dates: dates.trim(), guests: guests.trim() },
+    });
+  };
   const previewPanos = [
-    { title: "Tiger's Nest at dawn", image: tigersNest, views: 4280, note: "The cliff-clinging Taktsang monastery. Drag to circle the rock face." },
-    { title: "Festival courtyard", image: festival, views: 3120, note: "Masked dance and saffron color in a dzong courtyard." },
-    { title: "Weaver's atelier", image: culture, views: 2670, note: "A working textile studio in a heritage farmhouse." },
+    { title: "Tiger's Nest at dawn", image: tigersNest, views: 0, note: "The cliff-clinging Taktsang monastery. Drag to circle the rock face." },
+    { title: "Festival courtyard", image: festival, views: 0, note: "Masked dance and saffron color in a dzong courtyard." },
+    { title: "Weaver's atelier", image: culture, views: 0, note: "A working textile studio in a heritage farmhouse." },
   ];
 
   return (
@@ -95,23 +106,26 @@ function Home() {
                   </button>
                 ))}
               </div>
-              <div className="grid gap-2 rounded-xl border border-border bg-card p-2 md:grid-cols-[1.4fr_1fr_1fr_auto]">
-                <label className="flex min-w-0 items-center gap-3 rounded-lg bg-input px-3 py-3">
+              <form
+                onSubmit={(event) => { event.preventDefault(); runSearch(); }}
+                className="grid gap-2 rounded-xl border border-border bg-card p-2 md:grid-cols-[1.4fr_1fr_1fr_auto]"
+              >
+                <label className="flex min-w-0 items-center gap-3 rounded-lg bg-input px-3 py-3 transition focus-within:ring-2 focus-within:ring-ring">
                   <Search className="h-4 w-4 shrink-0 text-saffron" />
-                  <input placeholder="Destination or experience" className="min-w-0 flex-1 bg-transparent text-sm outline-none placeholder:text-muted-foreground" />
+                  <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Destination or experience" aria-label="Destination or experience" className="min-w-0 flex-1 bg-transparent text-sm outline-none placeholder:text-muted-foreground" />
                 </label>
-                <label className="flex min-w-0 items-center gap-3 rounded-lg bg-input px-3 py-3">
+                <label className="flex min-w-0 items-center gap-3 rounded-lg bg-input px-3 py-3 transition focus-within:ring-2 focus-within:ring-ring">
                   <Calendar className="h-4 w-4 shrink-0 text-saffron" />
-                  <input placeholder="Travel dates" className="min-w-0 flex-1 bg-transparent text-sm outline-none placeholder:text-muted-foreground" />
+                  <input value={dates} onChange={(e) => setDates(e.target.value)} placeholder="Travel dates" aria-label="Travel dates" className="min-w-0 flex-1 bg-transparent text-sm outline-none placeholder:text-muted-foreground" />
                 </label>
-                <label className="flex min-w-0 items-center gap-3 rounded-lg bg-input px-3 py-3">
+                <label className="flex min-w-0 items-center gap-3 rounded-lg bg-input px-3 py-3 transition focus-within:ring-2 focus-within:ring-ring">
                   <Users className="h-4 w-4 shrink-0 text-saffron" />
-                  <input placeholder="Guests" className="min-w-0 flex-1 bg-transparent text-sm outline-none placeholder:text-muted-foreground" />
+                  <input value={guests} onChange={(e) => setGuests(e.target.value)} placeholder="Guests" aria-label="Guests" inputMode="numeric" className="min-w-0 flex-1 bg-transparent text-sm outline-none placeholder:text-muted-foreground" />
                 </label>
-                <Link to="/tours" className="inline-flex items-center justify-center gap-2 rounded-lg bg-gradient-gold px-5 py-3 text-sm font-semibold text-primary-foreground transition hover:shadow-gold">
+                <button type="submit" className="sheen-on-hover inline-flex items-center justify-center gap-2 rounded-lg bg-gradient-gold px-5 py-3 text-sm font-semibold text-primary-foreground transition hover:shadow-gold">
                   Search <Sparkles className="h-4 w-4" />
-                </Link>
-              </div>
+                </button>
+              </form>
             </div>
 
             <div className="mt-5 flex flex-wrap gap-3">
