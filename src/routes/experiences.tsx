@@ -10,7 +10,7 @@ export const Route = createFileRoute("/experiences")({
   component: ExperiencesPage,
   head: () => ({
     meta: [
-      { title: "Bhutan Experiences | Festivals, Hot Stone Baths & Tiger"s Nest" },
+      { title: "Bhutan Experiences | Festivals, Hot Stone Baths & Treks" },
       { name: "description", content: "Signature Bhutanese experiences — Tshechu festivals, monastic mornings, hot stone baths, Tiger's Nest hikes and artisan workshops, curated by local guides." },
       { name: "keywords", content: "things to do in Bhutan, Tshechu festival Bhutan, Tiger's Nest trek, Bhutan cultural experiences" },
       { property: "og:title", content: "Bhutan Experiences | Festivals, Hot Stone Baths & Tiger's Nest" },
