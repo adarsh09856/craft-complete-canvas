@@ -9,6 +9,7 @@ const nav = [
   { to: "/experiences", label: "Experiences" },
   { to: "/destinations", label: "Destinations" },
   { to: "/about", label: "About Bhutan" },
+  { to: "/faq", label: "FAQ" },
   { to: "/contact", label: "Contact" },
 ];
 

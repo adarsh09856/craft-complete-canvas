@@ -42,6 +42,39 @@ export const COMPANY_KNOWLEDGE = `# GOLDEN TAKIN HOLIDAYS — COMPANY KNOWLEDGE 
 - Typical package inclusions: accommodation, all meals, licensed English-speaking guide, private transport with driver, monument fees, SDF and visa/permit fees. Exclusions: international airfare, travel insurance, personal expenses, tips, and anything not named in the itinerary.
 - Group sizes: private departures from 2 pax; fixed-departure group tours 15-40 pax; MICE and school groups larger on request.
 
+## OFFICIAL FAQ (doc ref GTH-OPS-FAQ-2026 — use these answers verbatim in substance)
+### Visa & entry
+- All international tourists need an approved e-Visa or tourist permit BEFORE boarding a flight or crossing a land border. Golden Takin Holidays, a Department of Tourism (DoT) licensed inbound operator, handles the whole clearance.
+- Documents required: colour passport scan valid at least 6 months beyond departure from Bhutan; recent passport-size photo with plain background; completed personal details questionnaire.
+- Processing time: approvals are stamped and emailed as a digital confirmation within 3-5 business days.
+- SDF rates: Global tourists USD 100 per adult per night. Indian regional tourists (valid passport or Election Commission Voter ID) INR/BTN 1,200 per adult per night. Children 6-12 get 50% off the daily SDF; children 5 and under are fully exempt.
+- SDF formula: Total SDF = daily regional fee x nights x number of pax.
+- Indian travellers must carry the same physical document used in the permit application. Under-18s without passport/Voter ID may use an official English birth certificate with their parents' documents.
+
+### Service channels
+- Leisure: group tours (luxury coaches, bulk hotel allocations), family holidays (child-friendly and elderly-accessible, private chauffeured vehicles, tailored meals), honeymoons/luxury (COMO Uma Paro, Amankora, Six Senses; traditional Buddhist wedding blessing ceremonies).
+- Adventure: trekking from the beginner-friendly 4-day Druk Path Trek up to Jomolhari and Snowman treks, with ground crew, pack animals, camp chefs and emergency satellite communication.
+- Wildlife/ornithology: circuits with local botanists and ornithologists tracking the Black-Necked Crane (Phobjikha), White-Bellied Heron and Rufous-Necked Hornbill.
+- Corporate MICE & academic: verified venue capacities in Thimphu and Paro, custom team-building, tiered corporate rate schedules, institutional cultural-exchange programmes.
+
+### Valley route matrix (hub | altitude | highlights | best season)
+- Thimphu (HQ) | ~2,320 m | Buddha Dordenma, Tashichho Dzong, National Memorial Chorten | year-round.
+- Paro (logistics node) | ~2,200 m | Taktsang/Tiger's Nest, Rinpung Dzong, Kyichu Lhakhang | Mar-May & Sep-Nov.
+- Punakha & Wangdue | ~1,250 m | Punakha Dzong, longest suspension bridge, Chimi Lhakhang | Sep-May.
+- Bumthang | ~2,800 m | Jambay Lhakhang, Kurjey Lhakhang, Jakar Dzong, meditation retreats | Mar-May & Oct-Nov.
+- Haa & Gasa | >2,900 m | remote homestays, alpine wilderness, Gasa Tsachu hot springs | Apr-Oct.
+
+### Logistics, money, etiquette
+- By air: Paro International Airport connects Delhi, Mumbai, Kolkata, Bangkok, Singapore, Kathmandu, flown only by Drukair and Bhutan Airlines. We are an accredited ticketing agent with priority seating and group allocations.
+- By road: land borders at Phuentsholing (west), Gelephu (central), Samdrup Jongkhar (east).
+- Ground fleet: luxury 4x4 SUVs, family utility vehicles, Toyota HiAce coaches, professional mountain-trained drivers.
+- Currency: Ngultrum pegged 1:1 to INR; INR 100 and 500 notes accepted. Cards/wallets work in high-end resorts and established galleries in Thimphu and Paro but rarely in rural valleys — carry cash for tips and village purchases.
+- Dress code at temples/dzongs: long ankle-length trousers or full-length skirts, long sleeves, enclosed shoes. No shorts, short skirts, sleeveless/tank tops, open-toed sandals, flip-flops or caps. Remove shoes, hat and sunglasses inside sanctuaries. No photography or video inside temple interiors; courtyards generally allowed.
+- Disruptions: concierge support runs over WhatsApp; passes closing or weather shifts in Gasa/Haa trigger rescheduling with field staff and revised hotel/meal arrangements.
+- Offices: Head office Norzin Lam, Thimphu, Bhutan. Sales branches in Sydney (Australia) and New York (USA). Visa desk email e-visa@goldentakinholidays.bt.
+- A full public FAQ lives at /faq — point visitors there for visa, SDF, logistics and etiquette detail.
+
+
 ## How to answer
 - You are the Golden Takin Holidays website assistant. Answer only from this knowledge base and the package documents below, plus the live package list supplied in context.
 - Recommend a specific package by name when relevant and point the visitor to its page at /tours/<slug>.
