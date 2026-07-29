@@ -1,7 +1,7 @@
 import { Link, useRouterState } from "@tanstack/react-router";
 import { Menu, Globe, Sparkles, X } from "lucide-react";
 import { useState, useEffect } from "react";
-import logo from "@/assets/golden-takin-logo.png.asset.json";
+import emblem from "@/assets/takin-emblem.png";
 
 const nav = [
   { to: "/", label: "Home" },
@@ -28,10 +28,14 @@ export function Navbar() {
     <header className={`fixed top-0 inset-x-0 z-50 transition-all duration-300 ${scrolled || open ? "bg-background/94 py-2 shadow-card backdrop-blur-2xl" : "bg-background/78 py-3 backdrop-blur-xl"}`}>
       <div className="mx-auto grid max-w-[1500px] grid-cols-[minmax(0,1fr)_auto] items-center gap-4 px-4 sm:px-6 lg:flex lg:justify-between">
         <Link to="/" className="group flex min-w-0 items-center gap-3">
-          <img src={logo.url} alt="Golden Takin Holidays" className="h-10 w-10 shrink-0 transition-transform duration-500 group-hover:rotate-12 sm:h-11 sm:w-11" />
+          <span className="grid h-11 w-11 shrink-0 place-items-center overflow-hidden rounded-xl border border-gold/40 bg-cream shadow-card transition-transform duration-500 group-hover:scale-105 sm:h-12 sm:w-12">
+            <img src={emblem} alt="Golden Takin Holidays crest" className="h-full w-full scale-[1.18] object-contain" />
+          </span>
           <div className="min-w-0 leading-tight">
-            <div className="truncate text-base font-bold text-primary sm:text-lg">Golden Takin Holidays</div>
-            <div className="truncate text-[9px] uppercase tracking-[0.22em] text-muted-foreground sm:text-[10px]">Discover Bhutan, Experience Nature's Embrace</div>
+            <div className="truncate font-display text-base font-extrabold tracking-tight text-primary sm:text-lg">
+              <span className="text-gradient-gold">Golden</span> Takin Holidays
+            </div>
+            <div className="truncate text-[9px] uppercase tracking-[0.22em] text-muted-foreground sm:text-[10px]">Discover Bhutan · Experience Nature's Embrace</div>
           </div>
         </Link>
 
@@ -39,7 +43,7 @@ export function Navbar() {
           {nav.map((n) => {
             const active = location.pathname === n.to;
             return (
-              <Link key={n.to} to={n.to} className={`rounded-lg px-3 py-2 text-sm font-medium transition-colors ${active ? "bg-primary text-primary-foreground" : "text-foreground/72 hover:bg-muted hover:text-foreground"}`}>
+              <Link key={n.to} to={n.to} className={`rounded-lg px-3 py-2 text-sm font-medium transition-colors ${active ? "bg-primary text-primary-foreground shadow-card" : "text-foreground/72 hover:bg-muted hover:text-foreground"}`}>
                 {n.label}
               </Link>
             );
