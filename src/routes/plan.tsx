@@ -95,7 +95,7 @@ function PlanPage() {
 
         <aside className="grid h-fit gap-3 lg:sticky lg:top-24">
           {[
-            ["Routing", "Paro, Thimphu, Punakha and Bumthang pacing"],
+            ["Routing", "Paro, Thimphu, Punakha and Phobjikha pacing"],
             ["Permits", "Visa, entry fees and regional access planning"],
             ["Review", "A Bhutanese specialist checks every draft"],
           ].map(([title, text]) => (
