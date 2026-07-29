@@ -9,8 +9,16 @@ import { Filter, RotateCcw, Search, SlidersHorizontal } from "lucide-react";
 
 const durationGroups = ["Any duration", "3-7 days", "7-14 days", "14+ days"];
 
+type ToursSearch = { q: string; category: string; dates: string; guests: string };
+
 export const Route = createFileRoute("/tours/")({
   component: ToursPage,
+  validateSearch: (search: Record<string, unknown>): ToursSearch => ({
+    q: typeof search.q === "string" ? search.q : "",
+    category: typeof search.category === "string" ? search.category : "All Tours",
+    dates: typeof search.dates === "string" ? search.dates : "",
+    guests: typeof search.guests === "string" ? search.guests : "",
+  }),
   head: () => ({
     meta: [
       { title: "Bhutan Tour Packages 2026 | Customised Holidays from India" },
@@ -27,12 +35,13 @@ function days(duration: string) {
 }
 
 function ToursPage() {
-  const [cat, setCat] = useState("All Tours");
+  const search = Route.useSearch();
+  const [cat, setCat] = useState(categories.includes(search.category) ? search.category : "All Tours");
   const [duration, setDuration] = useState("Any duration");
   const [destination, setDestination] = useState("All destinations");
   const [showFilters, setShowFilters] = useState(false);
   const [maxPrice, setMaxPrice] = useState(3000);
-  const [q, setQ] = useState("");
+  const [q, setQ] = useState(search.q);
 
   const filtered = useMemo(() => tours.filter((tour) => {
     const tourDays = days(tour.duration);
@@ -52,9 +61,9 @@ function ToursPage() {
 
   return (
     <>
-      <PageHero eyebrow="Every journey" title="All Bhutan tours" subtitle="A structured catalogue with working search, category, duration, destination and price controls." image={hero}>
+      <PageHero eyebrow="Every journey" title="All Bhutan tours" subtitle="Search, filter by category, duration, destination and budget — every package opens a full itinerary." image={hero}>
         <div className="grid grid-cols-3 gap-2 text-center">
-          {[{ n: filtered.length, l: "Matches" }, { n: tours.length, l: "Tours" }, { n: "4.9", l: "Rating" }].map((stat) => (
+          {[{ n: filtered.length, l: "Matches" }, { n: tours.length, l: "Tours" }, { n: categories.length - 1, l: "Categories" }].map((stat) => (
             <div key={stat.l} className="rounded-xl border border-hero-foreground/15 bg-hero-foreground/10 p-3 backdrop-blur-xl">
               <div className="text-2xl font-bold text-gold">{stat.n}</div>
               <div className="text-[10px] uppercase tracking-[0.16em] text-hero-foreground/68">{stat.l}</div>
