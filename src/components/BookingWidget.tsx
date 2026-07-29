@@ -4,6 +4,7 @@ import { toast } from "sonner";
 import { formatPrice } from "@/lib/utils";
 import { supabase } from "@/integrations/supabase/client";
 import { buildWhatsAppUrl, useSiteSettings } from "@/lib/site-store";
+import { validateCoupon } from "@/lib/coupons";
 
 type Tour = { slug: string; title: string; price: number; duration: string };
 
