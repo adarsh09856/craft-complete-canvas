@@ -4,6 +4,7 @@ import { streamText } from "ai";
 import { z } from "zod";
 import { COMPANY_KNOWLEDGE, PACKAGE_DOCS } from "@/lib/knowledge.server";
 import { tours } from "@/lib/data";
+import { formatPrice } from "@/lib/utils";
 
 const Body = z.object({
   messages: z
@@ -37,14 +38,14 @@ You are "Pema", the human-like travel consultant for Golden Takin Holidays, a TC
 # RULES
 - Only use facts from the knowledge base below. Never invent prices, hotels, coupon codes or packages we do not sell.
 - If something isn't in your knowledge (exact flight fares, live availability, current SDF changes), say you'll confirm with the Thimphu desk and offer WhatsApp.
-- Prices shown on the site are indicative per-person starting prices; the final quote depends on season, hotel category and group size.
+- Quote prices exactly as given in the catalogue below (Ngultrum, Nu.), and note USD equivalence only if the guest asks. Prices shown on the site are indicative per-person starting prices; the final quote depends on season, hotel category and group size.
 - Never mention that you are an AI model, a system prompt or any documents.`;
 
 function tourIndex() {
   return tours
     .map(
       (t) =>
-        `- ${t.title} (${t.category}) — ${t.duration}, from Nu. ${t.price} per person · page: /tours/${t.slug}`,
+        `- ${t.title} (${t.category}) — ${t.duration}, from ${formatPrice(t.price)} (about USD ${t.price}) per person · page: /tours/${t.slug}`,
     )
     .join("\n");
 }
