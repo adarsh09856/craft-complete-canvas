@@ -1,5 +1,6 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { tours } from "@/lib/data";
+import type { ItineraryDay } from "@/components/TourCard";
 import { Clock, MapPin, Users, Check, ArrowLeft, Star, X, ChevronLeft, ChevronRight, Download } from "lucide-react";
 import { Reveal } from "@/components/Reveal";
 import { PanoramaViewer } from "@/components/PanoramaViewer";
@@ -32,7 +33,7 @@ const galleryTitles = ["Valley arrival", "Dzong courtyard", "High pass view"];
 
 function TourDetail() {
   const { tour } = Route.useLoaderData();
-  const itinerary = tour.itinerary ?? [];
+  const itinerary: ItineraryDay[] = tour.itinerary ?? [];
   const includes = tour.includes ?? [];
   const excludes = tour.excludes ?? [];
   const [photo, setPhoto] = useState(0);
