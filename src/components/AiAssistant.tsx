@@ -100,13 +100,29 @@ export function AiAssistant() {
             {messages.map((m, i) => (
               <div
                 key={i}
-                className={`max-w-[85%] whitespace-pre-wrap rounded-xl px-3 py-2 text-sm leading-relaxed ${
+                className={`max-w-[88%] rounded-xl px-3 py-2 text-sm leading-relaxed ${
                   m.role === "user"
-                    ? "ml-auto bg-gradient-gold text-primary-foreground"
+                    ? "ml-auto whitespace-pre-wrap bg-gradient-gold text-primary-foreground"
                     : "bg-muted text-foreground"
                 }`}
               >
-                {m.content || "…"}
+                {m.role === "user" ? (
+                  m.content || "…"
+                ) : (
+                  <ReactMarkdown
+                    components={{
+                      p: ({ children }) => <p className="mb-2 last:mb-0">{children}</p>,
+                      ul: ({ children }) => <ul className="mb-2 ml-4 list-disc space-y-1 last:mb-0">{children}</ul>,
+                      ol: ({ children }) => <ol className="mb-2 ml-4 list-decimal space-y-1 last:mb-0">{children}</ol>,
+                      strong: ({ children }) => <span className="font-semibold text-foreground">{children}</span>,
+                      a: ({ href, children }) => (
+                        <a href={href} className="font-semibold text-saffron underline underline-offset-2">{children}</a>
+                      ),
+                    }}
+                  >
+                    {m.content || "…"}
+                  </ReactMarkdown>
+                )}
               </div>
             ))}
             {busy && (
