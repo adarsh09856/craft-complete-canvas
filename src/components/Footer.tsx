@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { Facebook, Instagram, Youtube, Mail, Phone, MapPin } from "lucide-react";
-import logo from "@/assets/logo-takin.png";
+import logo from "@/assets/golden-takin-logo.png.asset.json";
 
 export function Footer() {
   return (
@@ -9,7 +9,7 @@ export function Footer() {
       <div className="mx-auto grid max-w-[1500px] gap-10 px-4 py-14 sm:px-6 sm:py-18 md:grid-cols-4">
         <div>
           <div className="flex items-center gap-3 mb-4">
-            <img src={logo} alt="" className="w-12 h-12" />
+            <img src={logo.url} alt="" className="w-12 h-12" />
             <div>
               <div className="font-display text-xl text-gradient-gold">Golden Takin Holidays</div>
               <div className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground">Discover Bhutan, Experience Nature's Embrace</div>

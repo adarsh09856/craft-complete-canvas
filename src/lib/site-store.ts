@@ -24,7 +24,7 @@ export const DEFAULT_SETTINGS: SiteSettings = {
   bookingMode: "whatsapp",
   heroTitle: "Discover Bhutan, Experience Nature's Embrace.",
   heroSubtitle:
-    "Ten curated Bhutan packages — group circuits, family journeys, nature and birding trails, academic expeditions, wellness retreats, corporate off-sites, honeymoons and Himalayan weddings.",
+    "Fifteen curated Bhutan packages — group circuits, family journeys, nature and birding trails, academic expeditions, wellness retreats, corporate off-sites, honeymoons and Himalayan weddings.",
   announcement: "2026 departures open · TCB-licensed operator · SDF & visa processing assistance",
   supportEmail: "goldentakinholidays@gmail.com",
   supportPhone: "+975 77679983 · +975 17970050",
