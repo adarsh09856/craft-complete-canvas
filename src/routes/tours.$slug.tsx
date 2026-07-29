@@ -123,7 +123,7 @@ function TourDetail() {
           <Reveal>
             <div className="mb-16 overflow-hidden rounded-xl border border-border bg-card shadow-card">
               <div className="relative h-[380px] bg-ink sm:h-[520px]">
-                <img src={gallery[photo]} alt={`${tour.title} gallery ${photo + 1}`} className="h-full w-full object-cover" />
+                <img src={gallery[photo]} alt={`${tour.title} gallery ${photo + 1}`} className="h-full w-full object-contain" />
                 <div className="absolute inset-0 bg-gradient-to-t from-ink/55 to-transparent" />
                 <button onClick={() => setPhoto((current) => (current + gallery.length - 1) % gallery.length)} className="absolute left-4 top-1/2 grid h-11 w-11 -translate-y-1/2 place-items-center rounded-full bg-background/90"><ChevronLeft className="h-5 w-5" /></button>
                 <button onClick={() => setPhoto((current) => (current + 1) % gallery.length)} className="absolute right-4 top-1/2 grid h-11 w-11 -translate-y-1/2 place-items-center rounded-full bg-background/90"><ChevronRight className="h-5 w-5" /></button>
