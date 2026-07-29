@@ -36,12 +36,12 @@ function days(duration: string) {
 
 function ToursPage() {
   const search = Route.useSearch();
-  const [cat, setCat] = useState(categories.includes(search.category) ? search.category : "All Tours");
+  const [cat, setCat] = useState(search.category && categories.includes(search.category) ? search.category : "All Tours");
   const [duration, setDuration] = useState("Any duration");
   const [destination, setDestination] = useState("All destinations");
   const [showFilters, setShowFilters] = useState(false);
   const [maxPrice, setMaxPrice] = useState(3000);
-  const [q, setQ] = useState(search.q);
+  const [q, setQ] = useState(search.q ?? "");
 
   const filtered = useMemo(() => tours.filter((tour) => {
     const tourDays = days(tour.duration);
