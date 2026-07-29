@@ -14,11 +14,55 @@ export type Database = {
   }
   public: {
     Tables: {
+      coupons: {
+        Row: {
+          active: boolean
+          code: string
+          created_at: string
+          discount_flat: number
+          discount_percent: number
+          expires_on: string | null
+          id: string
+          label: string
+          min_travelers: number
+          times_used: number
+          updated_at: string
+        }
+        Insert: {
+          active?: boolean
+          code: string
+          created_at?: string
+          discount_flat?: number
+          discount_percent?: number
+          expires_on?: string | null
+          id?: string
+          label?: string
+          min_travelers?: number
+          times_used?: number
+          updated_at?: string
+        }
+        Update: {
+          active?: boolean
+          code?: string
+          created_at?: string
+          discount_flat?: number
+          discount_percent?: number
+          expires_on?: string | null
+          id?: string
+          label?: string
+          min_travelers?: number
+          times_used?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
       travel_inquiries: {
         Row: {
+          coupon_code: string | null
           created_at: string
           guest_name: string
           id: string
+          quoted_total: number | null
           status: string
           tour_name: string
           travel_date: string | null
@@ -26,9 +70,11 @@ export type Database = {
           updated_at: string
         }
         Insert: {
+          coupon_code?: string | null
           created_at?: string
           guest_name: string
           id?: string
+          quoted_total?: number | null
           status?: string
           tour_name: string
           travel_date?: string | null
@@ -36,9 +82,11 @@ export type Database = {
           updated_at?: string
         }
         Update: {
+          coupon_code?: string | null
           created_at?: string
           guest_name?: string
           id?: string
+          quoted_total?: number | null
           status?: string
           tour_name?: string
           travel_date?: string | null
