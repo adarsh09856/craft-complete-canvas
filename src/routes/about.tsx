@@ -1,0 +1,72 @@
+import { createFileRoute } from "@tanstack/react-router";
+import { PageHero } from "@/components/PageHero";
+import { Reveal } from "@/components/Reveal";
+import culture from "@/assets/culture.jpg";
+import festival from "@/assets/festival.jpg";
+
+export const Route = createFileRoute("/about")({
+  component: AboutPage,
+  head: () => ({
+    meta: [
+      { title: "About Bhutan — Royal Takin Tours" },
+      { name: "description", content: "Discover the kingdom that measures success by Gross National Happiness." },
+      { property: "og:title", content: "About Bhutan" },
+      { property: "og:description", content: "Geography, history and culture of the Land of the Thunder Dragon." },
+      { property: "og:image", content: festival },
+    ],
+  }),
+});
+
+const facts = [
+  { n: "1907", l: "Monarchy founded" },
+  { n: "38,394", l: "Square kilometres" },
+  { n: "7,570m", l: "Highest peak (Gangkhar Puensum)" },
+  { n: "1974", l: "First opened to tourism" },
+];
+
+function AboutPage() {
+  return (
+    <>
+      <PageHero eyebrow="Land of the Thunder Dragon" title="About Bhutan" subtitle="A kingdom in the eastern Himalayas where happiness is a measure of progress and tradition lives alongside modernity." image={festival} />
+      <div className="mx-auto max-w-[1500px] px-4 py-12 sm:px-6 sm:py-16">
+      <div className="mb-16 grid gap-8 md:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] md:items-center lg:gap-14">
+        <Reveal delay={0.1}>
+          <div className="relative overflow-hidden rounded-lg shadow-card">
+            <img src={culture} alt="Monks" loading="lazy" className="aspect-[4/3] w-full object-cover" />
+          </div>
+        </Reveal>
+        <Reveal>
+          <div className="text-[10px] uppercase tracking-[0.28em] text-cypress">Context</div>
+          <h2 className="mt-3 font-display text-5xl leading-none sm:text-6xl">The Last Shangri-La</h2>
+          <div className="mt-6 space-y-4 leading-relaxed text-muted-foreground">
+            <p>Bhutan opened its borders to the world only in 1974, and to this day caps tourist numbers to preserve its environment and culture. It is the world's only carbon-negative country.</p>
+            <p>Gross National Happiness — not GDP — is the official measure of progress. The four pillars: good governance, sustainable development, preservation of culture, and conservation of the environment.</p>
+            <p>The state religion is Vajrayana Buddhism, threaded into every aspect of daily life. Monasteries cling to cliffs, prayer flags carry blessings on the wind, and architecture has not changed for centuries by royal decree.</p>
+          </div>
+        </Reveal>
+      </div>
+
+      <div className="mb-16 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        {facts.map((f, i) => (
+          <Reveal key={f.l} delay={i * 0.08}>
+            <div className="rounded-lg border border-border bg-card p-6 text-center shadow-card">
+              <div className="font-display text-4xl text-gradient-gold sm:text-5xl">{f.n}</div>
+              <div className="mt-3 text-[10px] uppercase tracking-[0.2em] text-muted-foreground">{f.l}</div>
+            </div>
+          </Reveal>
+        ))}
+      </div>
+
+      <Reveal>
+        <div className="rounded-lg bg-ink p-8 text-center text-hero-foreground shadow-deep sm:p-12">
+          <div className="text-[10px] uppercase tracking-[0.3em] text-gold">Our promise</div>
+          <h2 className="mt-3 font-display text-5xl leading-none">Local, measured, complete.</h2>
+          <p className="mx-auto mt-5 max-w-2xl leading-relaxed text-hero-foreground/70">
+            We are a Bhutanese family-run company, founded by guides who grew up in these valleys. Every itinerary supports local artisans, family-run lodges and conservation projects.
+          </p>
+        </div>
+      </Reveal>
+    </div>
+    </>
+  );
+}
