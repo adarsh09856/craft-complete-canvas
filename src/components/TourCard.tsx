@@ -50,7 +50,7 @@ export function TourCard({ tour, idx = 0 }: { tour: Tour; idx?: number }) {
         <h3 className="mb-2 font-display text-2xl leading-tight transition-colors group-hover:text-gold">{tour.title}</h3>
         <p className="mb-4 line-clamp-2 text-sm leading-relaxed text-muted-foreground">{tour.desc}</p>
         <div className="mb-4 flex flex-wrap gap-2 text-[10px] uppercase tracking-[0.12em] text-muted-foreground">
-          <span className="rounded-md bg-muted px-2 py-1">★ {tour.rating ?? 4.8}</span>
+          <span className="rounded-md bg-muted px-2 py-1">{tour.category}</span>
           <span className="rounded-md bg-muted px-2 py-1">{tour.difficulty ?? "Easy"}</span>
           {tour.groupSize && <span className="rounded-md bg-muted px-2 py-1">{tour.groupSize}</span>}
         </div>

@@ -45,12 +45,8 @@ const nav = [
   { id: "settings", label: "Settings", icon: Settings },
 ];
 
-const initialTours: AdminTour[] = tourData.map((tour, index) => ({ id: index + 1, title: tour.title, category: tour.category, duration: tour.duration, price: tour.price, status: index < 6 ? "Published" : "Draft", image: tour.image, views: 4200 - index * 310, bookings: 24 - index * 2, panoramas: [tour.image] }));
-const initialBookings: Booking[] = [
-  { id: 101, guest: "Amara Wells", email: "amara@example.com", phone: "+1 212 555 0188", tour: "Tiger's Nest Pilgrimage", date: "2026-10-12", travelers: 2, amount: 5780, status: "Confirmed", notes: "Vegetarian meals and slow hiking pace." },
-  { id: 102, guest: "Karma School Group", email: "trips@karma.edu", phone: "+44 20 5555 221", tour: "Cultural Immersion", date: "2026-11-03", travelers: 18, amount: 62100, status: "Pending", notes: "Needs college-friendly activities." },
-  { id: 103, guest: "Chen Family", email: "chen@example.com", phone: "+65 8888 2233", tour: "Punakha Cherry Blossoms", date: "2027-03-18", travelers: 5, amount: 12450, status: "Completed", notes: "Family suite preferred." },
-];
+const initialTours: AdminTour[] = tourData.map((tour, index) => ({ id: index + 1, title: tour.title, category: tour.category, duration: tour.duration, price: tour.price, status: index < 6 ? "Published" : "Draft", image: tour.image, views: 0, bookings: 0, panoramas: [tour.image] }));
+const initialBookings: Booking[] = [];
 
 export const Route = createFileRoute("/operations")({
   component: OperationsPage,

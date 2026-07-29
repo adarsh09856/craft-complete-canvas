@@ -63,7 +63,7 @@ function TourDetail() {
               <span className="flex items-center gap-2 rounded-md bg-hero-foreground/10 px-3 py-2"><Clock className="w-4 h-4 text-gold" />{tour.duration}</span>
               <span className="flex items-center gap-2 rounded-md bg-hero-foreground/10 px-3 py-2"><MapPin className="w-4 h-4 text-gold" />{tour.location}</span>
               <span className="flex items-center gap-2 rounded-md bg-hero-foreground/10 px-3 py-2"><Users className="w-4 h-4 text-gold" />{tour.groupSize ?? "Private group"}</span>
-              <span className="flex items-center gap-2 rounded-md bg-hero-foreground/10 px-3 py-2"><Star className="w-4 h-4 fill-gold text-gold" />{tour.rating ?? 4.9}</span>
+              <span className="flex items-center gap-2 rounded-md bg-hero-foreground/10 px-3 py-2"><Star className="w-4 h-4 fill-gold text-gold" />TCB-licensed operator</span>
             </div>
           </div>
           {brochure && (
@@ -198,10 +198,13 @@ function TourDetail() {
                 </div>
               </div>
               <div className="rounded-xl border border-border bg-card p-6 shadow-card">
-                <div className="text-[10px] uppercase tracking-[0.28em] text-cypress">Reviews</div>
-                <div className="mt-4 flex gap-1 text-gold">{Array.from({ length: 5 }).map((_, index) => <Star key={index} className="h-5 w-5 fill-current" />)}</div>
-                <blockquote className="mt-5 text-sm leading-relaxed text-muted-foreground">“Perfect pacing, exceptional guide, and the 360° previews helped our family understand every route before booking.”</blockquote>
-                <div className="mt-4 text-sm font-semibold">— Amara Wells</div>
+                <div className="text-[10px] uppercase tracking-[0.28em] text-cypress">Good to know</div>
+                <ul className="mt-4 grid gap-3 text-sm leading-relaxed text-muted-foreground">
+                  <li className="grid grid-cols-[auto_minmax(0,1fr)] gap-3"><span className="mt-1.5 h-1.5 w-1.5 rounded-full bg-gold" />Sustainable Development Fee and visa processing are handled by our TCB-licensed desk.</li>
+                  <li className="grid grid-cols-[auto_minmax(0,1fr)] gap-3"><span className="mt-1.5 h-1.5 w-1.5 rounded-full bg-gold" />Private vehicle, fuel, driver and a licensed English-speaking guide throughout.</li>
+                  <li className="grid grid-cols-[auto_minmax(0,1fr)] gap-3"><span className="mt-1.5 h-1.5 w-1.5 rounded-full bg-gold" />Best seasons: March–May and September–November; winter departures on request.</li>
+                  <li className="grid grid-cols-[auto_minmax(0,1fr)] gap-3"><span className="mt-1.5 h-1.5 w-1.5 rounded-full bg-gold" />Every itinerary is customisable — dates, hotels, pace and add-on days.</li>
+                </ul>
               </div>
             </div>
           </Reveal>
