@@ -25,6 +25,16 @@ const facts = [
   { n: "1974", l: "First opened to tourism" },
 ];
 
+const services = [
+  { t: "Customised package tours", d: "Fifteen thematic Bhutan packages — culture, nature, trekking, MICE, weddings — reshaped around your pace and season." },
+  { t: "Visa & permit processing", d: "Bhutan visa for foreign travellers, permits for Indian nationals, and SDF handling from start to finish." },
+  { t: "Air & rail ticketing", d: "Drukair and Bhutan Airlines bookings, plus rail support to NJP / Bagdogra gateways for overland arrivals." },
+  { t: "Hotels & resorts", d: "3-star to luxury reservations, including Uma Paro, Amankora and Six Senses, matched to budget and route." },
+  { t: "Transport & transfers", d: "Chauffeur-driven cars, 4x4 SUVs and coaches, with Paro International Airport transfers on every itinerary." },
+  { t: "Corporate, MICE & B2B", d: "Conference venues, gala dinners and team-building, plus DMC partnerships for agents, corporates and institutions." },
+];
+
+
 function AboutPage() {
   return (
     <>
