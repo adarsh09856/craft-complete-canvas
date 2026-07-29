@@ -1,13 +1,14 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import type { Dispatch, FormEvent, SetStateAction } from "react";
 import { useEffect, useMemo, useState } from "react";
-import { BarChart3, Building2, Camera, Edit3, Eye, ImagePlus, LayoutDashboard, LogOut, Mail, MapPin, Plus, Search, Settings, Sparkles, Trash2 } from "lucide-react";
+import { BarChart3, Building2, Camera, Edit3, Eye, ImagePlus, LayoutDashboard, LogOut, Mail, MapPin, Plus, Search, Settings, Sparkles, Tag, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 import { destinations as destinationData, experiences as experienceData, tours as tourData } from "@/lib/data";
 import { addPanorama, getAllPanoramas, removePanorama, type GalleryPanorama } from "@/lib/gallery-store";
 import { formatPrice, formatPriceFromBTN } from "@/lib/utils";
 import { supabase } from "@/integrations/supabase/client";
 import { saveSiteSettings, useSiteSettings } from "@/lib/site-store";
+import { CouponsPanel } from "@/components/admin/CouponsPanel";
 
 type AdminTour = {
   id: number;
@@ -42,6 +43,7 @@ const nav = [
   { id: "experiences", label: "Experiences", icon: Sparkles },
   { id: "gallery", label: "360° Gallery", icon: Camera },
   { id: "bookings", label: "Inquiries", icon: Mail },
+  { id: "coupons", label: "Coupons", icon: Tag },
   { id: "settings", label: "Settings", icon: Settings },
 ];
 
@@ -150,6 +152,7 @@ function OperationsPage() {
           {active === "experiences" && <SimpleCrudPanel title="Experiences" rows={experienceData.map((item, index) => ({ id: index + 1, name: item.title, detail: item.desc, image: item.image }))} />}
           {active === "gallery" && <Gallery360Panel />}
           {active === "bookings" && <BookingsPanel bookings={filteredBookings} query={query} setQuery={setQuery} setBookings={setBookings} select={setSelectedBooking} />}
+          {active === "coupons" && <CouponsPanel />}
           {active === "settings" && <SettingsPanel saved={settingsSaved} onSave={() => { setSettingsSaved(true); toast.success("Settings saved"); }} />}
         </main>
       </div>
