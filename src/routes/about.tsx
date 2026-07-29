@@ -58,6 +58,25 @@ function AboutPage() {
         ))}
       </div>
 
+      <div className="mb-16">
+        <Reveal>
+          <div className="text-[10px] uppercase tracking-[0.28em] text-cypress">What we handle</div>
+          <h2 className="mt-3 font-display text-4xl leading-none sm:text-5xl">A full-service Bhutan travel desk</h2>
+        </Reveal>
+        <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {services.map((s, i) => (
+            <Reveal key={s.t} delay={i * 0.06}>
+              <div className="h-full rounded-lg border border-border bg-card p-6 shadow-card hover-lift">
+                <div className="font-display text-xl">{s.t}</div>
+                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{s.d}</p>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+      </div>
+
+
+
       <Reveal>
         <div className="rounded-lg bg-ink p-8 text-center text-hero-foreground shadow-deep sm:p-12">
           <div className="text-[10px] uppercase tracking-[0.3em] text-gold">Our promise</div>
