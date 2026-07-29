@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { ArrowRight, Award, Calendar, Camera, ChevronDown, Compass, Globe2, Heart, Leaf, MapPin, Mountain, Quote, Search, Send, Shield, Sparkles, Star, Users } from "lucide-react";
 import { useState } from "react";
 import hero from "@/assets/hero-bhutan.jpg";
@@ -35,25 +35,37 @@ const features = [
 ];
 
 const stats = [
-  { n: "15+", l: "Years guiding" },
-  { n: "2.4k", l: "Happy travelers" },
-  { n: "20", l: "Districts covered" },
-  { n: "98%", l: "Would return" },
+  { n: `${tours.length}`, l: "Curated packages" },
+  { n: `${categories.length - 1}`, l: "Travel styles" },
+  { n: `${destinations.length}`, l: "Valleys & regions" },
+  { n: "24/7", l: "Trip support" },
 ];
 
-const testimonials = [
-  { quote: "The most thoughtful trip we've ever taken. Every detail felt curated.", author: "Amara W.", trip: "Classic Bhutan Circuit" },
-  { quote: "Beyond luxury — this was access. Monks, weavers, monastery breakfasts.", author: "Chen Family", trip: "Cultural Immersion" },
-  { quote: "The 360° previews helped us plan. The trip itself exceeded every one.", author: "James & Liu", trip: "Punakha Cherry Blossoms" },
+const process = [
+  { step: "01", title: "Tell us the trip", desc: "Share dates, group size and the kind of Bhutan you want — culture, trekking, birding, wellness or a corporate off-site." },
+  { step: "02", title: "Receive a costed plan", desc: "We return a day-by-day itinerary with hotels, guide, transport, permits and the SDF clearly itemised." },
+  { step: "03", title: "Permits & visa handled", desc: "As a TCB-licensed operator we file your visa and route permits and confirm every booking on your behalf." },
+  { step: "04", title: "Travel with our team", desc: "Licensed English-speaking guide, private vehicle and a 24/7 Thimphu desk for the whole journey." },
 ];
 
 function Home() {
   const settings = useSiteSettings();
+  const navigate = useNavigate();
   const [activeCat, setActiveCat] = useState(0);
+  const [q, setQ] = useState("");
+  const [dates, setDates] = useState("");
+  const [guests, setGuests] = useState("");
+
+  const runSearch = () => {
+    navigate({
+      to: "/tours",
+      search: { q: q.trim(), category: categories[activeCat] ?? "All Tours", dates: dates.trim(), guests: guests.trim() },
+    });
+  };
   const previewPanos = [
-    { title: "Tiger's Nest at dawn", image: tigersNest, views: 4280, note: "The cliff-clinging Taktsang monastery. Drag to circle the rock face." },
-    { title: "Festival courtyard", image: festival, views: 3120, note: "Masked dance and saffron color in a dzong courtyard." },
-    { title: "Weaver's atelier", image: culture, views: 2670, note: "A working textile studio in a heritage farmhouse." },
+    { title: "Tiger's Nest at dawn", image: tigersNest, views: 0, note: "The cliff-clinging Taktsang monastery. Drag to circle the rock face." },
+    { title: "Festival courtyard", image: festival, views: 0, note: "Masked dance and saffron color in a dzong courtyard." },
+    { title: "Weaver's atelier", image: culture, views: 0, note: "A working textile studio in a heritage farmhouse." },
   ];
 
   return (
@@ -72,7 +84,7 @@ function Home() {
           <div className="min-w-0 animate-rise-in">
             <div className="mb-6 flex items-center gap-3">
               <span className="h-px w-12 bg-gradient-gold" />
-              <span className="eyebrow text-saffron">{settings.companyName} · Est. 2010</span>
+              <span className="eyebrow text-saffron">{settings.companyName} · TCB-licensed, Thimphu</span>
             </div>
             {settings.announcement && (
               <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-saffron/40 bg-saffron/10 px-4 py-2 text-xs font-semibold text-saffron backdrop-blur">
@@ -94,23 +106,26 @@ function Home() {
                   </button>
                 ))}
               </div>
-              <div className="grid gap-2 rounded-xl border border-border bg-card p-2 md:grid-cols-[1.4fr_1fr_1fr_auto]">
-                <label className="flex min-w-0 items-center gap-3 rounded-lg bg-input px-3 py-3">
+              <form
+                onSubmit={(event) => { event.preventDefault(); runSearch(); }}
+                className="grid gap-2 rounded-xl border border-border bg-card p-2 md:grid-cols-[1.4fr_1fr_1fr_auto]"
+              >
+                <label className="flex min-w-0 items-center gap-3 rounded-lg bg-input px-3 py-3 transition focus-within:ring-2 focus-within:ring-ring">
                   <Search className="h-4 w-4 shrink-0 text-saffron" />
-                  <input placeholder="Destination or experience" className="min-w-0 flex-1 bg-transparent text-sm outline-none placeholder:text-muted-foreground" />
+                  <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Destination or experience" aria-label="Destination or experience" className="min-w-0 flex-1 bg-transparent text-sm outline-none placeholder:text-muted-foreground" />
                 </label>
-                <label className="flex min-w-0 items-center gap-3 rounded-lg bg-input px-3 py-3">
+                <label className="flex min-w-0 items-center gap-3 rounded-lg bg-input px-3 py-3 transition focus-within:ring-2 focus-within:ring-ring">
                   <Calendar className="h-4 w-4 shrink-0 text-saffron" />
-                  <input placeholder="Travel dates" className="min-w-0 flex-1 bg-transparent text-sm outline-none placeholder:text-muted-foreground" />
+                  <input value={dates} onChange={(e) => setDates(e.target.value)} placeholder="Travel dates" aria-label="Travel dates" className="min-w-0 flex-1 bg-transparent text-sm outline-none placeholder:text-muted-foreground" />
                 </label>
-                <label className="flex min-w-0 items-center gap-3 rounded-lg bg-input px-3 py-3">
+                <label className="flex min-w-0 items-center gap-3 rounded-lg bg-input px-3 py-3 transition focus-within:ring-2 focus-within:ring-ring">
                   <Users className="h-4 w-4 shrink-0 text-saffron" />
-                  <input placeholder="Guests" className="min-w-0 flex-1 bg-transparent text-sm outline-none placeholder:text-muted-foreground" />
+                  <input value={guests} onChange={(e) => setGuests(e.target.value)} placeholder="Guests" aria-label="Guests" inputMode="numeric" className="min-w-0 flex-1 bg-transparent text-sm outline-none placeholder:text-muted-foreground" />
                 </label>
-                <Link to="/tours" className="inline-flex items-center justify-center gap-2 rounded-lg bg-gradient-gold px-5 py-3 text-sm font-semibold text-primary-foreground transition hover:shadow-gold">
+                <button type="submit" className="sheen-on-hover inline-flex items-center justify-center gap-2 rounded-lg bg-gradient-gold px-5 py-3 text-sm font-semibold text-primary-foreground transition hover:shadow-gold">
                   Search <Sparkles className="h-4 w-4" />
-                </Link>
-              </div>
+                </button>
+              </form>
             </div>
 
             <div className="mt-5 flex flex-wrap gap-3">
@@ -119,9 +134,9 @@ function Home() {
             </div>
 
             <div className="mt-7 grid gap-3 text-xs text-hero-foreground/74 sm:grid-cols-3 lg:max-w-3xl">
-              <div className="flex min-w-0 items-center gap-2"><Star className="h-4 w-4 shrink-0 fill-saffron text-saffron" /><span>4.9 rating · 800+ reviews</span></div>
-              <div className="flex min-w-0 items-center gap-2"><Shield className="h-4 w-4 shrink-0 text-saffron" /><span>Licensed local operator</span></div>
-              <div className="flex min-w-0 items-center gap-2"><Globe2 className="h-4 w-4 shrink-0 text-saffron" /><span>40+ traveler countries</span></div>
+              <div className="flex min-w-0 items-center gap-2"><Shield className="h-4 w-4 shrink-0 text-saffron" /><span>TCB-licensed inbound operator</span></div>
+              <div className="flex min-w-0 items-center gap-2"><Star className="h-4 w-4 shrink-0 fill-saffron text-saffron" /><span>{tours.length} ready-to-book packages</span></div>
+              <div className="flex min-w-0 items-center gap-2"><Globe2 className="h-4 w-4 shrink-0 text-saffron" /><span>Visa, SDF & permits handled</span></div>
             </div>
           </div>
 
@@ -176,13 +191,13 @@ function Home() {
       <section className="mx-auto max-w-[1500px] px-4 py-20 sm:px-6 sm:py-28">
         <div className="mb-12 grid items-end gap-8 lg:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)]">
           <div>
-            <div className="eyebrow text-saffron">Issue 04 · Featured</div>
+            <div className="eyebrow text-saffron">Featured packages</div>
             <h2 className="mt-3 font-display text-5xl font-extrabold leading-[0.92] sm:text-7xl">
               Premium tours, <em className="not-italic text-gradient-gold">picked by hand</em>.
             </h2>
           </div>
           <p className="text-base leading-relaxed text-muted-foreground sm:text-lg">
-            Each card opens a complete detail page — itinerary, booking form, 360° viewer, gallery, reviews and map. Every tour is shaped with a Bhutan specialist, then refined by our travel desk.
+            Every card opens the full package — day-by-day itinerary, official brochure, inclusions, exclusions and a direct booking request. All itineraries are built and operated by our own Thimphu team.
           </p>
         </div>
 
@@ -218,7 +233,7 @@ function Home() {
               </h2>
             </div>
             <p className="text-base leading-relaxed text-hero-foreground/74 sm:text-lg">
-              Drag to rotate. Scroll to zoom. Every premium tour ships with a hand-shot 360° gallery so you can preview each destination before you commit — and admins can add new panoramas anytime from the operations panel.
+              Drag to rotate, scroll to zoom. Preview the valleys, dzongs and monasteries on your route before you commit — our team keeps the gallery updated season by season.
             </p>
           </div>
           <Reveal>
@@ -283,32 +298,30 @@ function Home() {
         </div>
       </section>
 
-      {/* ============ TESTIMONIAL STRIP ============ */}
+      {/* ============ HOW IT WORKS ============ */}
       <section className="bg-cream py-20 sm:py-24">
         <div className="mx-auto max-w-[1500px] px-4 sm:px-6">
           <div className="mb-10 grid items-end gap-6 lg:grid-cols-[minmax(0,1fr)_auto]">
             <div>
-              <div className="eyebrow text-saffron">Travelers, in their words</div>
-              <h2 className="mt-3 font-display text-5xl font-extrabold leading-[0.92] sm:text-6xl">Quiet, considered, real.</h2>
+              <div className="eyebrow text-saffron">How we work</div>
+              <h2 className="mt-3 font-display text-5xl font-extrabold leading-[0.92] sm:text-6xl">From enquiry to <em className="not-italic text-gradient-gold">arrival</em>.</h2>
             </div>
-            <Link to="/contact" className="hidden items-center gap-2 rounded-xl border border-primary px-5 py-3 text-sm font-semibold text-primary transition hover:bg-primary hover:text-primary-foreground lg:inline-flex">Read more reviews <ArrowRight className="h-4 w-4" /></Link>
+            <Link to="/contact" className="hidden items-center gap-2 rounded-xl border border-primary px-5 py-3 text-sm font-semibold text-primary transition hover:bg-primary hover:text-primary-foreground lg:inline-flex">Talk to our team <ArrowRight className="h-4 w-4" /></Link>
           </div>
-          <div className="grid gap-6 md:grid-cols-3">
-            {testimonials.map((t, i) => (
-              <Reveal key={t.author} delay={i * 0.05}>
-                <article className="grid h-full gap-4 rounded-2xl border border-border bg-card p-6 shadow-card">
-                  <Quote className="h-7 w-7 text-saffron" />
-                  <p className="font-display text-xl font-medium leading-snug text-foreground">"{t.quote}"</p>
-                  <div className="mt-auto border-t border-border pt-4">
-                    <div className="text-sm font-bold">{t.author}</div>
-                    <div className="text-xs text-muted-foreground">{t.trip}</div>
-                  </div>
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            {process.map((p, i) => (
+              <Reveal key={p.step} delay={i * 0.06}>
+                <article className="hover-lift grid h-full gap-4 rounded-2xl border border-border bg-card p-6 shadow-card">
+                  <div className="font-display text-4xl font-extrabold text-gradient-gold">{p.step}</div>
+                  <h3 className="font-display text-2xl font-bold leading-tight">{p.title}</h3>
+                  <p className="text-sm leading-relaxed text-muted-foreground">{p.desc}</p>
                 </article>
               </Reveal>
             ))}
           </div>
         </div>
       </section>
+
 
       {/* ============ CTA ============ */}
       <section className="mx-auto max-w-[1500px] px-4 py-20 sm:px-6 sm:py-28">

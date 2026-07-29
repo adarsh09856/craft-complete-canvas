@@ -25,6 +25,16 @@ const facts = [
   { n: "1974", l: "First opened to tourism" },
 ];
 
+const services = [
+  { t: "Customised package tours", d: "Fifteen thematic Bhutan packages — culture, nature, trekking, MICE, weddings — reshaped around your pace and season." },
+  { t: "Visa & permit processing", d: "Bhutan visa for foreign travellers, permits for Indian nationals, and SDF handling from start to finish." },
+  { t: "Air & rail ticketing", d: "Drukair and Bhutan Airlines bookings, plus rail support to NJP / Bagdogra gateways for overland arrivals." },
+  { t: "Hotels & resorts", d: "3-star to luxury reservations, including Uma Paro, Amankora and Six Senses, matched to budget and route." },
+  { t: "Transport & transfers", d: "Chauffeur-driven cars, 4x4 SUVs and coaches, with Paro International Airport transfers on every itinerary." },
+  { t: "Corporate, MICE & B2B", d: "Conference venues, gala dinners and team-building, plus DMC partnerships for agents, corporates and institutions." },
+];
+
+
 function AboutPage() {
   return (
     <>
@@ -57,6 +67,25 @@ function AboutPage() {
           </Reveal>
         ))}
       </div>
+
+      <div className="mb-16">
+        <Reveal>
+          <div className="text-[10px] uppercase tracking-[0.28em] text-cypress">What we handle</div>
+          <h2 className="mt-3 font-display text-4xl leading-none sm:text-5xl">A full-service Bhutan travel desk</h2>
+        </Reveal>
+        <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {services.map((s, i) => (
+            <Reveal key={s.t} delay={i * 0.06}>
+              <div className="h-full rounded-lg border border-border bg-card p-6 shadow-card hover-lift">
+                <div className="font-display text-xl">{s.t}</div>
+                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{s.d}</p>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+      </div>
+
+
 
       <Reveal>
         <div className="rounded-lg bg-ink p-8 text-center text-hero-foreground shadow-deep sm:p-12">
