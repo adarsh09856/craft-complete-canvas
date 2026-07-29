@@ -116,16 +116,29 @@ function Home() {
                 </label>
                 <label className="flex min-w-0 items-center gap-3 rounded-lg bg-input px-3 py-3 transition focus-within:ring-2 focus-within:ring-ring">
                   <Calendar className="h-4 w-4 shrink-0 text-saffron" />
-                  <input value={dates} onChange={(e) => setDates(e.target.value)} placeholder="Travel dates" aria-label="Travel dates" className="min-w-0 flex-1 bg-transparent text-sm outline-none placeholder:text-muted-foreground" />
+                  <input type="date" value={dates} min={new Date().toISOString().slice(0, 10)} onChange={(e) => setDates(e.target.value)} aria-label="Travel date" className="min-w-0 flex-1 bg-transparent text-sm outline-none placeholder:text-muted-foreground" />
                 </label>
                 <label className="flex min-w-0 items-center gap-3 rounded-lg bg-input px-3 py-3 transition focus-within:ring-2 focus-within:ring-ring">
                   <Users className="h-4 w-4 shrink-0 text-saffron" />
-                  <input value={guests} onChange={(e) => setGuests(e.target.value)} placeholder="Guests" aria-label="Guests" inputMode="numeric" className="min-w-0 flex-1 bg-transparent text-sm outline-none placeholder:text-muted-foreground" />
+                  <select value={guests} onChange={(e) => setGuests(e.target.value)} aria-label="Guests" className="min-w-0 flex-1 bg-transparent text-sm outline-none">
+                    <option value="">Guests</option>
+                    {["1", "2", "3", "4", "5", "6", "8", "10", "15+"].map((g) => (
+                      <option key={g} value={g}>{g} {g === "1" ? "traveller" : "travellers"}</option>
+                    ))}
+                  </select>
                 </label>
                 <button type="submit" className="sheen-on-hover inline-flex items-center justify-center gap-2 rounded-lg bg-gradient-gold px-5 py-3 text-sm font-semibold text-primary-foreground transition hover:shadow-gold">
                   Search <Sparkles className="h-4 w-4" />
                 </button>
               </form>
+              <div className="flex flex-wrap items-center gap-2 px-2 pb-1 pt-2 text-xs text-muted-foreground">
+                <span className="font-semibold uppercase tracking-wide">Popular</span>
+                {["Tiger's Nest", "Honeymoon", "Trekking", "Birdwatching", "Family", "Punakha"].map((s) => (
+                  <button key={s} type="button" onClick={() => { setQ(s); navigate({ to: "/tours", search: { q: s, category: "All Tours", dates: dates.trim(), guests: guests.trim() } }); }} className="rounded-full border border-border px-3 py-1 font-medium transition hover:border-saffron hover:text-saffron">
+                    {s}
+                  </button>
+                ))}
+              </div>
             </div>
 
             <div className="mt-5 flex flex-wrap gap-3">
