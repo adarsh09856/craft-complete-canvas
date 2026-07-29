@@ -100,6 +100,11 @@ export function BookingWidget({ tour }: { tour: Tour }) {
           <div className="pb-2 text-xs text-muted-foreground">total · {guests} {guests === 1 ? "guest" : "guests"}</div>
         </div>
         <div className="mt-1 text-xs text-muted-foreground">{formatPrice(Math.round(total / Math.max(1, guests)))} per person · {tier.name}</div>
+        {applied && (
+          <div className="mt-2 inline-flex items-center gap-2 rounded-full border border-cypress/40 bg-cypress/10 px-3 py-1 text-[11px] font-semibold text-cypress">
+            <Tag className="h-3 w-3" /> {applied.code} · −{formatPrice(discount)}
+          </div>
+        )}
       </div>
 
       <div className="p-5 sm:p-6">
