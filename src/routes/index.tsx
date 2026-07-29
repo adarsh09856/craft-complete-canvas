@@ -298,32 +298,30 @@ function Home() {
         </div>
       </section>
 
-      {/* ============ TESTIMONIAL STRIP ============ */}
+      {/* ============ HOW IT WORKS ============ */}
       <section className="bg-cream py-20 sm:py-24">
         <div className="mx-auto max-w-[1500px] px-4 sm:px-6">
           <div className="mb-10 grid items-end gap-6 lg:grid-cols-[minmax(0,1fr)_auto]">
             <div>
-              <div className="eyebrow text-saffron">Travelers, in their words</div>
-              <h2 className="mt-3 font-display text-5xl font-extrabold leading-[0.92] sm:text-6xl">Quiet, considered, real.</h2>
+              <div className="eyebrow text-saffron">How we work</div>
+              <h2 className="mt-3 font-display text-5xl font-extrabold leading-[0.92] sm:text-6xl">From enquiry to <em className="not-italic text-gradient-gold">arrival</em>.</h2>
             </div>
-            <Link to="/contact" className="hidden items-center gap-2 rounded-xl border border-primary px-5 py-3 text-sm font-semibold text-primary transition hover:bg-primary hover:text-primary-foreground lg:inline-flex">Read more reviews <ArrowRight className="h-4 w-4" /></Link>
+            <Link to="/contact" className="hidden items-center gap-2 rounded-xl border border-primary px-5 py-3 text-sm font-semibold text-primary transition hover:bg-primary hover:text-primary-foreground lg:inline-flex">Talk to our team <ArrowRight className="h-4 w-4" /></Link>
           </div>
-          <div className="grid gap-6 md:grid-cols-3">
-            {testimonials.map((t, i) => (
-              <Reveal key={t.author} delay={i * 0.05}>
-                <article className="grid h-full gap-4 rounded-2xl border border-border bg-card p-6 shadow-card">
-                  <Quote className="h-7 w-7 text-saffron" />
-                  <p className="font-display text-xl font-medium leading-snug text-foreground">"{t.quote}"</p>
-                  <div className="mt-auto border-t border-border pt-4">
-                    <div className="text-sm font-bold">{t.author}</div>
-                    <div className="text-xs text-muted-foreground">{t.trip}</div>
-                  </div>
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            {process.map((p, i) => (
+              <Reveal key={p.step} delay={i * 0.06}>
+                <article className="hover-lift grid h-full gap-4 rounded-2xl border border-border bg-card p-6 shadow-card">
+                  <div className="font-display text-4xl font-extrabold text-gradient-gold">{p.step}</div>
+                  <h3 className="font-display text-2xl font-bold leading-tight">{p.title}</h3>
+                  <p className="text-sm leading-relaxed text-muted-foreground">{p.desc}</p>
                 </article>
               </Reveal>
             ))}
           </div>
         </div>
       </section>
+
 
       {/* ============ CTA ============ */}
       <section className="mx-auto max-w-[1500px] px-4 py-20 sm:px-6 sm:py-28">
