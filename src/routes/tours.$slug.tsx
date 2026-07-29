@@ -155,22 +155,29 @@ function TourDetail() {
 
           {brochure && (
             <Reveal>
-              <div className="mb-16 overflow-hidden rounded-xl border border-border bg-card shadow-card">
-                <div className="flex flex-wrap items-end justify-between gap-4 border-b border-border p-6">
-                  <div>
+              <div className="mb-16 overflow-hidden rounded-2xl border border-border bg-card shadow-card">
+                <div className="grid gap-4 border-b border-border p-5 sm:p-6 md:grid-cols-[minmax(0,1fr)_auto] md:items-end">
+                  <div className="min-w-0">
                     <div className="text-[10px] uppercase tracking-[0.28em] text-cypress">Official brochure</div>
-                    <h2 className="mt-2 font-display text-4xl leading-none">{tour.title}</h2>
+                    <h2 className="mt-2 font-display text-3xl leading-none sm:text-4xl">{tour.title}</h2>
+                    <p className="mt-2 text-sm text-muted-foreground">Full package sheet — itinerary, inclusions and pricing notes. Tap to enlarge.</p>
                   </div>
-                  <a href={brochure} download className="inline-flex items-center gap-2 rounded-lg bg-gradient-gold px-5 py-3 text-sm font-semibold text-primary-foreground">
-                    <Download className="h-4 w-4" /> Download brochure
-                  </a>
+                  <div className="grid grid-cols-2 gap-2 md:flex md:shrink-0">
+                    <button type="button" onClick={() => setZoom(true)} className="inline-flex items-center justify-center gap-2 rounded-lg border border-border px-4 py-3 text-sm font-semibold transition hover:border-gold">
+                      <Maximize2 className="h-4 w-4" /> Enlarge
+                    </button>
+                    <a href={brochure} download className="inline-flex items-center justify-center gap-2 rounded-lg bg-gradient-gold px-4 py-3 text-sm font-semibold text-primary-foreground">
+                      <Download className="h-4 w-4" /> Download
+                    </a>
+                  </div>
                 </div>
-                <div className="bg-muted p-4 sm:p-8">
+                <button type="button" onClick={() => setZoom(true)} className="block w-full cursor-zoom-in bg-muted p-3 sm:p-8">
                   <img src={brochure} alt={`${tour.title} brochure — Golden Takin Holidays`} loading="lazy" className="mx-auto w-full max-w-3xl rounded-lg shadow-card" />
-                </div>
+                </button>
               </div>
             </Reveal>
           )}
+
 
           <Reveal>
             <div className="mb-16 grid gap-5 md:grid-cols-2">
