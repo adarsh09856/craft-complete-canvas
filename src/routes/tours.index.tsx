@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { categories, destinations, tours } from "@/lib/data";
 import { PageHero } from "@/components/PageHero";
 import { Reveal } from "@/components/Reveal";
