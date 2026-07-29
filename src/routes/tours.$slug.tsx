@@ -2,7 +2,7 @@ import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { tours } from "@/lib/data";
 import { brochures } from "@/lib/brochures";
 import type { ItineraryDay, Tour } from "@/components/TourCard";
-import { Clock, MapPin, Users, Check, ArrowLeft, Star, X, ChevronLeft, ChevronRight, Download } from "lucide-react";
+import { Clock, MapPin, Users, Check, ArrowLeft, Star, X, ChevronLeft, ChevronRight, Download, Maximize2 } from "lucide-react";
 import { Reveal } from "@/components/Reveal";
 import { PanoramaViewer } from "@/components/PanoramaViewer";
 import { BookingWidget } from "@/components/BookingWidget";
@@ -39,6 +39,7 @@ function TourDetail() {
   const includes = tour.includes ?? [];
   const excludes = tour.excludes ?? [];
   const [photo, setPhoto] = useState(0);
+  const [zoom, setZoom] = useState(false);
   const [adminPanos, setAdminPanos] = useState<{ title: string; image: string; note?: string }[]>([]);
   useEffect(() => { setAdminPanos(getPanoramas(tour.slug)); }, [tour.slug]);
   const photos = [tour.image, ...tours.filter((item) => item.slug !== tour.slug).slice(0, 2).map((item) => item.image)];
@@ -66,7 +67,7 @@ function TourDetail() {
             </div>
           </div>
           {brochure && (
-            <a href={brochure} target="_blank" rel="noreferrer" className="group hidden overflow-hidden rounded-2xl border border-hero-foreground/15 bg-hero-foreground/10 p-3 backdrop-blur transition hover:border-gold/60 lg:block">
+            <a href={brochure} target="_blank" rel="noreferrer" className="group mx-auto w-full max-w-sm overflow-hidden rounded-2xl border border-hero-foreground/15 bg-hero-foreground/10 p-3 backdrop-blur transition hover:border-gold/60 lg:max-w-none">
               <img src={brochure} alt={`${tour.title} official brochure`} className="w-full rounded-xl object-contain shadow-card transition-transform duration-700 group-hover:scale-[1.02]" />
               <div className="px-1 pb-1 pt-3 text-center text-[10px] uppercase tracking-[0.28em] text-gold">Official brochure</div>
             </a>
@@ -155,22 +156,29 @@ function TourDetail() {
 
           {brochure && (
             <Reveal>
-              <div className="mb-16 overflow-hidden rounded-xl border border-border bg-card shadow-card">
-                <div className="flex flex-wrap items-end justify-between gap-4 border-b border-border p-6">
-                  <div>
+              <div className="mb-16 overflow-hidden rounded-2xl border border-border bg-card shadow-card">
+                <div className="grid gap-4 border-b border-border p-5 sm:p-6 md:grid-cols-[minmax(0,1fr)_auto] md:items-end">
+                  <div className="min-w-0">
                     <div className="text-[10px] uppercase tracking-[0.28em] text-cypress">Official brochure</div>
-                    <h2 className="mt-2 font-display text-4xl leading-none">{tour.title}</h2>
+                    <h2 className="mt-2 font-display text-3xl leading-none sm:text-4xl">{tour.title}</h2>
+                    <p className="mt-2 text-sm text-muted-foreground">Full package sheet — itinerary, inclusions and pricing notes. Tap to enlarge.</p>
                   </div>
-                  <a href={brochure} download className="inline-flex items-center gap-2 rounded-lg bg-gradient-gold px-5 py-3 text-sm font-semibold text-primary-foreground">
-                    <Download className="h-4 w-4" /> Download brochure
-                  </a>
+                  <div className="grid grid-cols-2 gap-2 md:flex md:shrink-0">
+                    <button type="button" onClick={() => setZoom(true)} className="inline-flex items-center justify-center gap-2 rounded-lg border border-border px-4 py-3 text-sm font-semibold transition hover:border-gold">
+                      <Maximize2 className="h-4 w-4" /> Enlarge
+                    </button>
+                    <a href={brochure} download className="inline-flex items-center justify-center gap-2 rounded-lg bg-gradient-gold px-4 py-3 text-sm font-semibold text-primary-foreground">
+                      <Download className="h-4 w-4" /> Download
+                    </a>
+                  </div>
                 </div>
-                <div className="bg-muted p-4 sm:p-8">
+                <button type="button" onClick={() => setZoom(true)} className="block w-full cursor-zoom-in bg-muted p-3 sm:p-8">
                   <img src={brochure} alt={`${tour.title} brochure — Golden Takin Holidays`} loading="lazy" className="mx-auto w-full max-w-3xl rounded-lg shadow-card" />
-                </div>
+                </button>
               </div>
             </Reveal>
           )}
+
 
           <Reveal>
             <div className="mb-16 grid gap-5 md:grid-cols-2">
@@ -203,6 +211,21 @@ function TourDetail() {
           <BookingWidget tour={tour} />
         </aside>
       </div>
+
+      {brochure && zoom && (
+        <div className="fixed inset-0 z-[80] flex flex-col bg-ink/95 backdrop-blur" role="dialog" aria-modal="true">
+          <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3 p-4 text-hero-foreground">
+            <span className="truncate text-sm uppercase tracking-[0.22em] text-gold">{tour.title} — brochure</span>
+            <div className="flex shrink-0 gap-2">
+              <a href={brochure} download className="grid h-10 w-10 place-items-center rounded-lg bg-hero-foreground/10"><Download className="h-4 w-4" /></a>
+              <button type="button" onClick={() => setZoom(false)} aria-label="Close brochure" className="grid h-10 w-10 place-items-center rounded-lg bg-hero-foreground/10"><X className="h-4 w-4" /></button>
+            </div>
+          </div>
+          <div className="flex-1 overflow-auto p-3 sm:p-6">
+            <img src={brochure} alt={`${tour.title} brochure full size`} className="mx-auto w-full max-w-5xl rounded-lg" />
+          </div>
+        </div>
+      )}
     </article>
   );
 }
