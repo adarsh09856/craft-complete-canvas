@@ -10,10 +10,11 @@ export const Route = createFileRoute("/plan")({
   component: PlanPage,
   head: () => ({
     meta: [
-      { title: "Plan with AI — Golden Takin Holidays" },
-      { name: "description", content: "Let our AI travel assistant draft a Bhutan itinerary based on your interests, time and budget." },
-      { property: "og:title", content: "Plan your Bhutan trip with AI" },
-      { property: "og:description", content: "AI-assisted itinerary planning by Golden Takin Holidays." },
+      { title: "Plan a Bhutan Trip with AI | Golden Takin Holidays" },
+      { name: "description", content: "Draft a Bhutan itinerary in minutes with our AI travel assistant trained on Golden Takin Holidays' official packages, then have a local specialist price it." },
+      { name: "keywords", content: "how to plan a trip to Bhutan, Bhutan itinerary 7 days, Bhutan itinerary 5 days, Bhutan travel guide" },
+      { property: "og:title", content: "Plan a Bhutan Trip with AI | Golden Takin Holidays" },
+      { property: "og:description", content: "Draft a Bhutan itinerary in minutes with our AI travel assistant trained on Golden Takin Holidays' official packages, then have a local specialist price it." },
     ],
   }),
 });

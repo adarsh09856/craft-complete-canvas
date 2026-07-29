@@ -13,10 +13,11 @@ export const Route = createFileRoute("/tours/")({
   component: ToursPage,
   head: () => ({
     meta: [
-      { title: "All Bhutan Tours — Golden Takin Holidays" },
-      { name: "description", content: "Search and filter premium Bhutan tours by category, destination, duration and price." },
-      { property: "og:title", content: "All Bhutan Tours — Golden Takin Holidays" },
-      { property: "og:description", content: "Find culture, pilgrimage, trekking, family and luxury Bhutan itineraries." },
+      { title: "Bhutan Tour Packages 2026 | Customised Holidays from India" },
+      { name: "description", content: "Explore 15 customised Bhutan tour packages — group tours, family holidays, honeymoons, trekking, wildlife and MICE. Get an instant quote from Golden Takin Holidays." },
+      { name: "keywords", content: "Bhutan tour package, Bhutan tour package from India, customised Bhutan holiday package, Bhutan package tour cost" },
+      { property: "og:title", content: "Bhutan Tour Packages 2026 | Customised Holidays from India" },
+      { property: "og:description", content: "Explore 15 customised Bhutan tour packages — group tours, family holidays, honeymoons, trekking, wildlife and MICE. Get an instant quote from Golden Takin Holidays." },
     ],
   }),
 });

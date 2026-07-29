@@ -10,10 +10,11 @@ export const Route = createFileRoute("/experiences")({
   component: ExperiencesPage,
   head: () => ({
     meta: [
-      { title: "Experiences — Golden Takin Holidays" },
-      { name: "description", content: "Signature Bhutanese experiences: monastic mornings, masked dances, hot stone baths and Himalayan treks." },
-      { property: "og:title", content: "Bhutan Experiences" },
-      { property: "og:description", content: "Signature moments crafted by local experts." },
+      { title: "Bhutan Experiences | Festivals, Hot Stone Baths & Tiger"s Nest" },
+      { name: "description", content: "Signature Bhutanese experiences — Tshechu festivals, monastic mornings, hot stone baths, Tiger's Nest hikes and artisan workshops, curated by local guides." },
+      { name: "keywords", content: "things to do in Bhutan, Tshechu festival Bhutan, Tiger's Nest trek, Bhutan cultural experiences" },
+      { property: "og:title", content: "Bhutan Experiences | Festivals, Hot Stone Baths & Tiger's Nest" },
+      { property: "og:description", content: "Signature Bhutanese experiences — Tshechu festivals, monastic mornings, hot stone baths, Tiger's Nest hikes and artisan workshops, curated by local guides." },
     ],
   }),
 });

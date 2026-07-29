@@ -12,10 +12,11 @@ export const Route = createFileRoute("/destinations")({
   component: DestinationsPage,
   head: () => ({
     meta: [
-      { title: "Destinations — Golden Takin Holidays" },
-      { name: "description", content: "Explore Bhutan's sacred valleys: Paro, Thimphu, Punakha, Phobjikha and beyond." },
-      { property: "og:title", content: "Bhutan Destinations" },
-      { property: "og:description", content: "From mountain capitals to spiritual valleys." },
+      { title: "Bhutan Destinations | Paro, Thimphu, Punakha, Haa & Bumthang" },
+      { name: "description", content: "Discover Bhutan's valleys with Golden Takin Holidays — Paro, Thimphu, Punakha, Phobjikha, Haa, Gasa and Bumthang tour ideas, seasons and highlights." },
+      { name: "keywords", content: "Paro tour package, Thimphu tour package, Punakha tour package, Haa Valley tour, Phobjikha Valley tour, Bumthang tour package" },
+      { property: "og:title", content: "Bhutan Destinations | Paro, Thimphu, Punakha, Haa & Bumthang" },
+      { property: "og:description", content: "Discover Bhutan's valleys with Golden Takin Holidays — Paro, Thimphu, Punakha, Phobjikha, Haa, Gasa and Bumthang tour ideas, seasons and highlights." },
     ],
   }),
 });

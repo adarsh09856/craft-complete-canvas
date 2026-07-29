@@ -10,10 +10,11 @@ export const Route = createFileRoute("/contact")({
   component: ContactPage,
   head: () => ({
     meta: [
-      { title: "Contact — Golden Takin Holidays" },
-      { name: "description", content: "Speak with a Bhutan specialist. Plan your bespoke journey today." },
-      { property: "og:title", content: "Contact Golden Takin Holidays" },
-      { property: "og:description", content: "Talk to a Bhutan specialist." },
+      { title: "Contact Golden Takin Holidays | Bhutan Travel Enquiry" },
+      { name: "description", content: "Talk to a Bhutan specialist in Thimphu. Enquire about tour packages, visa processing, hotel bookings, car rental and B2B partnerships." },
+      { name: "keywords", content: "contact Bhutan tour operator, Bhutan travel enquiry, Bhutan DMC contact, travel agency in Thimphu" },
+      { property: "og:title", content: "Contact Golden Takin Holidays | Bhutan Travel Enquiry" },
+      { property: "og:description", content: "Talk to a Bhutan specialist in Thimphu. Enquire about tour packages, visa processing, hotel bookings, car rental and B2B partnerships." },
     ],
   }),
 });
