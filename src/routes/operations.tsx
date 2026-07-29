@@ -84,9 +84,9 @@ function OperationsPage() {
         tour: row.tour_name,
         date: row.travel_date ?? "—",
         travelers: row.travelers,
-        amount: row.travelers * 4200 * 84,
+        amount: (row.quoted_total ?? row.travelers * 4200) * 84,
         status: row.status === "Confirmed" ? "Confirmed" : row.status === "Designing" ? "Pending" : "Pending",
-        notes: `Live inquiry · ${new Date(row.created_at).toLocaleString()}`,
+        notes: `Live inquiry · ${new Date(row.created_at).toLocaleString()}${row.coupon_code ? ` · coupon ${row.coupon_code}` : ""}`,
       }));
       setBookings((cur) => [...live, ...cur]);
     });
