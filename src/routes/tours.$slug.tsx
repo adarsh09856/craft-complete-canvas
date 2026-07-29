@@ -2,7 +2,7 @@ import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { tours } from "@/lib/data";
 import { brochures } from "@/lib/brochures";
 import type { ItineraryDay, Tour } from "@/components/TourCard";
-import { Clock, MapPin, Users, Check, ArrowLeft, Star, X, ChevronLeft, ChevronRight, Download } from "lucide-react";
+import { Clock, MapPin, Users, Check, ArrowLeft, Star, X, ChevronLeft, ChevronRight, Download, Maximize2 } from "lucide-react";
 import { Reveal } from "@/components/Reveal";
 import { PanoramaViewer } from "@/components/PanoramaViewer";
 import { BookingWidget } from "@/components/BookingWidget";
@@ -39,6 +39,7 @@ function TourDetail() {
   const includes = tour.includes ?? [];
   const excludes = tour.excludes ?? [];
   const [photo, setPhoto] = useState(0);
+  const [zoom, setZoom] = useState(false);
   const [adminPanos, setAdminPanos] = useState<{ title: string; image: string; note?: string }[]>([]);
   useEffect(() => { setAdminPanos(getPanoramas(tour.slug)); }, [tour.slug]);
   const photos = [tour.image, ...tours.filter((item) => item.slug !== tour.slug).slice(0, 2).map((item) => item.image)];
@@ -66,7 +67,7 @@ function TourDetail() {
             </div>
           </div>
           {brochure && (
-            <a href={brochure} target="_blank" rel="noreferrer" className="group hidden overflow-hidden rounded-2xl border border-hero-foreground/15 bg-hero-foreground/10 p-3 backdrop-blur transition hover:border-gold/60 lg:block">
+            <a href={brochure} target="_blank" rel="noreferrer" className="group mx-auto w-full max-w-sm overflow-hidden rounded-2xl border border-hero-foreground/15 bg-hero-foreground/10 p-3 backdrop-blur transition hover:border-gold/60 lg:max-w-none">
               <img src={brochure} alt={`${tour.title} official brochure`} className="w-full rounded-xl object-contain shadow-card transition-transform duration-700 group-hover:scale-[1.02]" />
               <div className="px-1 pb-1 pt-3 text-center text-[10px] uppercase tracking-[0.28em] text-gold">Official brochure</div>
             </a>
@@ -210,6 +211,21 @@ function TourDetail() {
           <BookingWidget tour={tour} />
         </aside>
       </div>
+
+      {brochure && zoom && (
+        <div className="fixed inset-0 z-[80] flex flex-col bg-ink/95 backdrop-blur" role="dialog" aria-modal="true">
+          <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3 p-4 text-hero-foreground">
+            <span className="truncate text-sm uppercase tracking-[0.22em] text-gold">{tour.title} — brochure</span>
+            <div className="flex shrink-0 gap-2">
+              <a href={brochure} download className="grid h-10 w-10 place-items-center rounded-lg bg-hero-foreground/10"><Download className="h-4 w-4" /></a>
+              <button type="button" onClick={() => setZoom(false)} aria-label="Close brochure" className="grid h-10 w-10 place-items-center rounded-lg bg-hero-foreground/10"><X className="h-4 w-4" /></button>
+            </div>
+          </div>
+          <div className="flex-1 overflow-auto p-3 sm:p-6">
+            <img src={brochure} alt={`${tour.title} brochure full size`} className="mx-auto w-full max-w-5xl rounded-lg" />
+          </div>
+        </div>
+      )}
     </article>
   );
 }
