@@ -1,5 +1,5 @@
 import { useMemo, useState, type FormEvent } from "react";
-import { Calendar, Check, ChevronRight, Mail, MessageCircle, Minus, Phone, Plus, Shield, Sparkles, User, Users } from "lucide-react";
+import { Calendar, Check, ChevronRight, Mail, MessageCircle, Minus, Phone, Plus, Shield, Sparkles, Tag, User, Users } from "lucide-react";
 import { toast } from "sonner";
 import { formatPrice } from "@/lib/utils";
 import { supabase } from "@/integrations/supabase/client";
