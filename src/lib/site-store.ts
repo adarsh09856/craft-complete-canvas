@@ -16,7 +16,7 @@ export type SiteSettings = {
   supportPhone: string;
 };
 
-const KEY = "rtt.site.v1";
+const KEY = "gth.site.v1";
 
 export const DEFAULT_SETTINGS: SiteSettings = {
   companyName: "Golden Takin Holidays",
