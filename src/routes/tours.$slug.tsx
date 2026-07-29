@@ -28,22 +28,13 @@ export const Route = createFileRoute("/tours/$slug")({
   errorComponent: ({ reset }) => <div className="pt-40 text-center"><button onClick={reset}>Retry</button></div>,
 });
 
-const itinerary = [
-  { day: 1, title: "Arrival in Paro", desc: "Land amid the Himalayas. Drive to your boutique hotel for tea and orientation." },
-  { day: 2, title: "Thimphu transfer", desc: "Visit the National Memorial Chorten and Buddha Dordenma overlooking the capital." },
-  { day: 3, title: "Punakha Valley", desc: "Cross the Dochula Pass with 360° Himalayan views and the magnificent Punakha Dzong." },
-  { day: 4, title: "Tiger's Nest hike", desc: "The pilgrimage of a lifetime — a 900m climb to the cliff-clinging Taktsang monastery." },
-  { day: 5, title: "Cultural immersion", desc: "Weaving workshop, archery with locals, and a traditional farmhouse dinner." },
-  { day: 6, title: "Bumthang journey", desc: "Fly or drive to the spiritual heartland with its ancient temples and rolling hills." },
-  { day: 7, title: "Departure", desc: "Last prayers, last momos, and a farewell ceremony before flying home." },
-];
-
-const includes = ["Government tour visa & permits", "Boutique heritage hotels", "Daily breakfast, lunch & dinner", "Private vehicle and driver", "Expert licensed guide", "Entrance fees", "Water and oxygen support", "24/7 in-country support"];
-const excludes = ["International flights", "Travel insurance", "Premium alcohol", "Personal shopping"];
 const galleryTitles = ["Valley arrival", "Dzong courtyard", "High pass view"];
 
 function TourDetail() {
   const { tour } = Route.useLoaderData();
+  const itinerary = tour.itinerary ?? [];
+  const includes = tour.includes ?? [];
+  const excludes = tour.excludes ?? [];
   const [photo, setPhoto] = useState(0);
   const [adminPanos, setAdminPanos] = useState<{ title: string; image: string; note?: string }[]>([]);
   useEffect(() => { setAdminPanos(getPanoramas(tour.slug)); }, [tour.slug]);
