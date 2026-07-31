@@ -56,10 +56,216 @@ export type Database = {
         }
         Relationships: []
       }
-      travel_inquiries: {
+      crm_activities: {
         Row: {
+          body: string
+          contact_id: string | null
+          created_at: string
+          created_by: string | null
+          deal_id: string | null
+          id: string
+          kind: string
+        }
+        Insert: {
+          body: string
+          contact_id?: string | null
+          created_at?: string
+          created_by?: string | null
+          deal_id?: string | null
+          id?: string
+          kind?: string
+        }
+        Update: {
+          body?: string
+          contact_id?: string | null
+          created_at?: string
+          created_by?: string | null
+          deal_id?: string | null
+          id?: string
+          kind?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "crm_activities_contact_id_fkey"
+            columns: ["contact_id"]
+            isOneToOne: false
+            referencedRelation: "crm_contacts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "crm_activities_deal_id_fkey"
+            columns: ["deal_id"]
+            isOneToOne: false
+            referencedRelation: "crm_deals"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      crm_contacts: {
+        Row: {
+          country: string | null
+          created_at: string
+          email: string | null
+          full_name: string
+          id: string
+          lifecycle: string
+          notes: string
+          phone: string | null
+          source: string
+          tags: string[]
+          updated_at: string
+        }
+        Insert: {
+          country?: string | null
+          created_at?: string
+          email?: string | null
+          full_name: string
+          id?: string
+          lifecycle?: string
+          notes?: string
+          phone?: string | null
+          source?: string
+          tags?: string[]
+          updated_at?: string
+        }
+        Update: {
+          country?: string | null
+          created_at?: string
+          email?: string | null
+          full_name?: string
+          id?: string
+          lifecycle?: string
+          notes?: string
+          phone?: string | null
+          source?: string
+          tags?: string[]
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      crm_deals: {
+        Row: {
+          contact_id: string | null
           coupon_code: string | null
           created_at: string
+          id: string
+          inquiry_id: string | null
+          notes: string
+          probability: number
+          stage: string
+          title: string
+          tour_name: string
+          travel_date: string | null
+          travelers: number
+          updated_at: string
+          value_usd: number
+        }
+        Insert: {
+          contact_id?: string | null
+          coupon_code?: string | null
+          created_at?: string
+          id?: string
+          inquiry_id?: string | null
+          notes?: string
+          probability?: number
+          stage?: string
+          title: string
+          tour_name?: string
+          travel_date?: string | null
+          travelers?: number
+          updated_at?: string
+          value_usd?: number
+        }
+        Update: {
+          contact_id?: string | null
+          coupon_code?: string | null
+          created_at?: string
+          id?: string
+          inquiry_id?: string | null
+          notes?: string
+          probability?: number
+          stage?: string
+          title?: string
+          tour_name?: string
+          travel_date?: string | null
+          travelers?: number
+          updated_at?: string
+          value_usd?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "crm_deals_contact_id_fkey"
+            columns: ["contact_id"]
+            isOneToOne: false
+            referencedRelation: "crm_contacts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "crm_deals_inquiry_id_fkey"
+            columns: ["inquiry_id"]
+            isOneToOne: false
+            referencedRelation: "travel_inquiries"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      crm_tasks: {
+        Row: {
+          contact_id: string | null
+          created_at: string
+          deal_id: string | null
+          done: boolean
+          due_on: string | null
+          id: string
+          priority: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          contact_id?: string | null
+          created_at?: string
+          deal_id?: string | null
+          done?: boolean
+          due_on?: string | null
+          id?: string
+          priority?: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          contact_id?: string | null
+          created_at?: string
+          deal_id?: string | null
+          done?: boolean
+          due_on?: string | null
+          id?: string
+          priority?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "crm_tasks_contact_id_fkey"
+            columns: ["contact_id"]
+            isOneToOne: false
+            referencedRelation: "crm_contacts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "crm_tasks_deal_id_fkey"
+            columns: ["deal_id"]
+            isOneToOne: false
+            referencedRelation: "crm_deals"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      travel_inquiries: {
+        Row: {
+          contact_id: string | null
+          coupon_code: string | null
+          created_at: string
+          deal_id: string | null
           guest_name: string
           id: string
           quoted_total: number | null
@@ -70,8 +276,10 @@ export type Database = {
           updated_at: string
         }
         Insert: {
+          contact_id?: string | null
           coupon_code?: string | null
           created_at?: string
+          deal_id?: string | null
           guest_name: string
           id?: string
           quoted_total?: number | null
@@ -82,8 +290,10 @@ export type Database = {
           updated_at?: string
         }
         Update: {
+          contact_id?: string | null
           coupon_code?: string | null
           created_at?: string
+          deal_id?: string | null
           guest_name?: string
           id?: string
           quoted_total?: number | null
@@ -93,6 +303,42 @@ export type Database = {
           travelers?: number
           updated_at?: string
         }
+        Relationships: [
+          {
+            foreignKeyName: "travel_inquiries_contact_id_fkey"
+            columns: ["contact_id"]
+            isOneToOne: false
+            referencedRelation: "crm_contacts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "travel_inquiries_deal_id_fkey"
+            columns: ["deal_id"]
+            isOneToOne: false
+            referencedRelation: "crm_deals"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      user_roles: {
+        Row: {
+          created_at: string
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
         Relationships: []
       }
     }
@@ -100,10 +346,17 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
+      is_staff: { Args: { _user_id: string }; Returns: boolean }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "admin" | "staff"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -230,6 +483,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["admin", "staff"],
+    },
   },
 } as const
