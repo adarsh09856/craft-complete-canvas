@@ -60,7 +60,9 @@ export function BookingWidget({ tour }: { tour: Tour }) {
   const submit = async (e: FormEvent) => {
     e.preventDefault();
     setSubmitting(true);
+    const { data: authData } = await supabase.auth.getUser();
     const { error } = await supabase.from("travel_inquiries").insert({
+      user_id: authData.user?.id ?? null,
       guest_name: name.trim(),
       tour_name: `${tour.title} · ${tier.name}`,
       travel_date: date,

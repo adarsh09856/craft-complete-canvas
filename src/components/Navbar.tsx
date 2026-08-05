@@ -1,5 +1,5 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import { Menu, Globe, Sparkles, X } from "lucide-react";
+import { Menu, Globe, Sparkles, UserRound, X } from "lucide-react";
 import { useState, useEffect } from "react";
 import emblem from "@/assets/takin-emblem.png";
 
@@ -55,6 +55,9 @@ export function Navbar() {
           <Link to="/plan" className="hidden items-center gap-2 rounded-xl bg-gradient-gold px-5 py-2.5 text-sm font-semibold text-primary-foreground transition-all hover:shadow-gold md:inline-flex">
             <Sparkles className="w-4 h-4" /> Plan with AI
           </Link>
+          <Link to="/account" className="hidden items-center gap-1 rounded-xl border border-border bg-card/70 px-3 py-2 text-sm font-semibold text-foreground/75 transition hover:text-gold md:flex">
+            <UserRound className="h-4 w-4" /> Account
+          </Link>
           <button className="hidden items-center gap-1 rounded-xl border border-border bg-card/70 px-3 py-2 text-sm text-foreground/70 transition hover:text-gold md:flex">
             <Globe className="w-4 h-4" /> EN
           </button>
@@ -71,6 +74,7 @@ export function Navbar() {
               {n.label}
             </Link>
           ))}
+          <Link to="/account" onClick={() => setOpen(false)} className="rounded-md px-3 py-2 text-foreground/85 hover:bg-muted">My account</Link>
           <Link to="/plan" onClick={() => setOpen(false)} className="mt-2 inline-flex items-center justify-center gap-2 rounded-md bg-secondary px-4 py-3 text-sm text-secondary-foreground">
             <Sparkles className="h-4 w-4" /> Plan with AI
           </Link>
