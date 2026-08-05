@@ -26,6 +26,7 @@ import { Route as ToursIndexRouteImport } from './routes/tours.index'
 import { Route as ToursSlugRouteImport } from './routes/tours.$slug'
 import { Route as ApiChatRouteImport } from './routes/api/chat'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
+import { Route as AuthenticatedAccountRouteImport } from './routes/_authenticated/account'
 
 const ToursRoute = ToursRouteImport.update({
   id: '/tours',
@@ -111,6 +112,11 @@ const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
   path: '/admin',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedAccountRoute = AuthenticatedAccountRouteImport.update({
+  id: '/account',
+  path: '/account',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -125,6 +131,7 @@ export interface FileRoutesByFullPath {
   '/reset-password': typeof ResetPasswordRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/tours': typeof ToursRouteWithChildren
+  '/account': typeof AuthenticatedAccountRoute
   '/admin': typeof AuthenticatedAdminRoute
   '/api/chat': typeof ApiChatRoute
   '/tours/$slug': typeof ToursSlugRoute
@@ -142,6 +149,7 @@ export interface FileRoutesByTo {
   '/plan': typeof PlanRoute
   '/reset-password': typeof ResetPasswordRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/account': typeof AuthenticatedAccountRoute
   '/admin': typeof AuthenticatedAdminRoute
   '/api/chat': typeof ApiChatRoute
   '/tours/$slug': typeof ToursSlugRoute
@@ -162,6 +170,7 @@ export interface FileRoutesById {
   '/reset-password': typeof ResetPasswordRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/tours': typeof ToursRouteWithChildren
+  '/_authenticated/account': typeof AuthenticatedAccountRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRoute
   '/api/chat': typeof ApiChatRoute
   '/tours/$slug': typeof ToursSlugRoute
@@ -182,6 +191,7 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/sitemap.xml'
     | '/tours'
+    | '/account'
     | '/admin'
     | '/api/chat'
     | '/tours/$slug'
@@ -199,6 +209,7 @@ export interface FileRouteTypes {
     | '/plan'
     | '/reset-password'
     | '/sitemap.xml'
+    | '/account'
     | '/admin'
     | '/api/chat'
     | '/tours/$slug'
@@ -218,6 +229,7 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/sitemap.xml'
     | '/tours'
+    | '/_authenticated/account'
     | '/_authenticated/admin'
     | '/api/chat'
     | '/tours/$slug'
@@ -362,14 +374,23 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/account': {
+      id: '/_authenticated/account'
+      path: '/account'
+      fullPath: '/account'
+      preLoaderRoute: typeof AuthenticatedAccountRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
   }
 }
 
 interface AuthenticatedRouteRouteChildren {
+  AuthenticatedAccountRoute: typeof AuthenticatedAccountRoute
   AuthenticatedAdminRoute: typeof AuthenticatedAdminRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedAccountRoute: AuthenticatedAccountRoute,
   AuthenticatedAdminRoute: AuthenticatedAdminRoute,
 }
 
