@@ -260,6 +260,33 @@ export type Database = {
           },
         ]
       }
+      profiles: {
+        Row: {
+          country: string | null
+          created_at: string
+          full_name: string
+          id: string
+          phone: string | null
+          updated_at: string
+        }
+        Insert: {
+          country?: string | null
+          created_at?: string
+          full_name?: string
+          id: string
+          phone?: string | null
+          updated_at?: string
+        }
+        Update: {
+          country?: string | null
+          created_at?: string
+          full_name?: string
+          id?: string
+          phone?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       travel_inquiries: {
         Row: {
           contact_id: string | null
@@ -274,6 +301,7 @@ export type Database = {
           travel_date: string | null
           travelers: number
           updated_at: string
+          user_id: string | null
         }
         Insert: {
           contact_id?: string | null
@@ -288,6 +316,7 @@ export type Database = {
           travel_date?: string | null
           travelers?: number
           updated_at?: string
+          user_id?: string | null
         }
         Update: {
           contact_id?: string | null
@@ -302,6 +331,7 @@ export type Database = {
           travel_date?: string | null
           travelers?: number
           updated_at?: string
+          user_id?: string | null
         }
         Relationships: [
           {
