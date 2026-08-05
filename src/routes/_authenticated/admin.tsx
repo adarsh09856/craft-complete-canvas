@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import type { Dispatch, FormEvent, SetStateAction } from "react";
 import { useEffect, useMemo, useState } from "react";
-import { BarChart3, Building2, Camera, Edit3, Eye, ImagePlus, LayoutDashboard, LogOut, Mail, MapPin, Plus, Search, Settings, Sparkles, Tag, Trash2 } from "lucide-react";
+import { BarChart3, Building2, Camera, Edit3, Eye, ImagePlus, LayoutDashboard, LogOut, Mail, MapPin, Plus, Search, Settings, Sparkles, Tag, Trash2, Users, CheckSquare } from "lucide-react";
 import { toast } from "sonner";
 import { destinations as destinationData, experiences as experienceData, tours as tourData } from "@/lib/data";
 import { addPanorama, getAllPanoramas, removePanorama, type GalleryPanorama } from "@/lib/gallery-store";
@@ -9,6 +9,11 @@ import { formatPrice, formatPriceFromBTN } from "@/lib/utils";
 import { supabase } from "@/integrations/supabase/client";
 import { saveSiteSettings, useSiteSettings } from "@/lib/site-store";
 import { CouponsPanel } from "@/components/admin/CouponsPanel";
+import { CrmContacts } from "@/components/admin/CrmContacts";
+import { CrmPipeline } from "@/components/admin/CrmPipeline";
+import { CrmTasks } from "@/components/admin/CrmTasks";
+import { CrmReports } from "@/components/admin/CrmReports";
+import { useSession, useStaff } from "@/lib/auth";
 
 type AdminTour = {
   id: number;
@@ -43,6 +48,10 @@ const nav = [
   { id: "experiences", label: "Experiences", icon: Sparkles },
   { id: "gallery", label: "360° Gallery", icon: Camera },
   { id: "bookings", label: "Inquiries", icon: Mail },
+  { id: "contacts", label: "CRM · Contacts", icon: Users },
+  { id: "pipeline", label: "CRM · Pipeline", icon: BarChart3 },
+  { id: "tasks", label: "CRM · Tasks", icon: CheckSquare },
+  { id: "reports", label: "CRM · Reports", icon: BarChart3 },
   { id: "coupons", label: "Coupons", icon: Tag },
   { id: "settings", label: "Settings", icon: Settings },
 ];
@@ -63,7 +72,9 @@ export const Route = createFileRoute("/_authenticated/admin")({
 });
 
 function OperationsPage() {
-  const [loggedIn, setLoggedIn] = useState(false);
+  const { user, loading: sessionLoading } = useSession();
+  const { isStaff, checking } = useStaff(user);
+  const loggedIn = isStaff;
   const [active, setActive] = useState("dashboard");
   const [tours, setTours] = useState(initialTours);
   const [bookings, setBookings] = useState(initialBookings);
@@ -96,7 +107,8 @@ function OperationsPage() {
   const filteredTours = useMemo(() => tours.filter((tour) => `${tour.title} ${tour.category} ${tour.status}`.toLowerCase().includes(query.toLowerCase())), [query, tours]);
   const filteredBookings = useMemo(() => bookings.filter((booking) => `${booking.guest} ${booking.tour} ${booking.status}`.toLowerCase().includes(query.toLowerCase())), [bookings, query]);
 
-  if (!loggedIn) return <LoginPanel onLogin={() => { setLoggedIn(true); toast.success("Welcome back, admin"); }} />;
+  if (sessionLoading || checking) return <div className="grid min-h-screen place-items-center bg-ink text-hero-foreground">Checking your access…</div>;
+  if (!isStaff) return <NoAccessPanel email={user?.email ?? ""} />;
 
   const saveTour = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -134,7 +146,7 @@ function OperationsPage() {
               </button>
             ))}
           </nav>
-          <button onClick={() => setLoggedIn(false)} className="mt-5 grid w-full grid-cols-[auto_minmax(0,1fr)] items-center gap-3 rounded-xl border border-border px-3 py-3 text-left text-sm font-semibold text-muted-foreground hover:bg-muted"><LogOut className="h-4 w-4" /> Logout</button>
+          <button onClick={async () => { await supabase.auth.signOut(); window.location.href = "/auth"; }} className="mt-5 grid w-full grid-cols-[auto_minmax(0,1fr)] items-center gap-3 rounded-xl border border-border px-3 py-3 text-left text-sm font-semibold text-muted-foreground hover:bg-muted"><LogOut className="h-4 w-4" /> Logout</button>
         </aside>
 
         <main className="min-w-0 p-4 sm:p-6 lg:p-8">
@@ -143,7 +155,7 @@ function OperationsPage() {
               <div className="text-xs uppercase tracking-[0.22em] text-cypress">Travel operations</div>
               <h1 className="mt-1 truncate text-3xl font-bold sm:text-4xl">{nav.find((item) => item.id === active)?.label}</h1>
             </div>
-            <div className="hidden rounded-xl border border-border bg-card px-4 py-3 text-sm text-muted-foreground shadow-card sm:block">Admin User · admin@example.com</div>
+            <div className="hidden rounded-xl border border-border bg-card px-4 py-3 text-sm text-muted-foreground shadow-card sm:block">Staff · {user?.email}</div>
           </header>
 
           {active === "dashboard" && <Dashboard tours={tours} bookings={bookings} revenue={revenue} onComplete={(id) => setBookings((current) => current.map((booking) => booking.id === id ? { ...booking, status: "Completed" } : booking))} />}
@@ -152,6 +164,10 @@ function OperationsPage() {
           {active === "experiences" && <SimpleCrudPanel title="Experiences" rows={experienceData.map((item, index) => ({ id: index + 1, name: item.title, detail: item.desc, image: item.image }))} />}
           {active === "gallery" && <Gallery360Panel />}
           {active === "bookings" && <BookingsPanel bookings={filteredBookings} query={query} setQuery={setQuery} setBookings={setBookings} select={setSelectedBooking} />}
+          {active === "contacts" && <CrmContacts />}
+          {active === "pipeline" && <CrmPipeline />}
+          {active === "tasks" && <CrmTasks />}
+          {active === "reports" && <CrmReports />}
           {active === "coupons" && <CouponsPanel />}
           {active === "settings" && <SettingsPanel saved={settingsSaved} onSave={() => { setSettingsSaved(true); toast.success("Settings saved"); }} />}
         </main>
@@ -162,31 +178,19 @@ function OperationsPage() {
   );
 }
 
-function LoginPanel({ onLogin }: { onLogin: () => void }) {
-  const [error, setError] = useState("");
-  const login = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const form = new FormData(event.currentTarget);
-    if (form.get("email") === "admin@example.com" && form.get("password") === "admin123") onLogin();
-    else setError("Use demo credentials: admin@example.com / admin123");
-  };
+function NoAccessPanel({ email }: { email: string }) {
   return (
-    <section className="grid min-h-screen place-items-center bg-ink px-4 pt-20 text-hero-foreground">
-      <form onSubmit={login} className="w-full max-w-md rounded-2xl border border-hero-foreground/12 bg-hero-foreground/10 p-6 shadow-deep backdrop-blur-xl sm:p-8">
-        <div className="mb-6 text-center">
-          <div className="text-xs uppercase tracking-[0.28em] text-gold">Protected admin</div>
-          <h1 className="mt-2 text-3xl font-bold">Golden Takin Login</h1>
-          <p className="mt-2 text-sm text-hero-foreground/70">Demo: admin@example.com / admin123</p>
+    <section className="grid min-h-screen place-items-center bg-ink px-4 py-28 text-hero-foreground">
+      <div className="w-full max-w-md rounded-[26px] border border-hero-foreground/12 bg-hero-foreground/[0.07] p-8 text-center shadow-deep backdrop-blur-2xl">
+        <h1 className="font-display text-2xl font-bold">Staff access only</h1>
+        <p className="mt-2 text-sm text-hero-foreground/65">
+          {email ? `${email} is signed in but has no staff role yet.` : "Sign in with a staff account to open the CRM."} Ask an administrator to grant you access.
+        </p>
+        <div className="mt-6 grid gap-2">
+          <Link to="/account" className="rounded-xl bg-gradient-gold px-5 py-3 text-sm font-bold text-primary-foreground shadow-gold">Go to my dashboard</Link>
+          <button onClick={async () => { await supabase.auth.signOut(); window.location.href = "/auth"; }} className="rounded-xl border border-hero-foreground/16 px-5 py-3 text-sm font-semibold">Sign out</button>
         </div>
-        <div className="grid gap-3">
-          <input name="email" type="email" required defaultValue="admin@example.com" className="rounded-xl border border-hero-foreground/15 bg-hero-foreground/10 px-4 py-3 text-sm outline-none focus:border-gold" />
-          <input name="password" type="password" required defaultValue="admin123" className="rounded-xl border border-hero-foreground/15 bg-hero-foreground/10 px-4 py-3 text-sm outline-none focus:border-gold" />
-          <label className="flex items-center gap-2 text-sm text-hero-foreground/72"><input type="checkbox" defaultChecked /> Remember me</label>
-          {error && <div className="rounded-lg bg-crimson/20 p-3 text-sm text-hero-foreground">{error}</div>}
-          <button className="rounded-xl bg-gradient-gold px-5 py-3 font-semibold text-primary-foreground">Login</button>
-          <button type="button" onClick={() => toast.info("Password recovery email simulated")} className="text-sm text-gold">Password recovery</button>
-        </div>
-      </form>
+      </div>
     </section>
   );
 }
