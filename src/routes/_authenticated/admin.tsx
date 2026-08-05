@@ -50,7 +50,7 @@ const nav = [
 const initialTours: AdminTour[] = tourData.map((tour, index) => ({ id: index + 1, title: tour.title, category: tour.category, duration: tour.duration, price: tour.price, status: index < 6 ? "Published" : "Draft", image: tour.image, views: 0, bookings: 0, panoramas: [tour.image] }));
 const initialBookings: Booking[] = [];
 
-export const Route = createFileRoute("/operations")({
+export const Route = createFileRoute("/_authenticated/admin")({
   component: OperationsPage,
   head: () => ({
     meta: [

@@ -12,7 +12,6 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as ToursRouteImport } from './routes/tours'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as PlanRouteImport } from './routes/plan'
-import { Route as OperationsRouteImport } from './routes/operations'
 import { Route as FaqRouteImport } from './routes/faq'
 import { Route as ExperiencesRouteImport } from './routes/experiences'
 import { Route as DestinationsRouteImport } from './routes/destinations'
@@ -22,6 +21,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as ToursIndexRouteImport } from './routes/tours.index'
 import { Route as ToursSlugRouteImport } from './routes/tours.$slug'
 import { Route as ApiChatRouteImport } from './routes/api/chat'
+import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
 
 const ToursRoute = ToursRouteImport.update({
   id: '/tours',
@@ -36,11 +36,6 @@ const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
 const PlanRoute = PlanRouteImport.update({
   id: '/plan',
   path: '/plan',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const OperationsRoute = OperationsRouteImport.update({
-  id: '/operations',
-  path: '/operations',
   getParentRoute: () => rootRouteImport,
 } as any)
 const FaqRoute = FaqRouteImport.update({
@@ -88,6 +83,11 @@ const ApiChatRoute = ApiChatRouteImport.update({
   path: '/api/chat',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
+  id: '/_authenticated/admin',
+  path: '/admin',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -96,10 +96,10 @@ export interface FileRoutesByFullPath {
   '/destinations': typeof DestinationsRoute
   '/experiences': typeof ExperiencesRoute
   '/faq': typeof FaqRoute
-  '/operations': typeof OperationsRoute
   '/plan': typeof PlanRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/tours': typeof ToursRouteWithChildren
+  '/admin': typeof AuthenticatedAdminRoute
   '/api/chat': typeof ApiChatRoute
   '/tours/$slug': typeof ToursSlugRoute
   '/tours/': typeof ToursIndexRoute
@@ -111,9 +111,9 @@ export interface FileRoutesByTo {
   '/destinations': typeof DestinationsRoute
   '/experiences': typeof ExperiencesRoute
   '/faq': typeof FaqRoute
-  '/operations': typeof OperationsRoute
   '/plan': typeof PlanRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/admin': typeof AuthenticatedAdminRoute
   '/api/chat': typeof ApiChatRoute
   '/tours/$slug': typeof ToursSlugRoute
   '/tours': typeof ToursIndexRoute
@@ -126,10 +126,10 @@ export interface FileRoutesById {
   '/destinations': typeof DestinationsRoute
   '/experiences': typeof ExperiencesRoute
   '/faq': typeof FaqRoute
-  '/operations': typeof OperationsRoute
   '/plan': typeof PlanRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/tours': typeof ToursRouteWithChildren
+  '/_authenticated/admin': typeof AuthenticatedAdminRoute
   '/api/chat': typeof ApiChatRoute
   '/tours/$slug': typeof ToursSlugRoute
   '/tours/': typeof ToursIndexRoute
@@ -143,10 +143,10 @@ export interface FileRouteTypes {
     | '/destinations'
     | '/experiences'
     | '/faq'
-    | '/operations'
     | '/plan'
     | '/sitemap.xml'
     | '/tours'
+    | '/admin'
     | '/api/chat'
     | '/tours/$slug'
     | '/tours/'
@@ -158,9 +158,9 @@ export interface FileRouteTypes {
     | '/destinations'
     | '/experiences'
     | '/faq'
-    | '/operations'
     | '/plan'
     | '/sitemap.xml'
+    | '/admin'
     | '/api/chat'
     | '/tours/$slug'
     | '/tours'
@@ -172,10 +172,10 @@ export interface FileRouteTypes {
     | '/destinations'
     | '/experiences'
     | '/faq'
-    | '/operations'
     | '/plan'
     | '/sitemap.xml'
     | '/tours'
+    | '/_authenticated/admin'
     | '/api/chat'
     | '/tours/$slug'
     | '/tours/'
@@ -188,10 +188,10 @@ export interface RootRouteChildren {
   DestinationsRoute: typeof DestinationsRoute
   ExperiencesRoute: typeof ExperiencesRoute
   FaqRoute: typeof FaqRoute
-  OperationsRoute: typeof OperationsRoute
   PlanRoute: typeof PlanRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   ToursRoute: typeof ToursRouteWithChildren
+  AuthenticatedAdminRoute: typeof AuthenticatedAdminRoute
   ApiChatRoute: typeof ApiChatRoute
 }
 
@@ -216,13 +216,6 @@ declare module '@tanstack/react-router' {
       path: '/plan'
       fullPath: '/plan'
       preLoaderRoute: typeof PlanRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/operations': {
-      id: '/operations'
-      path: '/operations'
-      fullPath: '/operations'
-      preLoaderRoute: typeof OperationsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/faq': {
@@ -288,6 +281,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiChatRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/admin': {
+      id: '/_authenticated/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AuthenticatedAdminRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -310,10 +310,10 @@ const rootRouteChildren: RootRouteChildren = {
   DestinationsRoute: DestinationsRoute,
   ExperiencesRoute: ExperiencesRoute,
   FaqRoute: FaqRoute,
-  OperationsRoute: OperationsRoute,
   PlanRoute: PlanRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   ToursRoute: ToursRouteWithChildren,
+  AuthenticatedAdminRoute: AuthenticatedAdminRoute,
   ApiChatRoute: ApiChatRoute,
 }
 export const routeTree = rootRouteImport
