@@ -260,6 +260,51 @@ export type Database = {
           },
         ]
       }
+      guides: {
+        Row: {
+          active: boolean
+          created_at: string
+          day_rate_usd: number
+          email: string | null
+          full_name: string
+          id: string
+          languages: string[]
+          licence_no: string | null
+          notes: string
+          phone: string | null
+          specialities: string[]
+          updated_at: string
+        }
+        Insert: {
+          active?: boolean
+          created_at?: string
+          day_rate_usd?: number
+          email?: string | null
+          full_name: string
+          id?: string
+          languages?: string[]
+          licence_no?: string | null
+          notes?: string
+          phone?: string | null
+          specialities?: string[]
+          updated_at?: string
+        }
+        Update: {
+          active?: boolean
+          created_at?: string
+          day_rate_usd?: number
+          email?: string | null
+          full_name?: string
+          id?: string
+          languages?: string[]
+          licence_no?: string | null
+          notes?: string
+          phone?: string | null
+          specialities?: string[]
+          updated_at?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           country: string | null
@@ -283,6 +328,99 @@ export type Database = {
           full_name?: string
           id?: string
           phone?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      testimonials: {
+        Row: {
+          approved: boolean
+          country: string | null
+          created_at: string
+          featured: boolean
+          guest_name: string
+          id: string
+          photo_url: string | null
+          quote: string
+          rating: number
+          tour_name: string
+          updated_at: string
+        }
+        Insert: {
+          approved?: boolean
+          country?: string | null
+          created_at?: string
+          featured?: boolean
+          guest_name: string
+          id?: string
+          photo_url?: string | null
+          quote: string
+          rating?: number
+          tour_name?: string
+          updated_at?: string
+        }
+        Update: {
+          approved?: boolean
+          country?: string | null
+          created_at?: string
+          featured?: boolean
+          guest_name?: string
+          id?: string
+          photo_url?: string | null
+          quote?: string
+          rating?: number
+          tour_name?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      tour_departures: {
+        Row: {
+          created_at: string
+          end_date: string | null
+          guide_name: string
+          id: string
+          notes: string
+          price_usd: number
+          published: boolean
+          seats_booked: number
+          seats_total: number
+          start_date: string
+          status: string
+          tour_name: string
+          tour_slug: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          end_date?: string | null
+          guide_name?: string
+          id?: string
+          notes?: string
+          price_usd?: number
+          published?: boolean
+          seats_booked?: number
+          seats_total?: number
+          start_date: string
+          status?: string
+          tour_name: string
+          tour_slug: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          end_date?: string | null
+          guide_name?: string
+          id?: string
+          notes?: string
+          price_usd?: number
+          published?: boolean
+          seats_booked?: number
+          seats_total?: number
+          start_date?: string
+          status?: string
+          tour_name?: string
+          tour_slug?: string
           updated_at?: string
         }
         Relationships: []
