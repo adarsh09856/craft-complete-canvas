@@ -345,6 +345,9 @@ function Home() {
       </section>
 
 
+      <UpcomingDepartures />
+      <GuestReviews />
+
       {/* ============ CTA ============ */}
       <section className="mx-auto max-w-[1500px] px-4 py-20 sm:px-6 sm:py-28">
         <Reveal>
