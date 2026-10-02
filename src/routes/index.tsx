@@ -11,6 +11,7 @@ import { SectionTitle } from "@/components/SectionTitle";
 import { TourCard } from "@/components/TourCard";
 import { PanoramaViewer } from "@/components/PanoramaViewer";
 import { useSiteSettings } from "@/lib/site-store";
+import { GuestReviews, UpcomingDepartures } from "@/components/HomeLive";
 
 export const Route = createFileRoute("/")({
   component: Home,
