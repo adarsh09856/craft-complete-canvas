@@ -13,6 +13,10 @@ import { CrmContacts } from "@/components/admin/CrmContacts";
 import { CrmPipeline } from "@/components/admin/CrmPipeline";
 import { CrmTasks } from "@/components/admin/CrmTasks";
 import { CrmReports } from "@/components/admin/CrmReports";
+import { DeparturesPanel } from "@/components/admin/DeparturesPanel";
+import { GuidesPanel } from "@/components/admin/GuidesPanel";
+import { ReviewsPanel } from "@/components/admin/ReviewsPanel";
+import { CalendarDays, Star, UserCheck } from "lucide-react";
 import { useSession, useStaff } from "@/lib/auth";
 
 type AdminTour = {
@@ -52,6 +56,9 @@ const nav = [
   { id: "pipeline", label: "CRM · Pipeline", icon: BarChart3 },
   { id: "tasks", label: "CRM · Tasks", icon: CheckSquare },
   { id: "reports", label: "CRM · Reports", icon: BarChart3 },
+  { id: "departures", label: "Ops · Departures", icon: CalendarDays },
+  { id: "guides", label: "Ops · Guides", icon: UserCheck },
+  { id: "reviews", label: "Ops · Reviews", icon: Star },
   { id: "coupons", label: "Coupons", icon: Tag },
   { id: "settings", label: "Settings", icon: Settings },
 ];
@@ -134,7 +141,7 @@ function OperationsPage() {
   return (
     <div className="min-h-screen bg-muted/35 pt-20">
       <div className="grid min-h-screen lg:grid-cols-[280px_minmax(0,1fr)]">
-        <aside className="border-r border-border bg-card px-4 py-5 lg:sticky lg:top-20 lg:h-[calc(100vh-5rem)]">
+        <aside className="border-r border-border bg-card px-4 py-5 lg:sticky lg:top-20 lg:h-[calc(100vh-5rem)] lg:overflow-y-auto">
           <div className="mb-5 rounded-xl bg-primary p-4 text-primary-foreground">
             <div className="text-xs uppercase tracking-[0.22em] text-primary-foreground/68">Admin</div>
             <div className="mt-1 text-xl font-bold">Golden Takin Panel</div>
@@ -169,6 +176,9 @@ function OperationsPage() {
           {active === "tasks" && <CrmTasks />}
           {active === "reports" && <CrmReports />}
           {active === "coupons" && <CouponsPanel />}
+          {active === "departures" && <DeparturesPanel />}
+          {active === "guides" && <GuidesPanel />}
+          {active === "reviews" && <ReviewsPanel />}
           {active === "settings" && <SettingsPanel saved={settingsSaved} onSave={() => { setSettingsSaved(true); toast.success("Settings saved"); }} />}
         </main>
       </div>

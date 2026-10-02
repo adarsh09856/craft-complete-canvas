@@ -11,6 +11,7 @@ import { SectionTitle } from "@/components/SectionTitle";
 import { TourCard } from "@/components/TourCard";
 import { PanoramaViewer } from "@/components/PanoramaViewer";
 import { useSiteSettings } from "@/lib/site-store";
+import { GuestReviews, UpcomingDepartures } from "@/components/HomeLive";
 
 export const Route = createFileRoute("/")({
   component: Home,
@@ -343,6 +344,9 @@ function Home() {
         </div>
       </section>
 
+
+      <UpcomingDepartures />
+      <GuestReviews />
 
       {/* ============ CTA ============ */}
       <section className="mx-auto max-w-[1500px] px-4 py-20 sm:px-6 sm:py-28">
