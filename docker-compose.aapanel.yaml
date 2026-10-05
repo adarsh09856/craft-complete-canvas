@@ -1,0 +1,73 @@
+# ==============================================================================
+# Golden Takin Holidays — aaPanel & VPS Production Compose
+# Runs alongside aaPanel / Nginx Host
+# Uses localhost-bound ports to prevent conflicts with aaPanel Port 80/443
+# ==============================================================================
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: goldentakin_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-takin_admin}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-takin_secure_pass_2026}
+      POSTGRES_DB: ${POSTGRES_DB:-goldentakin_travel}
+    ports:
+      - "127.0.0.1:${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - goldentakin_pgdata:/var/lib/postgresql/data
+      - ./database/init.sql:/docker-entrypoint-initdb.d/01-init.sql:ro
+      - ./database/seed.sql:/docker-entrypoint-initdb.d/02-seed.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-takin_admin} -d ${POSTGRES_DB:-goldentakin_travel}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    deploy:
+      resources:
+        limits:
+          cpus: "2.0"
+          memory: 1024M
+    networks:
+      - goldentakin-network
+
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: goldentakin-web:latest
+    container_name: goldentakin_web
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      PORT: "3000"
+      NODE_ENV: "production"
+      APP_URL: "${APP_URL:-https://goldentakinholidays.bt}"
+      DATABASE_URL: "postgresql://${POSTGRES_USER:-takin_admin}:${POSTGRES_PASSWORD:-takin_secure_pass_2026}@postgres:5432/${POSTGRES_DB:-goldentakin_travel}"
+      GEMINI_API_KEY: "${GEMINI_API_KEY:-}"
+      OPENAI_API_KEY: "${OPENAI_API_KEY:-}"
+      VITE_SUPABASE_URL: "${VITE_SUPABASE_URL:-}"
+      VITE_SUPABASE_PUBLISHABLE_KEY: "${VITE_SUPABASE_PUBLISHABLE_KEY:-}"
+      SUPABASE_URL: "${SUPABASE_URL:-}"
+      SUPABASE_PUBLISHABLE_KEY: "${SUPABASE_PUBLISHABLE_KEY:-}"
+      SUPABASE_SERVICE_ROLE_KEY: "${SUPABASE_SERVICE_ROLE_KEY:-}"
+    ports:
+      - "127.0.0.1:${WEB_PORT:-3001}:3000"
+    deploy:
+      resources:
+        limits:
+          cpus: "2.0"
+          memory: 1024M
+    networks:
+      - goldentakin-network
+
+volumes:
+  goldentakin_pgdata:
+    driver: local
+
+networks:
+  goldentakin-network:
+    driver: bridge
