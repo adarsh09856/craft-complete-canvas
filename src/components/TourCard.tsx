@@ -30,7 +30,7 @@ export type Tour = {
 
 export function TourCard({ tour, idx = 0 }: { tour: Tour; idx?: number }) {
   const { formatPrice } = useCurrency();
-  const poster = brochures[tour.slug] ?? tour.image;
+  const poster = (brochures[tour.slug]?.startsWith("http") ? brochures[tour.slug] : null) ?? tour.image;
   return (
     <Link
       to="/tours/$slug"

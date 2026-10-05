@@ -36,7 +36,7 @@ function TourDetail() {
   const { tour } = Route.useLoaderData() as { tour: Tour };
   const { formatPrice } = useCurrency();
   const itinerary: ItineraryDay[] = tour.itinerary ?? [];
-  const brochure = brochures[tour.slug];
+  const brochure = brochures[tour.slug]?.startsWith("http") ? brochures[tour.slug] : tour.image;
   const includes = tour.includes ?? [];
   const excludes = tour.excludes ?? [];
   const [photo, setPhoto] = useState(0);
