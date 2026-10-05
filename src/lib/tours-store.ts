@@ -51,7 +51,7 @@ export function useAllTours(): Tour[] {
     window.addEventListener("storage", handleUpdate);
 
     // Try to fetch latest from Supabase if table exists
-    supabase
+    (supabase as any)
       .from("tours")
       .select("*")
       .then(({ data, error }) => {
@@ -121,7 +121,7 @@ export function saveAdminTour(tour: Tour): void {
     localStorage.setItem(CUSTOM_TOURS_KEY, JSON.stringify(customTours));
 
     // Also attempt async sync to Supabase
-    supabase
+    (supabase as any)
       .from("tours")
       .upsert({
         slug: tour.slug,
@@ -141,8 +141,7 @@ export function saveAdminTour(tour: Tour): void {
         itinerary: tour.itinerary,
         updated_at: new Date().toISOString(),
       })
-      .then(() => {})
-      .catch(() => {});
+      .then(() => {}, () => {});
 
     // Dispatch global event for immediate reflection
     window.dispatchEvent(new Event(TOURS_EVENT));
@@ -171,7 +170,7 @@ export function deleteAdminTour(slug: string): void {
     localStorage.setItem(DELETED_SLUGS_KEY, JSON.stringify(deletedSlugs));
 
     // Also attempt deletion in Supabase
-    supabase.from("tours").delete().eq("slug", slug).then(() => {}).catch(() => {});
+    (supabase as any).from("tours").delete().eq("slug", slug).then(() => {}, () => {});
 
     // Dispatch event
     window.dispatchEvent(new Event(TOURS_EVENT));
