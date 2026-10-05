@@ -1,45 +1,25 @@
 # aaPanel VPS Production Deployment Guide: Golden Takin Holidays
 
-This guide explains how to install and host **Golden Takin Holidays** on your VPS running **aaPanel** using automated Docker setup with zero manual database configuration.
+This guide explains how to install and host **Golden Takin Holidays** directly inside aaPanel without any Docker complexity.
 
 ---
 
-## 1. Frequently Asked Questions
+## 1. Database Credentials (Configured in aaPanel)
 
-### Q1: Are we using Docker and do we need Docker images?
-- **Yes, we use Docker:** Docker runs both the web application and PostgreSQL in isolated, high-performance containers.
-- **Do you need external image accounts (like Docker Hub)?** **NO!** 
-  - The application builds its own container image directly on your VPS from the local `Dockerfile`.
-  - PostgreSQL uses the official free `postgres:16-alpine` image.
-  - You do not need any Docker Hub account, API key, or external registry.
-
-### Q2: How is the database automatically created?
-- When Docker starts PostgreSQL for the first time, it automatically reads the scripts inside `database/init.sql` and `database/seed.sql` (mounted to `/docker-entrypoint-initdb.d/`).
-- PostgreSQL executes these scripts automatically:
-  - It creates all tables (`tours`, `destinations`, `bookings`, `agents`, `kyc_documents`, `reviews`, `coupons`).
-  - It populates all complete Bhutan, Nepal, and Tibet luxury tour itineraries and pricing.
-- **Zero manual SQL commands are required.**
-
-### Q3: How should the website and PostgreSQL be shown in aaPanel?
-- In aaPanel:
-  - **Website Section:** This is where your domain (e.g. `goldentakinholidays.bt`) lives. You configure your domain, enable Free Let's Encrypt SSL, and set up an **Nginx Reverse Proxy** pointing to `http://127.0.0.1:3001`.
-  - **Database Section:** Because PostgreSQL runs inside Docker on `127.0.0.1:5433`, the web container communicates with it directly. If you also want to view it inside aaPanel's Database manager, you can connect aaPanel's PostgreSQL manager to port 5433 or use DBeaver / TablePlus.
+| Setting | Value |
+| :--- | :--- |
+| **Database Name** | `travelgold` |
+| **Username** | `travelgold` |
+| **Password** | `travelgold` |
+| **Host** | `127.0.0.1` |
+| **Port** | `5432` |
+| **Connection URL** | `postgresql://travelgold:travelgold@127.0.0.1:5432/travelgold` |
 
 ---
 
-## 2. Server Requirements
+## 2. Step 1: Clone Repository on your VPS
 
-- **VPS Specifications**:
-  - Minimum: 2 GB RAM, 1 vCPU (e.g., Hostinger KVM / DigitalOcean / Hetzner).
-  - Recommended: 4 GB RAM, 2 vCPUs.
-- **Operating System**: Ubuntu 20.04 / 22.04 / 24.04 LTS, Debian 11 / 12, or AlmaLinux.
-- **Control Panel**: aaPanel with **Docker Manager** installed (from aaPanel App Store).
-
----
-
-## 3. Step 1: Clone Repository on your VPS
-
-Connect to your VPS via SSH as `root`:
+Connect via SSH as `root` to your server:
 
 ```bash
 cd /www/wwwroot
@@ -51,54 +31,40 @@ cd goldentakin
 
 ---
 
-## 4. Step 2: Run the Turnkey 1-Command Installer
+## 3. Step 2: Run the Automated Installer
 
-Make the installer executable and run it:
+Make executable and run:
 
 ```bash
 chmod +x install.sh deploy.sh
-sudo bash install.sh
+./install.sh
 ```
 
-### What this script automatically does:
-1. **Scans Ports:** Checks if port `3001` (web) or `5433` (database) are in use. If another service is already using them, it automatically assigns free ports.
-2. **Generates `.env`:** Creates `.env` with strong random database passwords.
-3. **Builds Containers:** Compiles the application and starts the PostgreSQL database.
-4. **Auto-Creates Database:** Runs `init.sql` and `seed.sql` inside PostgreSQL, creating all tables and full tour catalogues.
-5. **Verifies Health:** Checks that both the Web App and Database are running and healthy.
+### What this automatically does:
+1. Writes the production `.env` with your `travelgold` database credentials.
+2. Automatically imports the complete database schema and tour itineraries (`database/init.sql` & `database/seed.sql`) into the `travelgold` PostgreSQL database.
+3. Installs dependencies and builds the standalone production server (`.output/server/index.mjs`).
 
 ---
 
-## 5. Step 3: Configure aaPanel Website & SSL (1 Minute)
+## 4. Step 3: Add Website in aaPanel (30 Seconds)
 
-Once `install.sh` finishes, link your domain to the running container:
+1. Open your aaPanel Dashboard &rarr; **Website** &rarr; **Node project** tab.
+2. Click **Add Node project**:
+   - **Path**: `/www/wwwroot/goldentakin`
+   - **Run Opt**: `node .output/server/index.mjs`
+   - **Port**: `3001`
+   - **Domain name**: Your domain (e.g., `goldentakinholidays.bt`)
+3. Click **Submit**.
+4. In the project settings &rarr; **SSL** tab &rarr; Enable **Let's Encrypt** and toggle **Force HTTPS**.
 
-1. **Add Website in aaPanel**:
-   - Go to **Website** &rarr; **Add Site**.
-   - **Domain**: Enter your domain (e.g., `goldentakinholidays.bt`).
-   - **Database**: Select **None** (managed automatically by Docker).
-   - **PHP Version**: Select **Pure Static**.
-   - Click **Submit**.
-
-2. **Enable Free SSL (Let's Encrypt)**:
-   - Click your domain name to open **Site Settings**.
-   - Go to the **SSL** tab &rarr; select **Let's Encrypt**.
-   - Select your domain and click **Apply**.
-   - Turn **Force HTTPS** toggle to **ON**.
-
-3. **Configure Nginx Reverse Proxy**:
-   - In **Site Settings**, go to **Reverse Proxy** &rarr; click **Add reverse proxy**.
-   - **Proxy Name**: `goldentakin_proxy`
-   - **Target URL**: `http://127.0.0.1:3001` (or the port printed by `install.sh`)
-   - Click **Save**.
-
-🎉 **Your travel portal is now fully live and accessible at `https://goldentakinholidays.bt`!**
+🎉 **Your travel portal is now live at `https://goldentakinholidays.bt`!**
 
 ---
 
-## 6. How to Deploy Future Updates
+## 5. How to Deploy Future Updates
 
-Whenever you make changes or push updates to GitHub, simply run:
+Whenever you push updates to GitHub, simply run:
 
 ```bash
 cd /www/wwwroot/goldentakin
@@ -106,7 +72,6 @@ cd /www/wwwroot/goldentakin
 ```
 
 This single command:
-- Pulls latest git commits.
-- Rebuilds modified application containers.
-- Prunes old Docker build caches to keep VPS disk space clean.
-- Restarts services with zero downtime.
+- Pulls the latest git commits.
+- Builds the updated production bundle.
+- Restarts your website with zero downtime.
