@@ -55,9 +55,19 @@ export function useStaff(user: User | null) {
       .from("user_roles")
       .select("role")
       .eq("user_id", user.id)
-      .then(({ data }) => {
+      .then(async ({ data }) => {
         if (!alive) return;
-        const roles = (data ?? []).map((row) => row.role as string);
+        let roles = (data ?? []).map((row) => row.role as string);
+
+        // If user has no role, check if this is the very first registered user of the agency
+        if (roles.length === 0) {
+          const { count } = await supabase.from("user_roles").select("id", { count: "exact", head: true }).eq("role", "admin");
+          if (count === 0 || count === null) {
+            await supabase.from("user_roles").insert({ user_id: user.id, role: "admin" });
+            roles = ["admin"];
+          }
+        }
+
         setIsAdmin(roles.includes("admin"));
         setIsStaff(roles.includes("admin") || roles.includes("staff"));
         setChecking(false);
