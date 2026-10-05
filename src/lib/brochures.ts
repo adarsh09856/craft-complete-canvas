@@ -1,34 +1,19 @@
-import birdwatching from "@/assets/brochures/birdwatching-tours.asset.json";
-import buddhist from "@/assets/brochures/buddhist-culture-tours.asset.json";
-import corporate from "@/assets/brochures/corporate-meetups-mice.asset.json";
-import family from "@/assets/brochures/family-tours.asset.json";
-import geographical from "@/assets/brochures/geographical-expedition.asset.json";
-import group from "@/assets/brochures/group-tours-classic-bhutan-circuit.asset.json";
-import hiking from "@/assets/brochures/hiking-and-trekking.asset.json";
-import wedding from "@/assets/brochures/himalayan-wedding-ceremonies.asset.json";
-import historical from "@/assets/brochures/historical-tours.asset.json";
-import honeymoon from "@/assets/brochures/honeymoon-trips.asset.json";
-import nature from "@/assets/brochures/nature-and-eco-tours.asset.json";
-import school from "@/assets/brochures/school-college-cultural-exchange.asset.json";
-import tropical from "@/assets/brochures/tropical-expedition.asset.json";
-import wildlife from "@/assets/brochures/wildlife-safari.asset.json";
-import yoga from "@/assets/brochures/yoga-and-meditation-tours.asset.json";
-
 /** Official Golden Takin Holidays package brochures, keyed by tour slug. */
 export const brochures: Record<string, string> = {
-  "group-tours-classic-bhutan-circuit": group.url,
-  "family-tours": family.url,
-  "nature-and-eco-tours": nature.url,
-  "geographical-expedition": geographical.url,
-  "historical-tours": historical.url,
-  "wildlife-safari": wildlife.url,
-  "tropical-expedition": tropical.url,
-  "buddhist-culture-tours": buddhist.url,
-  "hiking-and-trekking": hiking.url,
-  "birdwatching-tours": birdwatching.url,
-  "corporate-meetups-mice": corporate.url,
-  "yoga-and-meditation-tours": yoga.url,
-  "school-college-cultural-exchange": school.url,
-  "honeymoon-trips": honeymoon.url,
-  "himalayan-wedding-ceremonies": wedding.url,
+  "group-tours-classic-bhutan-circuit": "/brochures/group-tours-classic-bhutan-circuit.png",
+  "family-tours": "/brochures/family-tours-multi-generational.jpeg",
+  "nature-and-eco-tours": "/brochures/nature-and-eco-tours.jpeg",
+  "geographical-expedition": "/brochures/geographical-expedition.jpeg",
+  "historical-tours": "/brochures/historical-tours.jpeg",
+  "wildlife-safari": "/brochures/wildlife-safari.jpeg",
+  "tropical-expedition": "/brochures/tropical-expedition.jpeg",
+  "buddhist-culture-tours": "/brochures/buddhist-culture-tours.jpeg",
+  "hiking-and-trekking": "/brochures/hiking-and-trekking.jpeg",
+  "birdwatching-tours": "/brochures/birdwatching-tours.jpeg",
+  "corporate-meetups-mice": "/brochures/corporate-meetups-mice.jpeg",
+  "yoga-and-meditation-tours": "/brochures/yoga-and-meditation.jpeg",
+  "school-college-cultural-exchange": "/brochures/school-college-cultural-exchange.jpeg",
+  "honeymoon-trips": "/brochures/honeymoon-trips.jpeg",
+  "himalayan-wedding-ceremonies": "/brochures/himalayan-wedding-ceremonies.jpeg",
 };
+

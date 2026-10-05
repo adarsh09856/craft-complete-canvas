@@ -79,7 +79,7 @@ function KycPage() {
     const kycRef = `KYC-${Date.now().toString().slice(-6)}`;
 
     try {
-      const { error } = await supabase.from("traveler_kyc").insert({
+      const { error } = await (supabase as any).from("traveler_kyc").insert({
         doc_ref: kycRef,
         full_name: fullName.trim(),
         nationality: nationality.trim(),

@@ -14,16 +14,20 @@ import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as B2bPortalRouteImport } from './routes/b2b-portal'
+import { Route as CancellationRouteImport } from './routes/cancellation'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as DestinationsRouteImport } from './routes/destinations'
 import { Route as ExperiencesRouteImport } from './routes/experiences'
 import { Route as FaqRouteImport } from './routes/faq'
+import { Route as GuidebookRouteImport } from './routes/guidebook'
 import { Route as KycRouteImport } from './routes/kyc'
 import { Route as OperationsRouteImport } from './routes/operations'
 import { Route as PlanRouteImport } from './routes/plan'
+import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as StoreRouteImport } from './routes/store'
+import { Route as TermsRouteImport } from './routes/terms'
 import { Route as ToursRouteImport } from './routes/tours'
 import { Route as AuthenticatedAccountRouteImport } from './routes/_authenticated/account'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
@@ -55,6 +59,11 @@ const B2bPortalRoute = B2bPortalRouteImport.update({
   path: '/b2b-portal',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CancellationRoute = CancellationRouteImport.update({
+  id: '/cancellation',
+  path: '/cancellation',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ContactRoute = ContactRouteImport.update({
   id: '/contact',
   path: '/contact',
@@ -75,6 +84,11 @@ const FaqRoute = FaqRouteImport.update({
   path: '/faq',
   getParentRoute: () => rootRouteImport,
 } as any)
+const GuidebookRoute = GuidebookRouteImport.update({
+  id: '/guidebook',
+  path: '/guidebook',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const KycRoute = KycRouteImport.update({
   id: '/kyc',
   path: '/kyc',
@@ -90,6 +104,11 @@ const PlanRoute = PlanRouteImport.update({
   path: '/plan',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PrivacyRoute = PrivacyRouteImport.update({
+  id: '/privacy',
+  path: '/privacy',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ResetPasswordRoute = ResetPasswordRouteImport.update({
   id: '/reset-password',
   path: '/reset-password',
@@ -103,6 +122,11 @@ const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
 const StoreRoute = StoreRouteImport.update({
   id: '/store',
   path: '/store',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TermsRoute = TermsRouteImport.update({
+  id: '/terms',
+  path: '/terms',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ToursRoute = ToursRouteImport.update({
@@ -141,16 +165,20 @@ export interface FileRoutesByFullPath {
   '/about': typeof AboutRoute
   '/auth': typeof AuthRoute
   '/b2b-portal': typeof B2bPortalRoute
+  '/cancellation': typeof CancellationRoute
   '/contact': typeof ContactRoute
   '/destinations': typeof DestinationsRoute
   '/experiences': typeof ExperiencesRoute
   '/faq': typeof FaqRoute
+  '/guidebook': typeof GuidebookRoute
   '/kyc': typeof KycRoute
   '/operations': typeof OperationsRoute
   '/plan': typeof PlanRoute
+  '/privacy': typeof PrivacyRoute
   '/reset-password': typeof ResetPasswordRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/store': typeof StoreRoute
+  '/terms': typeof TermsRoute
   '/tours': typeof ToursRouteWithChildren
   '/account': typeof AuthenticatedAccountRoute
   '/admin': typeof AuthenticatedAdminRoute
@@ -163,16 +191,20 @@ export interface FileRoutesByTo {
   '/about': typeof AboutRoute
   '/auth': typeof AuthRoute
   '/b2b-portal': typeof B2bPortalRoute
+  '/cancellation': typeof CancellationRoute
   '/contact': typeof ContactRoute
   '/destinations': typeof DestinationsRoute
   '/experiences': typeof ExperiencesRoute
   '/faq': typeof FaqRoute
+  '/guidebook': typeof GuidebookRoute
   '/kyc': typeof KycRoute
   '/operations': typeof OperationsRoute
   '/plan': typeof PlanRoute
+  '/privacy': typeof PrivacyRoute
   '/reset-password': typeof ResetPasswordRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/store': typeof StoreRoute
+  '/terms': typeof TermsRoute
   '/account': typeof AuthenticatedAccountRoute
   '/admin': typeof AuthenticatedAdminRoute
   '/api/chat': typeof ApiChatRoute
@@ -186,16 +218,20 @@ export interface FileRoutesById {
   '/about': typeof AboutRoute
   '/auth': typeof AuthRoute
   '/b2b-portal': typeof B2bPortalRoute
+  '/cancellation': typeof CancellationRoute
   '/contact': typeof ContactRoute
   '/destinations': typeof DestinationsRoute
   '/experiences': typeof ExperiencesRoute
   '/faq': typeof FaqRoute
+  '/guidebook': typeof GuidebookRoute
   '/kyc': typeof KycRoute
   '/operations': typeof OperationsRoute
   '/plan': typeof PlanRoute
+  '/privacy': typeof PrivacyRoute
   '/reset-password': typeof ResetPasswordRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/store': typeof StoreRoute
+  '/terms': typeof TermsRoute
   '/tours': typeof ToursRouteWithChildren
   '/_authenticated/account': typeof AuthenticatedAccountRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRoute
@@ -210,16 +246,20 @@ export interface FileRouteTypes {
     | '/about'
     | '/auth'
     | '/b2b-portal'
+    | '/cancellation'
     | '/contact'
     | '/destinations'
     | '/experiences'
     | '/faq'
+    | '/guidebook'
     | '/kyc'
     | '/operations'
     | '/plan'
+    | '/privacy'
     | '/reset-password'
     | '/sitemap.xml'
     | '/store'
+    | '/terms'
     | '/tours'
     | '/account'
     | '/admin'
@@ -232,16 +272,20 @@ export interface FileRouteTypes {
     | '/about'
     | '/auth'
     | '/b2b-portal'
+    | '/cancellation'
     | '/contact'
     | '/destinations'
     | '/experiences'
     | '/faq'
+    | '/guidebook'
     | '/kyc'
     | '/operations'
     | '/plan'
+    | '/privacy'
     | '/reset-password'
     | '/sitemap.xml'
     | '/store'
+    | '/terms'
     | '/account'
     | '/admin'
     | '/api/chat'
@@ -254,16 +298,20 @@ export interface FileRouteTypes {
     | '/about'
     | '/auth'
     | '/b2b-portal'
+    | '/cancellation'
     | '/contact'
     | '/destinations'
     | '/experiences'
     | '/faq'
+    | '/guidebook'
     | '/kyc'
     | '/operations'
     | '/plan'
+    | '/privacy'
     | '/reset-password'
     | '/sitemap.xml'
     | '/store'
+    | '/terms'
     | '/tours'
     | '/_authenticated/account'
     | '/_authenticated/admin'
@@ -278,16 +326,20 @@ export interface RootRouteChildren {
   AboutRoute: typeof AboutRoute
   AuthRoute: typeof AuthRoute
   B2bPortalRoute: typeof B2bPortalRoute
+  CancellationRoute: typeof CancellationRoute
   ContactRoute: typeof ContactRoute
   DestinationsRoute: typeof DestinationsRoute
   ExperiencesRoute: typeof ExperiencesRoute
   FaqRoute: typeof FaqRoute
+  GuidebookRoute: typeof GuidebookRoute
   KycRoute: typeof KycRoute
   OperationsRoute: typeof OperationsRoute
   PlanRoute: typeof PlanRoute
+  PrivacyRoute: typeof PrivacyRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   StoreRoute: typeof StoreRoute
+  TermsRoute: typeof TermsRoute
   ToursRoute: typeof ToursRouteWithChildren
   ApiChatRoute: typeof ApiChatRoute
 }
@@ -329,6 +381,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof B2bPortalRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/cancellation': {
+      id: '/cancellation'
+      path: '/cancellation'
+      fullPath: '/cancellation'
+      preLoaderRoute: typeof CancellationRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/contact': {
       id: '/contact'
       path: '/contact'
@@ -357,6 +416,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof FaqRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/guidebook': {
+      id: '/guidebook'
+      path: '/guidebook'
+      fullPath: '/guidebook'
+      preLoaderRoute: typeof GuidebookRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/kyc': {
       id: '/kyc'
       path: '/kyc'
@@ -378,6 +444,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PlanRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/privacy': {
+      id: '/privacy'
+      path: '/privacy'
+      fullPath: '/privacy'
+      preLoaderRoute: typeof PrivacyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/reset-password': {
       id: '/reset-password'
       path: '/reset-password'
@@ -397,6 +470,13 @@ declare module '@tanstack/react-router' {
       path: '/store'
       fullPath: '/store'
       preLoaderRoute: typeof StoreRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/terms': {
+      id: '/terms'
+      path: '/terms'
+      fullPath: '/terms'
+      preLoaderRoute: typeof TermsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/tours': {
@@ -475,16 +555,20 @@ const rootRouteChildren: RootRouteChildren = {
   AboutRoute: AboutRoute,
   AuthRoute: AuthRoute,
   B2bPortalRoute: B2bPortalRoute,
+  CancellationRoute: CancellationRoute,
   ContactRoute: ContactRoute,
   DestinationsRoute: DestinationsRoute,
   ExperiencesRoute: ExperiencesRoute,
   FaqRoute: FaqRoute,
+  GuidebookRoute: GuidebookRoute,
   KycRoute: KycRoute,
   OperationsRoute: OperationsRoute,
   PlanRoute: PlanRoute,
+  PrivacyRoute: PrivacyRoute,
   ResetPasswordRoute: ResetPasswordRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   StoreRoute: StoreRoute,
+  TermsRoute: TermsRoute,
   ToursRoute: ToursRouteWithChildren,
   ApiChatRoute: ApiChatRoute,
 }

@@ -175,29 +175,33 @@ export function Footer({ onOpenPromo }: { onOpenPromo?: () => void }) {
         <div>
           <h4 className="mb-4 text-xs uppercase tracking-[0.2em] text-gold font-bold">Destinations & Trade</h4>
           <ul className="space-y-2 text-xs text-slate-400">
-            <li><Link to="/tours" className="hover:text-gold transition">All Tour Packages</Link></li>
-            <li><Link to="/destinations" className="hover:text-gold transition">Bhutan Regions</Link></li>
-            <li><Link to="/tours" search={{ category: "Himalayan Combo" }} className="hover:text-gold transition">Nepal & Tibet Circuits</Link></li>
+            <li><Link to="/tours" className="hover:text-gold transition">All 28 Tour Packages</Link></li>
+            <li><Link to="/guidebook" className="text-gold hover:underline transition font-semibold">20-Chapter Bhutan Guidebook</Link></li>
             <li><Link to="/b2b-portal" className="text-gold hover:underline transition font-semibold">B2B Partner DMA Portal</Link></li>
             <li><Link to="/kyc" className="text-gold hover:underline transition font-semibold">Mandatory Guest KYC & Permits</Link></li>
+            <li><Link to="/terms" className="hover:text-gold transition">Terms & Immigration Rules</Link></li>
+            <li><Link to="/cancellation" className="hover:text-gold transition">Cancellation & Refunds</Link></li>
+            <li><Link to="/privacy" className="hover:text-gold transition">Data Privacy Policy</Link></li>
             <li><Link to="/store" className="hover:text-gold transition">Bhutan Craft Store</Link></li>
-            <li><Link to="/plan" className="hover:text-gold transition">Custom Tour Planner</Link></li>
-            <li><Link to="/faq" className="hover:text-gold transition">Traveler FAQ & Permits</Link></li>
-            <li><Link to="/contact" className="hover:text-gold transition">Talk to a Specialist</Link></li>
+            <li><Link to="/faq" className="hover:text-gold transition">Traveler FAQ & SDF Rates</Link></li>
           </ul>
         </div>
       </div>
 
-      {/* Bottom Copyright */}
+      {/* Bottom Copyright & Legal Links */}
       <div className="border-t border-border/40 py-6 text-center text-xs text-slate-400">
         <div className="mx-auto max-w-[1500px] px-4 flex flex-col sm:flex-row items-center justify-between gap-3">
           <div>© 2026 Golden Takin Holidays. Kingdom of Bhutan · All rights reserved.</div>
-          <div className="flex items-center gap-4 text-slate-400 text-xs">
-            <span>Discover</span>
+          <div className="flex flex-wrap items-center gap-4 text-slate-400 text-xs">
+            <Link to="/guidebook" className="hover:text-gold transition">Guidebook</Link>
             <span>·</span>
-            <span>Experience</span>
+            <Link to="/terms" className="hover:text-gold transition">Terms</Link>
             <span>·</span>
-            <span>Belong</span>
+            <Link to="/cancellation" className="hover:text-gold transition">Cancellation</Link>
+            <span>·</span>
+            <Link to="/privacy" className="hover:text-gold transition">Privacy</Link>
+            <span>·</span>
+            <Link to="/kyc" className="hover:text-gold transition">KYC Intake</Link>
           </div>
         </div>
       </div>

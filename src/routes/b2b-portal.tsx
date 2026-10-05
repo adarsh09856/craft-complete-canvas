@@ -108,7 +108,7 @@ function B2BPortalPage() {
     const dmaRef = `DMA-${Date.now().toString().slice(-6)}`;
 
     try {
-      const { error } = await supabase.from("b2b_partners").insert({
+      const { error } = await (supabase as any).from("b2b_partners").insert({
         doc_ref: dmaRef,
         agency_name: agencyName.trim(),
         registered_address: address.trim(),

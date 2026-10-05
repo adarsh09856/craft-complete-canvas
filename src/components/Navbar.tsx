@@ -7,6 +7,7 @@ import { CurrencySelector } from "@/components/CurrencySelector";
 const nav = [
   { to: "/", label: "Home" },
   { to: "/tours", label: "Tours" },
+  { to: "/guidebook", label: "Guidebook" },
   { to: "/destinations", label: "Destinations" },
   { to: "/experiences", label: "Experiences" },
   { to: "/store", label: "Craft Store" },
