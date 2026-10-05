@@ -93,7 +93,7 @@ function ToursPage() {
     <>
       <PageHero eyebrow="Every journey" title="All Bhutan tours" subtitle="Search, filter by category, duration, destination and budget — every package opens a full itinerary." image={hero}>
         <div className="grid grid-cols-3 gap-2 text-center">
-          {[{ n: filtered.length, l: "Matches" }, { n: tours.length, l: "Tours" }, { n: destinations.length, l: "Regions" }].map((stat) => (
+          {[{ n: filtered.length, l: "Matches" }, { n: allTours.length, l: "Tours" }, { n: destinations.length, l: "Regions" }].map((stat) => (
             <div key={stat.l} className="rounded-xl border border-hero-foreground/15 bg-hero-foreground/10 p-3 backdrop-blur-xl">
               <div className="text-2xl font-bold text-gold">{stat.n}</div>
               <div className="text-[10px] uppercase tracking-[0.16em] text-hero-foreground/68">{stat.l}</div>
