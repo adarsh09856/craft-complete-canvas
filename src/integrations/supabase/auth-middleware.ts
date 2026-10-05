@@ -30,21 +30,15 @@ function createSupabaseFetch(supabaseKey: string): typeof fetch {
   };
 }
 
+const DEFAULT_SUPABASE_URL = "https://lsrtlkbrqbyciudupttg.supabase.co";
+const DEFAULT_SUPABASE_KEY = "sb_publishable_z4bNAHhvyJMfueuAkXpKrg_B9xVAOdm";
+
 export const requireSupabaseAuth = createMiddleware({ type: 'function' }).server(
   async ({ next }) => {
     
-    const SUPABASE_URL = process.env.SUPABASE_URL;
-    const SUPABASE_PUBLISHABLE_KEY = process.env.SUPABASE_PUBLISHABLE_KEY;
-
-    if (!SUPABASE_URL || !SUPABASE_PUBLISHABLE_KEY) {
-      const missing = [
-        ...(!SUPABASE_URL ? ['SUPABASE_URL'] : []),
-        ...(!SUPABASE_PUBLISHABLE_KEY ? ['SUPABASE_PUBLISHABLE_KEY'] : []),
-      ];
-      const message = `Missing Supabase / PostgreSQL environment variable(s): ${missing.join(', ')}. Please set SUPABASE_URL and SUPABASE_PUBLISHABLE_KEY in your environment.`;
-      console.error(`[Supabase] ${message}`);
-      throw new Error(message);
-    }
+    const env = typeof process !== 'undefined' ? process.env : {} as any;
+    const SUPABASE_URL = env?.SUPABASE_URL || import.meta.env?.VITE_SUPABASE_URL || DEFAULT_SUPABASE_URL;
+    const SUPABASE_PUBLISHABLE_KEY = env?.SUPABASE_PUBLISHABLE_KEY || import.meta.env?.VITE_SUPABASE_PUBLISHABLE_KEY || DEFAULT_SUPABASE_KEY;
     
     const request = getRequest();
 
