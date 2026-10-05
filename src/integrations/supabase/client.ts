@@ -28,21 +28,22 @@ function createSupabaseFetch(supabaseKey: string): typeof fetch {
 }
 
 
-function createSupabaseClient() {
-  // Use import.meta.env for client-side (Vite build-time replacement)
-  // Fall back to process.env for SSR (server-side rendering)
-  const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL || process.env.SUPABASE_URL;
-  const SUPABASE_PUBLISHABLE_KEY = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY || process.env.SUPABASE_PUBLISHABLE_KEY;
+const DEFAULT_SUPABASE_URL = "https://lsrtlkbrqbyciudupttg.supabase.co";
+const DEFAULT_SUPABASE_KEY = "sb_publishable_z4bNAHhvyJMfueuAkXpKrg_B9xVAOdm";
 
-  if (!SUPABASE_URL || !SUPABASE_PUBLISHABLE_KEY) {
-    const missing = [
-      ...(!SUPABASE_URL ? ['SUPABASE_URL'] : []),
-      ...(!SUPABASE_PUBLISHABLE_KEY ? ['SUPABASE_PUBLISHABLE_KEY'] : []),
-    ];
-    const message = `Missing Supabase / PostgreSQL configuration variable(s): ${missing.join(', ')}. Please set VITE_SUPABASE_URL and VITE_SUPABASE_PUBLISHABLE_KEY in your .env file.`;
-    console.error(`[Supabase] ${message}`);
-    throw new Error(message);
+class ServerWebSocketStub {}
+
+function getRealtimeTransport() {
+  if (typeof window !== 'undefined' && typeof window.WebSocket !== 'undefined') {
+    return window.WebSocket;
   }
+  return ServerWebSocketStub as any;
+}
+
+function createSupabaseClient() {
+  const env = typeof process !== 'undefined' ? process.env : {} as any;
+  const SUPABASE_URL = import.meta.env?.VITE_SUPABASE_URL || env?.SUPABASE_URL || DEFAULT_SUPABASE_URL;
+  const SUPABASE_PUBLISHABLE_KEY = import.meta.env?.VITE_SUPABASE_PUBLISHABLE_KEY || env?.SUPABASE_PUBLISHABLE_KEY || DEFAULT_SUPABASE_KEY;
 
   return createClient<Database>(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, {
     global: {
@@ -52,7 +53,10 @@ function createSupabaseClient() {
       storage: brokeredPreviewStorage(),
       persistSession: true,
       autoRefreshToken: true,
-    }
+    },
+    realtime: {
+      transport: getRealtimeTransport(),
+    },
   });
 }
 
