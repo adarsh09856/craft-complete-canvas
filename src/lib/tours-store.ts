@@ -54,7 +54,7 @@ export function useAllTours(): Tour[] {
     (supabase as any)
       .from("tours")
       .select("*")
-      .then(({ data, error }) => {
+      .then(({ data, error }: any) => {
         if (!error && data && data.length > 0) {
           // Sync with local store
           const customToursRaw = localStorage.getItem(CUSTOM_TOURS_KEY);
@@ -84,7 +84,7 @@ export function useAllTours(): Tour[] {
           setTours(getStoredTours());
         }
       })
-      .catch(() => {});
+      ;
 
     return () => {
       window.removeEventListener(TOURS_EVENT, handleUpdate);
