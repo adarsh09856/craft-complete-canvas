@@ -30,7 +30,7 @@ export type Tour = {
 
 export function TourCard({ tour, idx = 0 }: { tour: Tour; idx?: number }) {
   const { formatPrice } = useCurrency();
-  const poster = (brochures[tour.slug]?.startsWith("http") ? brochures[tour.slug] : null) ?? tour.image;
+  const poster = tour.image;
   return (
     <Link
       to="/tours/$slug"
@@ -40,7 +40,7 @@ export function TourCard({ tour, idx = 0 }: { tour: Tour; idx?: number }) {
     >
       <div className="relative aspect-[3/4] overflow-hidden bg-ink">
         <img src={poster} alt={`${tour.title} brochure`} loading="lazy" className="absolute inset-0 h-full w-full scale-110 object-cover opacity-30 blur-2xl" aria-hidden />
-        <img src={poster} alt={tour.title} loading="lazy" className="relative h-full w-full object-contain transition-transform duration-1000 group-hover:scale-[1.04]" />
+        <img src={poster} alt={tour.title} loading="lazy" className="relative h-full w-full object-cover transition-transform duration-1000 group-hover:scale-[1.04]" />
         <div className="absolute bottom-3 left-3 max-w-[calc(100%-1.5rem)] rounded-full bg-background/90 px-3 py-1 text-[10px] uppercase tracking-[0.18em] text-cypress shadow-card backdrop-blur">{tour.category}</div>
         <div className="absolute right-3 bottom-3 rounded-full bg-ink/70 px-3 py-1 text-[10px] uppercase tracking-[0.16em] text-hero-foreground backdrop-blur">View package</div>
         <div className="absolute right-4 top-4 grid h-10 w-10 translate-x-2 place-items-center rounded-full bg-background/90 text-gold opacity-0 shadow-card transition-all group-hover:translate-x-0 group-hover:opacity-100">
