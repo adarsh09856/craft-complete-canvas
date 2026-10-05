@@ -1,5 +1,6 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { tours } from "@/lib/data";
+import { getTourBySlug } from "@/lib/tours-store";
 import { brochures } from "@/lib/brochures";
 import type { ItineraryDay, Tour } from "@/components/TourCard";
 import { Clock, MapPin, Users, Check, ArrowLeft, Star, X, ChevronLeft, ChevronRight, Download, Maximize2 } from "lucide-react";
@@ -12,7 +13,7 @@ import { useCurrency } from "@/lib/currency";
 
 export const Route = createFileRoute("/tours/$slug")({
   loader: ({ params }) => {
-    const tour = tours.find(t => t.slug === params.slug);
+    const tour = getTourBySlug(params.slug) || tours.find(t => t.slug === params.slug);
     if (!tour) throw notFound();
     return { tour };
   },

@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
-import { categories, destinations, tours } from "@/lib/data";
+import { categories, destinations } from "@/lib/data";
+import { useAllTours } from "@/lib/tours-store";
 import { PageHero } from "@/components/PageHero";
 import { Reveal } from "@/components/Reveal";
 import { TourCard } from "@/components/TourCard";
@@ -37,6 +38,7 @@ function days(duration: string) {
 function ToursPage() {
   const search = Route.useSearch();
   const navigate = Route.useNavigate();
+  const allTours = useAllTours();
   const [cat, setCat] = useState(search.category && categories.includes(search.category) ? search.category : "All Tours");
   const [duration, setDuration] = useState("Any duration");
   const [destination, setDestination] = useState("All destinations");
@@ -50,7 +52,7 @@ function ToursPage() {
     setCat(search.category && categories.includes(search.category) ? search.category : "All Tours");
   }, [search.q, search.category]);
 
-  const filtered = useMemo(() => tours.filter((tour) => {
+  const filtered = useMemo(() => allTours.filter((tour) => {
     const tourDays = days(tour.duration);
     const durationMatch = duration === "Any duration" || (duration === "3-7 days" && tourDays <= 7) || (duration === "7-14 days" && tourDays >= 7 && tourDays <= 14) || (duration === "14+ days" && tourDays >= 14);
     const destinationMatch = destination === "All destinations" || tour.location.toLowerCase().includes(destination.toLowerCase());
@@ -58,7 +60,7 @@ function ToursPage() {
     const tokens = q.toLowerCase().split(/\s+/).filter(Boolean);
     const textMatch = tokens.every((token: string) => text.includes(token));
     return (cat === "All Tours" || tour.category === cat) && durationMatch && destinationMatch && tour.price <= maxPrice && textMatch;
-  }), [cat, destination, duration, maxPrice, q]);
+  }), [allTours, cat, destination, duration, maxPrice, q]);
 
   const setSearchText = (value: string) => {
     setQ(value);

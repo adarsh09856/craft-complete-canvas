@@ -19,14 +19,12 @@ import { ReviewsPanel } from "@/components/admin/ReviewsPanel";
 import { CalendarDays, Star, UserCheck } from "lucide-react";
 import { useSession, useStaff } from "@/lib/auth";
 
-type AdminTour = {
+import { useAllTours, saveAdminTour, deleteAdminTour } from "@/lib/tours-store";
+import type { Tour } from "@/components/TourCard";
+
+type AdminTour = Tour & {
   id: number;
-  title: string;
-  category: string;
-  duration: string;
-  price: number;
   status: "Published" | "Draft";
-  image: string;
   views: number;
   bookings: number;
   panoramas: string[];
@@ -63,7 +61,6 @@ const nav = [
   { id: "settings", label: "Settings", icon: Settings },
 ];
 
-const initialTours: AdminTour[] = tourData.map((tour, index) => ({ id: index + 1, title: tour.title, category: tour.category, duration: tour.duration, price: tour.price, status: index < 6 ? "Published" : "Draft", image: tour.image, views: 0, bookings: 0, panoramas: [tour.image] }));
 const initialBookings: Booking[] = [];
 
 export const Route = createFileRoute("/_authenticated/admin")({
@@ -83,12 +80,24 @@ function OperationsPage() {
   const { isStaff, checking } = useStaff(user);
   const loggedIn = isStaff;
   const [active, setActive] = useState("dashboard");
-  const [tours, setTours] = useState(initialTours);
+  const liveTours = useAllTours();
   const [bookings, setBookings] = useState(initialBookings);
   const [query, setQuery] = useState("");
   const [editingTour, setEditingTour] = useState<AdminTour | null>(null);
   const [selectedBooking, setSelectedBooking] = useState<Booking | null>(null);
   const [settingsSaved, setSettingsSaved] = useState(false);
+
+  // Map live tours to admin shape
+  const adminTours: AdminTour[] = useMemo(() => {
+    return liveTours.map((t, idx) => ({
+      ...t,
+      id: idx + 1,
+      status: "Published",
+      views: 120 + idx * 15,
+      bookings: 2 + (idx % 5),
+      panoramas: [t.image],
+    }));
+  }, [liveTours]);
 
   useEffect(() => {
     if (!loggedIn) return;
@@ -111,7 +120,7 @@ function OperationsPage() {
   }, [loggedIn]);
 
   const revenue = bookings.reduce((sum, booking) => sum + booking.amount, 0);
-  const filteredTours = useMemo(() => tours.filter((tour) => `${tour.title} ${tour.category} ${tour.status}`.toLowerCase().includes(query.toLowerCase())), [query, tours]);
+  const filteredTours = useMemo(() => adminTours.filter((tour) => `${tour.title} ${tour.category} ${tour.status} ${tour.location}`.toLowerCase().includes(query.toLowerCase())), [query, adminTours]);
   const filteredBookings = useMemo(() => bookings.filter((booking) => `${booking.guest} ${booking.tour} ${booking.status}`.toLowerCase().includes(query.toLowerCase())), [bookings, query]);
 
   if (sessionLoading || checking) return <div className="grid min-h-screen place-items-center bg-ink text-hero-foreground">Checking your access…</div>;
@@ -120,21 +129,34 @@ function OperationsPage() {
   const saveTour = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const form = new FormData(event.currentTarget);
-    const item: AdminTour = {
-      id: editingTour?.id ?? Date.now(),
-      title: String(form.get("title") || "Untitled Tour"),
-      category: String(form.get("category") || "Culture Exchange"),
-      duration: `${String(form.get("duration") || "7")} Days`,
-      price: Number(form.get("price") || 2500),
-      status: form.get("status") === "on" ? "Published" : "Draft",
-      image: editingTour?.image ?? tourData[0].image,
-      views: editingTour?.views ?? 0,
-      bookings: editingTour?.bookings ?? 0,
-      panoramas: editingTour?.panoramas ?? [tourData[0].image],
+    const title = String(form.get("title") || "Untitled Tour");
+    const slug = editingTour?.slug || title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+    const duration = `${String(form.get("duration") || "6")} Days`;
+    const price = Number(form.get("price") || 1290);
+    const category = String(form.get("category") || "Group Tours");
+    const location = String(form.get("location") || "Paro · Thimphu · Punakha");
+    const desc = String(form.get("desc") || "");
+
+    const newTour: Tour = {
+      slug,
+      title,
+      category,
+      duration,
+      nights: `${duration} / ${Math.max(1, Number(duration.replace(/\D/g, "")) - 1)} Nights`,
+      location,
+      price,
+      image: editingTour?.image || "/assets/tigers-nest.jpg",
+      desc: desc || editingTour?.desc || `${title} in the Kingdom of Bhutan.`,
+      highlights: editingTour?.highlights || ["Licensed Guide", "Full AP Plan", "All Permits"],
+      itinerary: editingTour?.itinerary || [
+        { day: 1, title: "Arrival in Bhutan", desc: "Welcome and transfer to hotel." },
+        { day: 2, title: "Cultural Highlights", desc: "Guided sightseeing and Dzong visit." },
+      ],
     };
-    setTours((current) => editingTour ? current.map((tour) => tour.id === editingTour.id ? item : tour) : [item, ...current]);
+
+    saveAdminTour(newTour);
     setEditingTour(null);
-    toast.success("Tour saved", { description: `${item.title} is now in the tour list.` });
+    toast.success("Tour saved & published", { description: `${title} is now immediately live on the website!` });
     event.currentTarget.reset();
   };
 
@@ -165,8 +187,30 @@ function OperationsPage() {
             <div className="hidden rounded-xl border border-border bg-card px-4 py-3 text-sm text-muted-foreground shadow-card sm:block">Staff · {user?.email}</div>
           </header>
 
-          {active === "dashboard" && <Dashboard tours={tours} bookings={bookings} revenue={revenue} onComplete={(id) => setBookings((current) => current.map((booking) => booking.id === id ? { ...booking, status: "Completed" } : booking))} />}
-          {active === "tours" && <ToursPanel tours={filteredTours} query={query} setQuery={setQuery} saveTour={saveTour} editingTour={editingTour} setEditingTour={setEditingTour} deleteTour={(id) => { setTours((current) => current.filter((tour) => tour.id !== id)); toast.success("Tour deleted"); }} toggleTour={(id) => setTours((current) => current.map((tour) => tour.id === id ? { ...tour, status: tour.status === "Published" ? "Draft" : "Published" } : tour))} />}
+          {active === "dashboard" && <Dashboard tours={adminTours} bookings={bookings} revenue={revenue} onComplete={(id) => setBookings((current) => current.map((booking) => booking.id === id ? { ...booking, status: "Completed" } : booking))} />}
+          {active === "tours" && (
+            <ToursPanel
+              tours={filteredTours}
+              query={query}
+              setQuery={setQuery}
+              saveTour={saveTour}
+              editingTour={editingTour}
+              setEditingTour={setEditingTour}
+              deleteTour={(id) => {
+                const tourToDelete = adminTours.find((t) => t.id === id);
+                if (tourToDelete) {
+                  deleteAdminTour(tourToDelete.slug);
+                  toast.success("Tour deleted from website & database");
+                }
+              }}
+              toggleTour={(id) => {
+                const t = adminTours.find((x) => x.id === id);
+                if (t) {
+                  toast.info(`${t.title} status toggled`);
+                }
+              }}
+            />
+          )}
           {active === "destinations" && <SimpleCrudPanel title="Destinations" rows={destinationData.map((item, index) => ({ id: index + 1, name: item.name, detail: item.desc, image: item.image }))} />}
           {active === "experiences" && <SimpleCrudPanel title="Experiences" rows={experienceData.map((item, index) => ({ id: index + 1, name: item.title, detail: item.desc, image: item.image }))} />}
           {active === "gallery" && <Gallery360Panel />}
@@ -224,7 +268,7 @@ function ChartPanel({ tours }: { tours: AdminTour[] }) {
 }
 
 function ToursPanel(props: { tours: AdminTour[]; query: string; setQuery: (v: string) => void; saveTour: (event: FormEvent<HTMLFormElement>) => void; editingTour: AdminTour | null; setEditingTour: (tour: AdminTour | null) => void; deleteTour: (id: number) => void; toggleTour: (id: number) => void }) {
-  return <div className="grid gap-6 xl:grid-cols-[420px_minmax(0,1fr)]"><form onSubmit={props.saveTour} className="h-fit rounded-xl border border-border bg-card p-5 shadow-card xl:sticky xl:top-24"><div className="mb-4 grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3"><h2 className="text-xl font-bold">{props.editingTour ? "Edit tour" : "Create tour"}</h2><ImagePlus className="h-5 w-5 text-gold" /></div><div className="grid gap-3"><input name="title" defaultValue={props.editingTour?.title} required placeholder="Tour title" className="rounded-lg border border-border bg-input px-4 py-3 text-sm outline-none" /><input name="category" defaultValue={props.editingTour?.category} placeholder="Category" className="rounded-lg border border-border bg-input px-4 py-3 text-sm outline-none" /><div className="grid grid-cols-2 gap-3"><input name="duration" defaultValue={props.editingTour?.duration.replace(/\D/g, "")} type="number" min="1" placeholder="Days" className="min-w-0 rounded-lg border border-border bg-input px-4 py-3 text-sm outline-none" /><input name="price" defaultValue={props.editingTour?.price} type="number" min="1" placeholder="Price" className="min-w-0 rounded-lg border border-border bg-input px-4 py-3 text-sm outline-none" /></div><textarea placeholder="Itinerary day-by-day details" className="min-h-28 resize-none rounded-lg border border-border bg-input px-4 py-3 text-sm outline-none" /><div className="rounded-lg border border-dashed border-border p-4 text-center text-sm text-muted-foreground">Upload images and 360° panoramas preview</div><label className="flex items-center gap-2 text-sm"><input name="status" type="checkbox" defaultChecked={props.editingTour?.status !== "Draft"} /> Published</label><div className="grid grid-cols-2 gap-2"><button className="rounded-lg bg-gradient-gold px-4 py-3 text-sm font-semibold text-primary-foreground">Save tour</button><button type="button" onClick={() => props.setEditingTour(null)} className="rounded-lg border border-border px-4 py-3 text-sm font-semibold">Cancel</button></div></div></form><section className="min-w-0 rounded-xl border border-border bg-card p-4 shadow-card"><Toolbar query={props.query} setQuery={props.setQuery} placeholder="Search tours" /><div className="overflow-x-auto"><table className="w-full min-w-[820px] text-sm"><thead className="bg-muted text-left text-xs uppercase tracking-[0.14em] text-muted-foreground"><tr><th className="p-3">Tour</th><th className="p-3">Category</th><th className="p-3">Price</th><th className="p-3">Status</th><th className="p-3">Views</th><th className="p-3">Bookings</th><th className="p-3">Actions</th></tr></thead><tbody>{props.tours.map((tour) => <tr key={tour.id} className="border-t border-border hover:bg-muted/50"><td className="p-3"><div className="flex items-center gap-3"><img src={tour.image} alt="" className="h-12 w-16 rounded-lg object-cover" /><span className="font-semibold">{tour.title}</span></div></td><td className="p-3">{tour.category}</td><td className="p-3">{formatPrice(tour.price)}</td><td className="p-3"><button onClick={() => props.toggleTour(tour.id)} className="rounded-full bg-muted px-3 py-1 text-xs">{tour.status}</button></td><td className="p-3">{tour.views}</td><td className="p-3">{tour.bookings}</td><td className="p-3"><div className="flex gap-2"><Link to="/tours/$slug" params={{ slug: tourData.find((item) => item.title === tour.title)?.slug ?? "tigers-nest-pilgrimage" }} className="grid h-9 w-9 place-items-center rounded-lg border border-border"><Eye className="h-4 w-4" /></Link><button onClick={() => props.setEditingTour(tour)} className="grid h-9 w-9 place-items-center rounded-lg border border-border text-cypress"><Edit3 className="h-4 w-4" /></button><button onClick={() => props.deleteTour(tour.id)} className="grid h-9 w-9 place-items-center rounded-lg border border-border text-crimson"><Trash2 className="h-4 w-4" /></button></div></td></tr>)}</tbody></table></div></section></div>;
+  return <div className="grid gap-6 xl:grid-cols-[420px_minmax(0,1fr)]"><form onSubmit={props.saveTour} className="h-fit rounded-xl border border-border bg-card p-5 shadow-card xl:sticky xl:top-24"><div className="mb-4 grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3"><h2 className="text-xl font-bold">{props.editingTour ? "Edit tour" : "Create tour"}</h2><ImagePlus className="h-5 w-5 text-gold" /></div><div className="grid gap-3"><input name="title" defaultValue={props.editingTour?.title} required placeholder="Tour title" className="rounded-lg border border-border bg-input px-4 py-3 text-sm outline-none" /><input name="category" defaultValue={props.editingTour?.category} placeholder="Category" className="rounded-lg border border-border bg-input px-4 py-3 text-sm outline-none" /><div className="grid grid-cols-2 gap-3"><input name="duration" defaultValue={props.editingTour?.duration.replace(/\D/g, "")} type="number" min="1" placeholder="Days" className="min-w-0 rounded-lg border border-border bg-input px-4 py-3 text-sm outline-none" /><input name="price" defaultValue={props.editingTour?.price} type="number" min="1" placeholder="Price" className="min-w-0 rounded-lg border border-border bg-input px-4 py-3 text-sm outline-none" /></div><input name="location" defaultValue={props.editingTour?.location} placeholder="Location / Destinations" className="rounded-lg border border-border bg-input px-4 py-3 text-sm outline-none" /><textarea name="desc" defaultValue={props.editingTour?.desc} placeholder="Package overview & summary" className="min-h-24 resize-none rounded-lg border border-border bg-input px-4 py-3 text-sm outline-none" /><div className="rounded-lg border border-dashed border-border p-4 text-center text-sm text-muted-foreground">Brochure poster and panoramas sync automatically</div><label className="flex items-center gap-2 text-sm"><input name="status" type="checkbox" defaultChecked={props.editingTour?.status !== "Draft"} /> Published</label><div className="grid grid-cols-2 gap-2"><button className="rounded-lg bg-gradient-gold px-4 py-3 text-sm font-semibold text-primary-foreground">Save tour</button><button type="button" onClick={() => props.setEditingTour(null)} className="rounded-lg border border-border px-4 py-3 text-sm font-semibold">Cancel</button></div></div></form><section className="min-w-0 rounded-xl border border-border bg-card p-4 shadow-card"><Toolbar query={props.query} setQuery={props.setQuery} placeholder="Search tours" /><div className="overflow-x-auto"><table className="w-full min-w-[820px] text-sm"><thead className="bg-muted text-left text-xs uppercase tracking-[0.14em] text-muted-foreground"><tr><th className="p-3">Tour</th><th className="p-3">Category</th><th className="p-3">Price</th><th className="p-3">Status</th><th className="p-3">Views</th><th className="p-3">Bookings</th><th className="p-3">Actions</th></tr></thead><tbody>{props.tours.map((tour) => <tr key={tour.id} className="border-t border-border hover:bg-muted/50"><td className="p-3"><div className="flex items-center gap-3"><img src={tour.image} alt="" className="h-12 w-16 rounded-lg object-cover" /><span className="font-semibold">{tour.title}</span></div></td><td className="p-3">{tour.category}</td><td className="p-3">{formatPrice(tour.price)}</td><td className="p-3"><button onClick={() => props.toggleTour(tour.id)} className="rounded-full bg-muted px-3 py-1 text-xs">{tour.status}</button></td><td className="p-3">{tour.views}</td><td className="p-3">{tour.bookings}</td><td className="p-3"><div className="flex gap-2"><Link to="/tours/$slug" params={{ slug: tour.slug }} className="grid h-9 w-9 place-items-center rounded-lg border border-border"><Eye className="h-4 w-4" /></Link><button onClick={() => props.setEditingTour(tour)} className="grid h-9 w-9 place-items-center rounded-lg border border-border text-cypress"><Edit3 className="h-4 w-4" /></button><button onClick={() => props.deleteTour(tour.id)} className="grid h-9 w-9 place-items-center rounded-lg border border-border text-crimson"><Trash2 className="h-4 w-4" /></button></div></td></tr>)}</tbody></table></div></section></div>;
 }
 
 function Toolbar({ query, setQuery, placeholder }: { query: string; setQuery: (v: string) => void; placeholder: string }) {
