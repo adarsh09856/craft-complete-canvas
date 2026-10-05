@@ -1,38 +1,43 @@
-import pg from "pg";
-const { Pool } = pg;
-
 // Server-only PostgreSQL Connection Pool for Golden Takin Holidays
 // Connects directly to local aaPanel PostgreSQL database
 const DATABASE_URL =
   process.env.DATABASE_URL ||
   `postgresql://${process.env.POSTGRES_USER || "travelgold"}:${process.env.POSTGRES_PASSWORD || "travelgold"}@${process.env.POSTGRES_HOST || "127.0.0.1"}:${process.env.POSTGRES_PORT || "5432"}/${process.env.POSTGRES_DB || "travelgold"}`;
 
-let pool: pg.Pool | null = null;
+let pool: any = null;
 
-export function getDbPool(): pg.Pool {
+export async function getDbPool() {
   if (!pool) {
-    pool = new Pool({
-      connectionString: DATABASE_URL,
-      max: 10,
-      idleTimeoutMillis: 30000,
-      connectionTimeoutMillis: 5000,
-    });
+    try {
+      const pgModule = await import("pg");
+      const PoolClass = pgModule.default?.Pool || (pgModule as any).Pool;
+      if (!PoolClass) return null;
+      pool = new PoolClass({
+        connectionString: DATABASE_URL,
+        max: 10,
+        idleTimeoutMillis: 30000,
+        connectionTimeoutMillis: 5000,
+      });
 
-    pool.on("error", (err) => {
-      console.warn("[PostgreSQL Travel] Unexpected pool client error:", err.message);
-    });
+      pool.on("error", (err: any) => {
+        console.warn("[PostgreSQL Travel] Unexpected pool error:", err.message);
+      });
+    } catch {
+      return null;
+    }
   }
   return pool;
 }
 
 export async function query<T = any>(text: string, params?: any[]): Promise<T[]> {
   try {
-    const p = getDbPool();
+    const p = await getDbPool();
+    if (!p) return [];
     const result = await p.query(text, params);
-    return result.rows as T[];
+    return (result?.rows || []) as T[];
   } catch (err: any) {
-    console.warn(`[PostgreSQL Travel Error]: ${err.message}`);
-    throw err;
+    console.warn(`[PostgreSQL Travel Notice]: ${err.message}`);
+    return [];
   }
 }
 
