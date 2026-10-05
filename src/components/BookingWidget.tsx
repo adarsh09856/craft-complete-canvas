@@ -1,7 +1,7 @@
 import { useMemo, useState, type FormEvent } from "react";
 import { Calendar, Check, ChevronRight, Mail, MessageCircle, Minus, Phone, Plus, Shield, Sparkles, Tag, User, Users } from "lucide-react";
 import { toast } from "sonner";
-import { formatPrice } from "@/lib/utils";
+import { useCurrency } from "@/lib/currency";
 import { supabase } from "@/integrations/supabase/client";
 import { buildWhatsAppUrl, useSiteSettings } from "@/lib/site-store";
 import { validateCoupon } from "@/lib/coupons";
@@ -16,6 +16,7 @@ const tiers = [
 
 export function BookingWidget({ tour }: { tour: Tour }) {
   const settings = useSiteSettings();
+  const { formatPrice, calculateSDF, currency } = useCurrency();
   const [step, setStep] = useState<1 | 2 | 3>(1);
   const [tier, setTier] = useState(tiers[1]);
   const [adults, setAdults] = useState(2);
@@ -179,10 +180,11 @@ export function BookingWidget({ tour }: { tour: Tour }) {
               <Row k="Package" v={tier.name} />
               <Row k="Travel date" v={date} />
               <Row k="Guests" v={`${adults} adults · ${children} children`} />
-              <Row k="Subtotal" v={formatPrice(subtotal)} />
+              <Row k="Tour Subtotal" v={formatPrice(subtotal)} />
               {applied && <Row k={`Coupon ${applied.code}`} v={<span className="text-cypress">−{formatPrice(discount)}</span>} />}
+              <Row k="SDF (Govt Fee Est.)" v={<span className="text-muted-foreground">{calculateSDF(5).formatted} / adult</span>} />
               <div className="my-1 h-px bg-border" />
-              <Row k="Total due" v={<span className="font-display text-base text-gradient-gold">{formatPrice(total)}</span>} />
+              <Row k="Total Tour Cost" v={<span className="font-display text-base text-gradient-gold">{formatPrice(total)}</span>} />
             </div>
 
 

@@ -26,6 +26,39 @@ export async function validateCoupon(rawCode: string, subtotal: number, traveler
   const code = rawCode.trim().toUpperCase();
   if (!code) return { ok: false, reason: "Enter a coupon code." };
 
+  // Built-in verified promo code from Golden Takin official collateral
+  if (code === "WSUKSU26") {
+    const coupon: Coupon = {
+      id: "promo-wsuksu26",
+      code: "WSUKSU26",
+      label: "UK & Global Offer (10% Off)",
+      discount_percent: 10,
+      discount_flat: 0,
+      min_travelers: 1,
+      active: true,
+      expires_on: null,
+      times_used: 1,
+    };
+    const discount = couponDiscount(coupon, subtotal);
+    return { ok: true, coupon, discount };
+  }
+
+  if (code === "GTH10") {
+    const coupon: Coupon = {
+      id: "promo-gth10",
+      code: "GTH10",
+      label: "Direct Booking Advantage (10% Off)",
+      discount_percent: 10,
+      discount_flat: 0,
+      min_travelers: 1,
+      active: true,
+      expires_on: null,
+      times_used: 1,
+    };
+    const discount = couponDiscount(coupon, subtotal);
+    return { ok: true, coupon, discount };
+  }
+
   const { data, error } = await supabase
     .from("coupons")
     .select("*")

@@ -26,6 +26,10 @@ const sections: { id: string; title: string; icon: typeof Plane; blurb: string; 
         q: "Are there special procedures for travellers from India?",
         a: "Yes. Indian citizens enjoy streamlined entry and the lower SDF rate, but still need an approved e-Visa or entry permit before travelling. You must carry the identical physical document used in the permit application — a valid Indian passport or Election Commission Voter ID. Children under 18 without either may travel on an official English birth certificate alongside their parents' documents.",
       },
+      {
+        q: "Can I enter Bhutan with an Aadhaar Card, PAN Card, or Driving License?",
+        a: "No. Aadhaar cards, PAN cards, Driving Licenses, and Employee IDs are strictly NOT ACCEPTED by the Department of Immigration, Royal Government of Bhutan. Indian nationals MUST carry an original Indian Passport (minimum 6 months validity from departure) or an original Election Commission of India Voter ID (EPIC) card. Any traveler without one of these two documents will be denied entry at the border.",
+      },
     ],
   },
   {

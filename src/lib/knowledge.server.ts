@@ -5,14 +5,24 @@
 export const COMPANY_KNOWLEDGE = `# GOLDEN TAKIN HOLIDAYS — COMPANY KNOWLEDGE BASE (public)
 
 ## Identity
-- Golden Takin Holidays is a TCB-licensed premium inbound tour operator and full-service travel agency based in Thimphu, Kingdom of Bhutan.
-- Tagline: "Discover Bhutan. Experience Nature's Embrace."
-- Named after the Takin, Bhutan's national animal.
-- Positioning: high-value, low-volume, sustainable tourism with expert local guides.
-- Website: www.goldentakinholidays.com
-- Email: goldentakinholidays@gmail.com
-- Phone: +975 77679983 · +975 17970050 (WhatsApp: +975 77679983)
-- Representative growth markets: India (Delhi, Mumbai, Bengaluru, Kolkata, Chennai, Hyderabad, Siliguri), plus planned Australia and USA branch offices.
+- Golden Takin Holidays is a Department of Tourism (DoT) licensed premier inbound tour operator and Destination Management Company (DMC) based in Thimphu, Kingdom of Bhutan.
+- Taglines: "Journeys That Stay With You" & "Discover ◆ Experience ◆ Belong"
+- Named after the Golden Takin, Bhutan's revered national animal.
+- Primary Destinations: Bhutan, Nepal, Tibet (Mt. Kailash), and India (North-East gateways).
+- Official Domains: www.goldentakinholidays.bt and www.takinmart.bt
+- Verified Global Helplines:
+  * Bhutan Head Office: +975-1797-0050 (Norzin Lam, Post Box 1024, Thimphu)
+  * Official 24/7 WhatsApp: +91-8514889385
+  * Australia Support Desk: +61-404-343-370
+  * United Kingdom Support Desk: +44-7586203728
+- Official Promo Code: 'WSUKSU26' (10% discount for UK & international guests)
+- Official Enterprise Inboxes:
+  1. info@goldentakinholidays.bt (Traveler inquiries, public bookings, custom planning intake)
+  2. office@goldentakinholidays.bt (Ground operations, hotel room allocations, vehicle fleet dispatch)
+  3. gm@goldentakinholidays.bt (General Manager executive escalations, quality assurance)
+  4. ceo@goldentakinholidays.bt (Chief Executive Officer strategic leadership, ministry relations)
+  5. bdm@goldentakinholidays.bt (Business Development Manager: B2B Travel Partner & DMA onboarding)
+  6. support@goldentakinholidays.bt (24/7 guest support, emergency medical triage)
 
 ## Services
 - Customised package tours (15 thematic packages, see PACKAGE DOCUMENTS below).

@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { Clock, MapPin, ArrowUpRight } from "lucide-react";
-import { formatPrice } from "@/lib/utils";
+import { useCurrency } from "@/lib/currency";
 import { brochures } from "@/lib/brochures";
 
 export type ItineraryDay = { day: number; title: string; desc: string };
@@ -29,6 +29,7 @@ export type Tour = {
 };
 
 export function TourCard({ tour, idx = 0 }: { tour: Tour; idx?: number }) {
+  const { formatPrice } = useCurrency();
   const poster = brochures[tour.slug] ?? tour.image;
   return (
     <Link

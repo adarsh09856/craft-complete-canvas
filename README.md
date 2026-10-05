@@ -1,26 +1,34 @@
-# Remix of All-In-One Experience
+# Golden Takin Holidays — Luxury Bhutan & Himalayan Travel Portal
 
-builld a complete end to end all pagees with complete modern and the all featured without backing anything make full all complete end to to end complete all full fetured complete make more mofden and the animatios and the graphics more modern and the all end to end
+Official web application and booking portal for **Golden Takin Holidays** (`goldentakinholidays.bt`), premier luxury DMC for Bhutan, Nepal, and Tibet.
 
-This project was built with [Lovable](https://lovable.dev).
+## Features
+- **Dynamic Tour Engine**: Comprehensive multi-day itineraries, dynamic price calculations, and multi-currency pricing (USD, INR, EUR, GBP, AUD).
+- **Automated SDF Calculation**: Real-time calculation of Bhutan Sustainable Development Fee ($100/day for international, Nu. 1,200/day for regional).
+- **KYC & Visa Documentation Desk**: Secure passport upload, flight manifest registration, and itinerary confirmation.
+- **AI Himalayan Travel Concierge**: Live 24/7 intelligent itinerary planner with instant package matching.
+- **B2B Agent & Wholesale Portal**: Dedicated agent registration, commission tiers, and bulk booking management.
+- **Curated Bhutan Artisan Boutique**: Cross-linked store with TakinMart for authentic Himalayan textiles, honey, cordyceps, and sacred arts.
 
-**Live app**: https://craft-complete-canvas.lovable.app
+## Getting Started
 
-## Build with Lovable
+### Prerequisites
+- Node.js 20+ and npm
 
-Continue developing this project in the [Lovable editor](https://lovable.dev/projects/8a677613-6d65-4f84-aace-fb99bbd71927).
-
-- **Ship faster**: describe what you want to build and Lovable handles the code.
-- **Stay in sync**: every change made in Lovable is committed straight to this repository.
-- **Full ownership**: this code is yours. Push to `main` on GitHub and your changes sync back into Lovable, ready for your next prompt.
-
-## Development
-
-Prefer working locally? You need Node.js and npm — [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating).
-
+### Local Development
 ```sh
-git clone <this-repository-url>
-cd <repository-name>
-npm i
+npm install
 npm run dev
 ```
+
+### Database & Environment Setup
+Configure your `.env` file with your aaPanel PostgreSQL / Supabase settings:
+```env
+VITE_SUPABASE_URL=http://your-server-ip:8000
+VITE_SUPABASE_PUBLISHABLE_KEY=your_publishable_key
+SUPABASE_URL=http://your-server-ip:8000
+SUPABASE_PUBLISHABLE_KEY=your_publishable_key
+```
+
+Database schema migrations and seed scripts are located in `database/init.sql` and `database/seed.sql`.
+

@@ -51,7 +51,7 @@ function PlanPage() {
         }),
       });
       if (!res.ok || !res.body) {
-        setMessages([...history, { role: "ai", text: res.status === 429 ? "I'm getting a lot of questions right now — please try again in a moment." : "I couldn't reach the planner. Please WhatsApp us on +975 77679983 and we'll help directly." }]);
+        setMessages([...history, { role: "ai", text: res.status === 429 ? "I'm getting a lot of questions right now — please try again in a moment." : "I couldn't reach the planner right now. Please message our 24/7 WhatsApp on +91-8514889385 or call +975-1797-0050 and our team will craft your itinerary directly." }]);
         return;
       }
       const reader = res.body.getReader();

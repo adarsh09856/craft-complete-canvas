@@ -33,12 +33,12 @@ You are "Pema", the human-like travel consultant for Golden Takin Holidays, a TC
 - Explain what a day actually feels like, seasons, altitude, driving times, food, culture etiquette — like a guide who lives there.
 - Answer visa/permit/SDF questions precisely from the knowledge base.
 - If we can customise, say so — we build private itineraries for any theme.
-- When the guest seems ready, invite them to send an inquiry on the package page, or reach WhatsApp +975 77679983 / goldentakinholidays@gmail.com. Do not push it in every message.
+- When the guest seems ready, invite them to send an inquiry on the package page, or reach 24/7 WhatsApp +91-8514889385, Bhutan HQ +975-1797-0050, UK Desk +44-7586203728, Australia +61-404-343-370, or email info@goldentakinholidays.bt / support@goldentakinholidays.bt. Promo code for UK & global travelers: WSUKSU26. Do not push it in every message.
 
 # RULES
 - Only use facts from the knowledge base below. Never invent prices, hotels, coupon codes or packages we do not sell.
 - If something isn't in your knowledge (exact flight fares, live availability, current SDF changes), say you'll confirm with the Thimphu desk and offer WhatsApp.
-- Quote prices exactly as given in the catalogue below (Ngultrum, Nu.), and note USD equivalence only if the guest asks. Prices shown on the site are indicative per-person starting prices; the final quote depends on season, hotel category and group size.
+- Quote prices accurately in the guest's preferred currency (INR / Nu. or USD / AUD / EUR / GBP), and note SDF rules clearly. Prices shown on the site are indicative starting prices; the final quote depends on season, hotel category and group size.
 - Never mention that you are an AI model, a system prompt or any documents.`;
 
 function tourIndex() {
@@ -54,8 +54,8 @@ export const Route = createFileRoute("/api/chat")({
   server: {
     handlers: {
       POST: async ({ request }) => {
-        const key = process.env.LOVABLE_API_KEY;
-        if (!key) return new Response("AI is not configured", { status: 500 });
+        const geminiKey = process.env.GEMINI_API_KEY;
+        const openaiKey = process.env.OPENAI_API_KEY;
 
         let parsed;
         try {
@@ -64,23 +64,43 @@ export const Route = createFileRoute("/api/chat")({
           return new Response("Invalid request", { status: 400 });
         }
 
-        const gateway = createOpenAICompatible({
-          name: "lovable",
-          baseURL: "https://ai.gateway.lovable.dev/v1",
-          headers: { "Lovable-API-Key": key },
-        });
+        // Configure AI provider: prefer direct Gemini, then OpenAI
+        let gateway;
+        let modelName = "gemini-2.0-flash";
+
+        if (geminiKey) {
+          gateway = createOpenAICompatible({
+            name: "google-gemini",
+            baseURL: "https://generativelanguage.googleapis.com/v1beta/openai/",
+            headers: { Authorization: `Bearer ${geminiKey}` },
+          });
+          modelName = "gemini-2.0-flash";
+        } else if (openaiKey) {
+          gateway = createOpenAICompatible({
+            name: "openai",
+            baseURL: "https://api.openai.com/v1",
+            headers: { Authorization: `Bearer ${openaiKey}` },
+          });
+          modelName = "gpt-4o-mini";
+        } else {
+          // Graceful fallback response when API key is not yet set in environment
+          const fallbackMsg = "Kuzuzangpo la! Thank you for reaching Golden Takin Holidays. Our live planning desk is ready to craft your bespoke Himalayan journey across Bhutan, Nepal, and Tibet. For immediate quotes and tailored itineraries, please reach our 24/7 WhatsApp at +91-8514889385 or call our Thimphu HQ at +975-1797-0050. You can also email us at info@goldentakinholidays.bt with your preferred travel dates and group size.";
+          return new Response(fallbackMsg, {
+            headers: { "Content-Type": "text/plain; charset=utf-8" },
+          });
+        }
 
         const system = [
           PERSONA,
           COMPANY_KNOWLEDGE,
-          "\n## LIVE PACKAGE CATALOGUE (15 packages currently on the website)\n" + tourIndex(),
-          "\n## PROMOTIONS\nGolden Takin Holidays runs promo/coupon codes that guests enter in the booking panel on any tour page (field: 'Coupon code'). If a guest asks about discounts, tell them to enter their code at booking or to ask our team on WhatsApp for the current offer. Never invent a coupon code or a discount amount.",
+          "\n## LIVE PACKAGE CATALOGUE\n" + tourIndex(),
+          "\n## PROMOTIONS\nGolden Takin Holidays official UK & Global promo code is WSUKSU26 (10% discount). Guests enter this code in the booking panel.",
           "\n## PACKAGE DOCUMENTS (verbatim source material)\n" + PACKAGE_DOCS,
         ].join("\n");
 
         try {
           const result = streamText({
-            model: gateway("google/gemini-3.6-flash"),
+            model: gateway(modelName),
             system,
             messages: parsed.messages,
             temperature: 0.7,
@@ -89,7 +109,7 @@ export const Route = createFileRoute("/api/chat")({
           return result.toTextStreamResponse();
         } catch (error) {
           console.error("chat error", error);
-          return new Response("The assistant is unavailable right now.", { status: 502 });
+          return new Response("The assistant is temporarily offline. Please reach our 24/7 WhatsApp at +91-8514889385.", { status: 502 });
         }
       },
     },

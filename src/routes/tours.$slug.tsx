@@ -8,7 +8,7 @@ import { PanoramaViewer } from "@/components/PanoramaViewer";
 import { BookingWidget } from "@/components/BookingWidget";
 import { useEffect, useState } from "react";
 import { getPanoramas } from "@/lib/gallery-store";
-import { formatPrice } from "@/lib/utils";
+import { useCurrency } from "@/lib/currency";
 
 export const Route = createFileRoute("/tours/$slug")({
   loader: ({ params }) => {
@@ -34,6 +34,7 @@ const galleryTitles = ["Valley arrival", "Dzong courtyard", "High pass view"];
 
 function TourDetail() {
   const { tour } = Route.useLoaderData() as { tour: Tour };
+  const { formatPrice } = useCurrency();
   const itinerary: ItineraryDay[] = tour.itinerary ?? [];
   const brochure = brochures[tour.slug];
   const includes = tour.includes ?? [];

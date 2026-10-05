@@ -49,13 +49,21 @@ function DestinationsPage() {
           {destinations.map((d, i) => {
             const relatedCount = tours.filter((t) => t.location.toLowerCase().includes(d.name.toLowerCase())).length;
             const dHighlights = highlights[d.slug] ?? ["Monasteries", "Local craft", "Trails", "Cuisine"];
+            const countryLabel = d.name.includes("Nepal") 
+              ? "Nepal" 
+              : d.name.includes("Tibet") 
+              ? "Tibet" 
+              : d.name.includes("India") 
+              ? "India (NE)" 
+              : "Bhutan";
+
             return (
               <Reveal key={d.slug} delay={i * 0.06}>
                 <article className="group grid overflow-hidden rounded-2xl border border-border bg-card shadow-card transition hover:shadow-deep lg:grid-cols-[1fr_0.86fr]">
                   <div className="relative min-h-72 overflow-hidden">
                     <img src={d.image} alt={d.name} loading="lazy" className="absolute inset-0 h-full w-full object-cover transition-transform duration-[1400ms] group-hover:scale-110" />
                     <div className="absolute inset-0 bg-gradient-to-t from-ink/70 via-ink/25 to-transparent" />
-                    <div className="absolute left-4 top-4 chip bg-background/90 text-cypress"><MapPin className="h-3 w-3" /> Bhutan</div>
+                    <div className="absolute left-4 top-4 chip bg-background/90 text-cypress"><MapPin className="h-3 w-3" /> {countryLabel}</div>
                     <div className="absolute bottom-4 left-4 right-4">
                       <div className="font-display text-4xl text-hero-foreground sm:text-5xl">{d.name}</div>
                       <div className="mt-1 text-xs text-hero-foreground/80">{relatedCount} tour{relatedCount === 1 ? "" : "s"} · immersive 360° preview</div>
