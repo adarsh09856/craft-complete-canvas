@@ -143,8 +143,7 @@ function RootComponent() {
         {/* Promotional Flyer Popup Modal (Auto-opens on first visit, or when triggered) */}
         <PromoPopupModal />
 
-        {/* Floating Quick Triggers */}
-        <PromoBadgeTrigger onOpen={openPromo} />
+        {/* Floating Quick Triggers (Cleanly stacked, zero collision) */}
         <WhatsAppFab />
         <AiAssistant />
         <Toaster position="top-right" richColors />

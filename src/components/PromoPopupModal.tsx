@@ -205,15 +205,7 @@ export function PromoPopupModal({ isOpen: controlledIsOpen, onClose }: PromoPopu
   );
 }
 
-// Discreet floating trigger button so users can re-open the promo banner anytime
-export function PromoBadgeTrigger({ onOpen }: { onOpen: () => void }) {
-  return (
-    <button
-      onClick={onOpen}
-      className="fixed bottom-24 right-5 z-40 hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-full bg-gradient-gold text-primary-foreground text-xs font-bold shadow-lg hover:shadow-gold hover:scale-105 transition-all"
-    >
-      <Sparkles className="w-3.5 h-3.5" />
-      <span>UK Offer: {PROMO_CODE}</span>
-    </button>
-  );
+// Promo badge is now cleanly featured in the announcement bar rather than colliding in the corner
+export function PromoBadgeTrigger({ onOpen }: { onOpen?: () => void }) {
+  return null;
 }
